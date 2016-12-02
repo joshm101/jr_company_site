@@ -1,8 +1,32 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgba(254, 245, 128, 0.09);
 }
 
 a {
   color: #00B7FF;
+}
+
+.each-post {
+  margin-bottom: 25px;
+}
+
+
+.embed-card {
+  box-shadow: none !important;
+  background: none !important;
+
+}
+
+.posts-roll-bg {
+  box-shadow: none !important;
+}
+
+.iframe-wrap {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.iframe-wrap:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }

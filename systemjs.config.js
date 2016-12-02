@@ -16,7 +16,8 @@
   var map = {
     'rxjs': 'node_modules/rxjs',
     '@angular': 'node_modules/@angular',
-    'app': 'src/ts'
+    'app': 'src/ts',
+    'hammerjs': './src/ts'
   };
 
   var packages = {
@@ -39,6 +40,8 @@
   ngPackageNames.forEach(function(pkgName) {
     packages['@angular/' +pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
   });
+
+  packages['@angular/material'] = { main: 'material.umd.js', defaultExtension: 'js' };
 
   var config = {
     map: map,

@@ -1,0 +1,13 @@
+<md-card class="embed-card">
+  <md-card-title>
+    {{ post.title }}
+  </md-card-title>
+  <md-card-content>
+    <div class="iframe-wrap" *ngFor="let iframe of post.embedContentSafe" [innerHtml]="iframe">
+    </div>
+  </md-card-content>
+  <md-card-actions>
+    <button type="button" md-raised-button color="primary">Ayy</button>
+    <button type="button" md-raised-button color="accent">lmao</button>
+  </md-card-actions>
+</md-card>

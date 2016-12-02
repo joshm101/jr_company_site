@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const del = require('del');
 const typescript = require('gulp-typescript');
+const sass = require('gulp-sass');
 const tscConfig = require('./tsconfig.json');
 const Builder = require('systemjs-builder');
 
@@ -10,13 +11,19 @@ gulp.task('clean', function() {
 });
 
 // TypeScript --> JavaScript "transpilation"
-gulp.task('compile', ['clean', 'copy:libs'], function() {
+gulp.task('compile', ['clean', 'copy:libs', 'sass'], function() {
   return gulp
     .src([
       'src/ts/**/*.ts'
       ])
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(gulp.dest('src/ts'));
+});
+
+gulp.task('sass', function() {
+  return gulp.src('src/stylesheets/theme.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('src/stylesheets/'))
 });
 
 gulp.task('copy:libs', ['clean'], function() {
@@ -29,9 +36,11 @@ gulp.task('copy:libs', ['clean'], function() {
     'node_modules/angular2/bundles/router.dev.js',
     'node_modules/jquery/dist/jquery.*js',
     'node_modules/bootstrap/dist/js/bootstrap.*js',
+    'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/reflect-metadata/temp/Reflect.js',
     'node_modules/reflect-metadata/temp/Reflect.js.map',
-    'node_modules/zone.js/dist/zone.js'
+    'node_modules/zone.js/dist/zone.js',
+    'node_modules/hammerjs/hammer.js'
   ])
     .pipe(gulp.dest('src'))
 });
