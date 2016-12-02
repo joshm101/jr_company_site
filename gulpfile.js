@@ -26,7 +26,7 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('src/stylesheets/'))
 });
 
-gulp.task('copy:libs', ['clean'], function() {
+gulp.task('copy:libs', ['clean', 'copy:css'], function() {
   return gulp.src([
     'node_modules/angular2/bundles/angular2-polyfills.js',
     'node_modules/systemjs/dist/system.js',
@@ -36,13 +36,19 @@ gulp.task('copy:libs', ['clean'], function() {
     'node_modules/angular2/bundles/router.dev.js',
     'node_modules/jquery/dist/jquery.*js',
     'node_modules/bootstrap/dist/js/bootstrap.*js',
-    'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/reflect-metadata/temp/Reflect.js',
     'node_modules/reflect-metadata/temp/Reflect.js.map',
     'node_modules/zone.js/dist/zone.js',
     'node_modules/hammerjs/hammer.js'
   ])
     .pipe(gulp.dest('src'))
+});
+
+gulp.task('copy:css', function() {
+  return gulp.src([
+    'node_modules/bootstrap/dist/css/bootstrap.css'
+  ])
+    .pipe(gulp.dest('src/stylesheets'))
 });
 
 

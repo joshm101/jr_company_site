@@ -9,8 +9,8 @@
 /bower_components
 
 /src/ts/**/*.js
-/src/stylsheets/bootstrap.css
-/src/stylsheets/theme.css
+/src/stylesheets/bootstrap.css
+/src/stylesheets/theme.css
 /src/*.js
 /src/*.ts
 /src/*.map
