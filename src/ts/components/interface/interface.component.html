@@ -1,0 +1,43 @@
+<md-toolbar color="primary">
+  <div [hidden]="screenWidth < 1024">
+    <button  (click)="leftBig.toggle()" md-icon-button class="toolbar-menu-button" #menuButtonL>
+      <md-icon class="toolbar-icon">menu</md-icon>
+    </button>
+  </div>
+  <div [hidden]="screenWidth >= 1024">
+    <button  (click)="leftSmall.toggle()" md-icon-button class="toolbar-menu-button" #menuButtonS>
+      <md-icon class="toolbar-icon">menu</md-icon>
+    </button>
+  </div>
+
+
+  <span>Interface</span>
+</md-toolbar>
+
+<md-sidenav-layout [hidden]="screenWidth < 1024"
+                   (window:resize)="onResize($event)"
+                   style="height: 100% !important;"
+                   class="sidenav-layout-large">
+  <md-sidenav [hidden]="screenWidth < 1024"
+              #leftBig (open)="menuButtonL.focus()"
+              [opened]="true" mode="side" class="sidenav-large" layout-padding>
+    <h1>scheisse</h1>
+  </md-sidenav>
+  <div>
+    <h2>Outside</h2>
+  </div>
+
+</md-sidenav-layout>
+
+<md-sidenav-layout [hidden]="screenWidth >= 1024"
+                   (window:resize)="onResize($event)"
+                   style="height: 100% !important;"
+                   class="sidenav-layout-small">
+  <md-sidenav class="sidenav-small" #leftSmall (open)="menuButtonS.focus()" [opened]="false" mode="over" layout-padding>
+    <h1>scheisse</h1>
+  </md-sidenav>
+  <div>
+    <h2>Outside</h2>
+  </div>
+
+</md-sidenav-layout>

@@ -28,6 +28,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'src')));
 app.use('/', index);
+app.use('/interface', index);
 app.use('/api', api);
 app.use('/users', users);
 

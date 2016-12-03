@@ -1,10 +1,42 @@
+html {
+  height: 100%;
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: rgba(254, 245, 128, 0.09);
+  height: 100%;
 }
 
 a {
   color: #00B7FF;
+}
+
+
+.md-sidenav-backdrop.md-sidenav-shown {
+  background-color: transparent !important;
+}
+
+md-sidenav {
+  width: 270px !important;
+
+}
+
+.sidenav-large {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.sidenav-small {
+  background-color: rgb(254, 254, 250) !important;
+}
+
+.sidenav-layout-large {
+  background: rgba(254, 245, 128, 0.06) !important;
+}
+
+.sidenav-layout-small {
+  background: rgba(254, 245, 128, 0.06) !important;
 }
 
 .each-post {
@@ -33,4 +65,12 @@ a {
 
 .iframe-wrap:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.toolbar-icon {
+  margin-bottom: 1px;
+}
+
+.toolbar-menu-button {
+  margin-right: 25px !important;
 }
