@@ -21,7 +21,7 @@ export class AppRoot implements OnDestroy {
       this.embedPostService.getAll().filter(Boolean).take(1).subscribe(
         posts => {
           console.log(posts);
-          posts.forEach(post => { post.embedContentSafe = []; })
+          posts.forEach(post => { post.embedContentSafe = []; });
           posts.forEach(post => post.embedContent.forEach(iframe =>
             post.embedContentSafe.push(this.sanitizer.bypassSecurityTrustHtml(iframe))
           ));

@@ -18,6 +18,10 @@ a {
 
 }
 
+.embed-card-actions {
+  margin-top: 25px;
+}
+
 .posts-roll-bg {
   box-shadow: none !important;
 }
