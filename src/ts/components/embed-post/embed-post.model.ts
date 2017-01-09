@@ -1,6 +1,11 @@
 import { SafeHtml } from '@angular/platform-browser'
 
-export class EmbedPost {
+import { AppModel } from '../app.model';
+
+export class EmbedPost extends AppModel {
+  constructor() {
+    super();
+  }
   public title: string;
   public description: string;
   public embedContent: string[];
@@ -9,5 +14,5 @@ export class EmbedPost {
   public embedContentSafe: SafeHtml[];
   public created: Date;
   public edited: Date;
-  public _id: number;
+  public _id: string;
 }

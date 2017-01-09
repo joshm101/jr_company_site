@@ -1,43 +1,95 @@
-<md-toolbar color="primary">
-  <div [hidden]="screenWidth < 1024">
-    <button  (click)="leftBig.toggle()" md-icon-button class="toolbar-menu-button" #menuButtonL>
-      <md-icon class="toolbar-icon">menu</md-icon>
-    </button>
-  </div>
-  <div [hidden]="screenWidth >= 1024">
-    <button  (click)="leftSmall.toggle()" md-icon-button class="toolbar-menu-button" #menuButtonS>
-      <md-icon class="toolbar-icon">menu</md-icon>
-    </button>
-  </div>
+<div class="interface-wrap" (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
+
+  <!--
+  <md-toolbar color="primary" style="overflow: hidden; position: fixed !important; z-index: 20000 !important;">
+    <div>
+      <button (click)="handleToolbarSidenavButtonClick()" md-icon-button class="toolbar-menu-button" >
+        <md-icon class="toolbar-icon">menu</md-icon>
+      </button>
+    </div>
+
+    <span>Interface</span>
+  </md-toolbar>
+-->
+  <md-toolbar  color="primary">
+    <span>Interface</span>
+  </md-toolbar>
+
+  <md-tab-group color="primary">
+    <md-tab #musicTab label="Music">
+
+        <div class="tab-wrapper">
+          <add-post (focused)="focusEvent($event)"
+                    (doneClick)="formDone()"
+                    [focused]="focusForm"
+                    tabindex="0"
+                    class="add-post col-sm-10
+                                  offset-sm-1
+                                  col-md-8
+                                  offset-md-2
+                                  col-lg-8
+                                  offset-lg-2
+                                  col-xl-6
+                                  offset-xl-3
+                                  col-xs-12 clearfix">
+          </add-post>
+          <div class="grid-list-wrap">
+
+            <md-grid-list  [cols]="cols" rowHeight="450px">
+              <md-grid-tile *ngFor="let post of embedPosts$ | async">
+                <embed-post [post]="post">
+                  <button type="button" md-raised-button color="primary">Ayy</button>
+                  <button type="button"
+                          md-raised-button
+                          color="accent"
+                          (click)="removePost(post._id)">lmao</button>
+                </embed-post>
+              </md-grid-tile>
+            </md-grid-list>
+          </div>
+        </div>
 
 
-  <span>Interface</span>
-</md-toolbar>
 
-<md-sidenav-layout [hidden]="screenWidth < 1024"
-                   (window:resize)="onResize($event)"
-                   style="height: 100% !important;"
-                   class="sidenav-layout-large">
-  <md-sidenav [hidden]="screenWidth < 1024"
-              #leftBig (open)="menuButtonL.focus()"
-              [opened]="true" mode="side" class="sidenav-large" layout-padding>
-    <h1>scheisse</h1>
-  </md-sidenav>
-  <div>
-    <h2>Outside</h2>
-  </div>
 
-</md-sidenav-layout>
+    </md-tab>
+    <md-tab #frTab label="Field Recordings">
+      <div class="tab-wrapper">
+        <add-post (focused)="focusEvent($event)"
+                  (doneClick)="formDone()"
+                  [focused]="focusForm"
+                  tabindex="0"
+                  class="add-post col-sm-10
+                                offset-sm-1
+                                col-md-8
+                                offset-md-2
+                                col-lg-8
+                                offset-lg-2
+                                col-xl-6
+                                offset-xl-3
+                                col-xs-12 clearfix">
+        </add-post>
+      </div>
 
-<md-sidenav-layout [hidden]="screenWidth >= 1024"
-                   (window:resize)="onResize($event)"
-                   style="height: 100% !important;"
-                   class="sidenav-layout-small">
-  <md-sidenav class="sidenav-small" #leftSmall (open)="menuButtonS.focus()" [opened]="false" mode="over" layout-padding>
-    <h1>scheisse</h1>
-  </md-sidenav>
-  <div>
-    <h2>Outside</h2>
-  </div>
+    </md-tab>
+    <md-tab #aboutTab label="About">
+      <div class="tab-wrapper">
+        <add-post (focused)="focusEvent($event)"
+                  (doneClick)="formDone()"
+                  [focused]="focusForm"
+                  tabindex="0"
+                  class="add-post col-sm-10
+                                offset-sm-1
+                                col-md-8
+                                offset-md-2
+                                col-lg-8
+                                offset-lg-2
+                                col-xl-6
+                                offset-xl-3
+                                col-xs-12 clearfix">
+        </add-post>
+      </div>
 
-</md-sidenav-layout>
+    </md-tab>
+  </md-tab-group>
+</div>

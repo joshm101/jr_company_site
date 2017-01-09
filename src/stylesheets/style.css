@@ -4,12 +4,17 @@ html {
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgba(254, 245, 128, 0.09);
-  height: 100%;
+  background-color: #e8e8e8;
+  height: 100% !important;
+
 }
 
 a {
   color: #00B7FF;
+}
+
+:focus {
+  outline: none !important;
 }
 
 
@@ -22,9 +27,169 @@ md-sidenav {
 
 }
 
+textarea {
+  resize: none !important;
+  height: auto;
+}
+
+.filler-title-text {
+  width: 100%;
+  position: absolute;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 22px;
+  color: rgba(0,0,0,.54);
+  pointer-events: none !important;
+  padding-top: 14px;
+}
+
+.add-post-title {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: bold;
+}
+
+.title-input {
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 22px;
+  padding-top: 14px;
+  min-height: 22px !important;
+}
+
+.filler-text {
+  position: absolute;
+  font-size: 14px;
+  line-height: 19px;
+  min-height: 46px !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  height: 46px !important;
+  color: rgba(0,0,0,.54);
+  pointer-events: none !important;
+
+}
+
+.description-input {
+  font-size: 14px;
+  line-height: 19px;
+  min-height: 46px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.add-post-input-wrap {
+  padding-left: 10px;
+}
+
+
+.add-post-comp-wrap {
+  background-color: rgb(250, 250, 250);
+  padding: 0 12px;
+}
+
+.add-post-wrap {
+  padding-top: 20px;
+}
+
+.add-embed-input-button {
+  margin-top: 8px !important;
+}
+
+.tab-wrapper {
+  margin-top: 50px;
+}
+
+.add-post-action-bar {
+  min-height: 45px !important;
+  height: 45px !important;
+  background-color: rgb(250, 250, 250);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.add-post-action-bar md-toolbar-row {
+  height: 45px !important;
+}
+
+.add-post {
+  margin-bottom: 15px;
+}
+
+.grid-list-wrap {
+  padding-top: 40px;
+  clear: both;
+}
+
+.md-sidenav-backdrop {
+    z-index: 10 !important;
+}
+
 .sidenav-large {
-  box-shadow: none !important;
-  background-color: transparent !important;
+  padding-top: 64px !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+html[xmlns] .clearfix {
+  display: block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+@media screen and (min-width: 640px) {
+  .sidenav-large {
+    box-shadow: none !important;
+    background-color: transparent !important;
+  }
+  .add-post-input-inner-wrap {
+    display: inline-block;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .sidenav-large {
+    background-color: rgb(254, 254, 250) !important;
+  }
+
+  .add-post-input-inner-wrap {
+    display: inline-block;
+    width: 85%;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  .sidenav-large {
+    background-color: rgb(254, 254, 250) !important;
+  }
+
+  .add-post-input-inner-wrap {
+    display: inline-block;
+    width: 80%;
+  }
+
 }
 
 .sidenav-small {
@@ -39,15 +204,64 @@ md-sidenav {
   background: rgba(254, 245, 128, 0.06) !important;
 }
 
+.md-sidenav-content {
+  height: 100% !important;
+}
+
+.add-post-title {
+  font-size: 17px !important;
+  font-weight: bold;
+}
+
+.add-post-title-input {
+  width: 100%;
+  height: 45px;
+}
+
+.action-wrap {
+  width: 100%;
+}
+
+.done-button-wrap {
+  float: right;
+}
+
+.icon-buttons-wrap {
+  float: left;
+}
+
+.add-image-icon {
+  color: rgba(0,0,0,.54);
+}
+
+.add-image-icon::after {
+  color: rgba(0,0,0,.87) !important;
+}
+
+.add-image-button:hover > span > md-icon {
+  color: rgba(0,0,0,.87) !important;
+}
+
+.add-image-button:hover::after {
+  background-color: transparent !important;
+}
+
+.add-post-desc {
+  width: 100%;
+}
+
 .each-post {
   margin-bottom: 25px;
 }
-
 
 .embed-card {
   box-shadow: none !important;
   background: none !important;
 
+}
+
+.desc-wrap {
+  margin-top: 25px;
 }
 
 .embed-card-actions {
@@ -63,13 +277,16 @@ md-sidenav {
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
+.iframe-wrap > iframe {
+  height: 250px;
+  width: 300px;
+}
+
 .iframe-wrap:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.toolbar-icon {
-  margin-bottom: 1px;
-}
+
 
 .toolbar-menu-button {
   margin-right: 25px !important;

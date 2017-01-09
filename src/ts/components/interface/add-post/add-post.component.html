@@ -1,0 +1,60 @@
+<form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)">
+  {{ descTest }}
+  <md-card class="add-post-comp-wrap" tabindex="0">
+
+    <div [hidden]="!focused" class="add-post-input-wrap">
+      <add-post-input fillerText="Title"
+                      [inputMode]="inputMode.SingleLine"
+                      [biggerInput]="true"
+                      formControlName="title">
+      </add-post-input>
+    </div>
+
+    <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
+      <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
+        <div [formGroupName]="i" class="add-post-input-inner-wrap">
+          <add-post-input fillerText="Embed Code"
+                          [inputMode]="inputMode.MultiLine"
+                          [biggerInput]="false"
+                          formControlName="embedItem">
+          </add-post-input>
+        </div>
+        <button md-tooltip="Remove embeddable content"
+                type="button"
+                (click)="removeEmbedContent(i, $event)"
+                [hidden]="!focused" md-icon-button>
+                <md-icon>remove</md-icon>
+        </button>
+      </div>
+    </div>
+    <button md-tooltip="Add embeddable content"
+            class="add-embed-input-button"
+            type="button"
+            (click)="addEmbedContent()"
+            [hidden]="!focused" md-icon-button>
+            <md-icon>add</md-icon>
+    </button>
+
+    <div class="add-post-input-wrap">
+      <add-post-input fillerText="Description"
+                      [inputMode]="inputMode.MultiLine"
+                      [biggerInput]="false"
+                      formControlName="description">
+      </add-post-input>
+    </div>
+
+    <div [hidden]="!focused" class="add-post-action-bar-wrap">
+      <md-toolbar class="add-post-action-bar">
+        <button class="add-image-button" md-tooltip="Add image" md-icon-button>
+          <md-icon class="add-image-icon">image</md-icon>
+        </button>
+        <span flex style="flex: 1 1 auto;"></span>
+        <button (click)="doneClicked($event)"
+                tabindex="0"
+                md-button type="submit"
+                class="add-post-done-button">Done</button>
+      </md-toolbar>
+    </div>
+
+  </md-card>
+</form>

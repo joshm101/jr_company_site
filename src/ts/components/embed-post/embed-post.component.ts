@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/rx';
 
-
-
 import { EmbedPost } from './embed-post.model';
 import { EmbedPostService } from './embed-post.service';
 
@@ -19,4 +17,6 @@ export class EmbedPostComponent {
 
   }
   @Input() post: EmbedPost;
+
+
 }

@@ -41,7 +41,7 @@
     packages['@angular/' +pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
   });
 
-  packages['@angular/material'] = { main: 'material.umd.js', defaultExtension: 'js' };
+  packages['@angular/material'] = { main: '/bundles/material.umd.js', defaultExtension: 'js' };
 
   var config = {
     map: map,
