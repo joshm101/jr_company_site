@@ -1,8 +1,12 @@
 import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/rx';
 
 import { EmbedPost, EmbedPostService } from '../embed-post/embed-post.index';
+import { PostFormComponent } from './post-form/post-form.component';
+import { JDialogComponent } from '../j-dialog/j-dialog.component';
+import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-dialog.component';
 
 @Component({
   selector: 'interface-root',
@@ -12,10 +16,13 @@ export class InterfaceRootComponent implements OnInit {
   constructor(
     protected elementRef: ElementRef,
     protected embedPostService: EmbedPostService,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    public dialog: MdDialog
   ) {
     this.embedPosts$ = this.embedPostService.getAll();
   }
+
+  dialogRef: MdDialogRef<PostFormDialogComponent>;
 
   removePost(id: string) {
     this.embedPostService.delete(id).take(1).subscribe(
@@ -26,13 +33,30 @@ export class InterfaceRootComponent implements OnInit {
     );
   }
 
+  test() {
+    this.embedPosts$.map(items => items.pop()).subscribe();
+  }
+
+  editPost() {
+    console.log("edit post");
+    this.dialogRef = this.dialog.open(PostFormDialogComponent, {
+      width: "65%"
+    });
+    this.dialogRef.afterClosed().subscribe(result => {
+      this.dialogRef = null;
+    });
+  }
+
   focusEvent(event: boolean) {
-    console.log('focusEvent(): ', event);
     this.focusForm = event;
   }
 
   formDone() {
     this.focusForm = false;
+  }
+
+  postTrackBy(index: number, item: EmbedPost) {
+    return item._id;
   }
 
   ngOnInit() {

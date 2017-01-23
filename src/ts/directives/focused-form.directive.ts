@@ -1,6 +1,6 @@
 import { Directive, ElementRef, AfterViewInit, HostListener, EventEmitter, Output } from '@angular/core';
 
-import { AddPostComponent } from '../components/interface/add-post/add-post.component';
+import { PostFormComponent } from '../components/interface/post-form/post-form.component';
 
 @Directive({
   selector: '[focusedForm]'
@@ -29,25 +29,26 @@ export class FocusedFormDirective implements AfterViewInit {
 
   ngAfterViewInit() {
     // get the add post form wrapper
-    this.addPostElement = this.element.nativeElement.querySelector('.add-post-comp-wrap');
+    this.addPostElement = this.element.nativeElement.querySelector('.post-form-comp-wrap');
   }
 
 
   @HostListener('click', ['$event'])
   onClick(event: any) {
     if (this.addPostElement.contains(event.target)) {
-
       // the click happened inside of the add post
       // form wrapper. So we want to expand the form
       // or maintain expansion if already expanded
       this.focused.emit(true);
     } else {
-
       // the click happened outside of the
       // add post form wrapper. So we want to
       // collapse the form or keep it collapsed
       // if already collapsed.
-      this.focused.emit(false);
+      setTimeout(() => {
+        this.focused.emit(false);
+      }, 150);
+
     }
   }
 

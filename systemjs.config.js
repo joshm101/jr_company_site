@@ -15,6 +15,7 @@
 (function(global) {
   var map = {
     'rxjs': 'node_modules/rxjs',
+    'ng2-file-upload': 'node_modules/ng2-file-upload',
     '@angular': 'node_modules/@angular',
     'app': 'src/ts',
     'hammerjs': './src/ts'
@@ -23,7 +24,8 @@
   var packages = {
     'rxjs': { defaultExtension: 'js'},
     'app': { main: 'main.js', defaultExtension: 'js'},
-    '@angular': { defaultExtension: 'js' }
+    '@angular': { defaultExtension: 'js' },
+    'ng2-file-upload': { defaultExtension: 'js' }
   };
 
   var ngPackageNames = [
@@ -42,6 +44,7 @@
   });
 
   packages['@angular/material'] = { main: '/bundles/material.umd.js', defaultExtension: 'js' };
+  packages['ng2-file-upload'] = { main: '/bundles/ng2-file-upload.umd.js', defaultExtension: 'js' };
 
   var config = {
     map: map,

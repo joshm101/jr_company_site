@@ -1,32 +1,79 @@
 import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FileUploader } from 'ng2-file-upload';
+
 import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
-
 import { InputModeEnum } from '../../../enums/input-mode.enum';
-
-@Component({
-  selector: 'add-post',
-  templateUrl: 'ts/components/interface/add-post/add-post.component.html'
-})
 
 /**
  * This component acts as our main form
- * for adding posts on the interface
+ * for posts on the interface
  *
  */
-export class AddPostComponent implements OnInit {
+@Component({
+  selector: 'post-form',
+  templateUrl: 'ts/components/interface/post-form/post-form.component.html'
+})
+export class PostFormComponent implements OnInit {
   constructor(
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
+    protected sanitizer: DomSanitizer,
     private _fb: FormBuilder
   ) {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
+    this.uploader = this.embedPostService.getUploaderInstance();
   }
 
-  @Input() focused: boolean;
 
+
+  @Input() focused: boolean;
   @Output() doneClick: EventEmitter<boolean>;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  uploader: FileUploader;
+  safeImages: any[];
+  images: any[];
+
+  handleFileSelection(input: any) {
+    let reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.url = e.target.result;
+      this.images.push(this.url);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  removeImage(i: number) {
+    // set a timeout because the our focusedForm
+    // directive checks if the click event occurred in an
+    // element contained by the form. If we immediately
+    // remove the image component, then the button that the
+    // image component contains will disappear before
+    // the directive registers the click event, so the
+    // remove button will no longer technically
+    // be contained by the form, which results
+    // in the form being collapsed (undesired).
+    setTimeout(() => {
+      this.embedPostService.uploader.queue.splice(i, 1);
+      this.images.splice(i, 1);
+      if (i == this.addPostForm.value.thumbnailIndex) {
+        this.addPostForm.value.thumbnailIndex = 0;
+      }
+      this.focused = true;
+    }, 100);
+
+  }
+
+  setThumbnail(index: number) {
+    this.addPostForm.value.thumbnailIndex = index;
+  }
+
+  selectFileInput() {
+    this.fileInput.nativeElement.click();
+  }
 
   doneClicked(event: Event) {
     event.stopPropagation();
@@ -60,12 +107,14 @@ export class AddPostComponent implements OnInit {
     // want the default refresh action
     event.preventDefault();
     this.newEmbedPost = new EmbedPost();
+    if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
 
     Object.assign(
       this.newEmbedPost,
       {
         title: this.addPostForm.value.title,
-        description: this.addPostForm.value.description
+        description: this.addPostForm.value.description,
+        thumbnailIndex: this.addPostForm.value.thumbnailIndex
       }
     );
     this.newEmbedPost.embedContent = [];
@@ -73,8 +122,11 @@ export class AddPostComponent implements OnInit {
       this.newEmbedPost.embedContent.push(item.embedItem)
     );
 
+    // Includes image uploading
     this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
-      (items) => {} ,
+      (items: EmbedPost[]) => {
+
+      },
       (error) => {
         console.error(error);
       }
@@ -110,14 +162,16 @@ export class AddPostComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.images = [];
+    this.safeImages = [];
     // initialize the form
     this.addPostForm = this._fb.group({
       title: ['', [Validators.required]],
       description: [''],
       embedContent: this._fb.array([
         this.initEmbedContent()
-      ])
+      ]),
+      thumbnailIndex: [0]
     });
   }
 
@@ -128,6 +182,8 @@ export class AddPostComponent implements OnInit {
   titleFocus: boolean = false;
   descFocus: boolean = false;
   newEmbedPost: EmbedPost;
-
   inputMode = InputModeEnum;
+  thumbnailIndex: number = 0;
+  url: any;
+
 }

@@ -3,8 +3,8 @@ import { SafeHtml } from '@angular/platform-browser'
 import { AppModel } from '../app.model';
 
 export class EmbedPost extends AppModel {
-  constructor() {
-    super();
+  constructor(data?: any) {
+    super(data);
   }
   public title: string;
   public description: string;
@@ -14,5 +14,8 @@ export class EmbedPost extends AppModel {
   public embedContentSafe: SafeHtml[];
   public created: Date;
   public edited: Date;
+  public imagesId:  string;
+  public images: string[];
+  public thumbnailIndex: number;
   public _id: string;
 }

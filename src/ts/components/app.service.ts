@@ -5,22 +5,28 @@ import { Observable, BehaviorSubject } from 'rxjs/rx';
 import { AppModel } from './app.model';
 
 @Injectable()
-export abstract class AppService<AppModel> {
-  constructor(private http: Http) {
+export abstract class AppService<Model extends AppModel> {
+  constructor(protected http: Http) {
     this.dataStore = { items: [] };
-    this._items = <BehaviorSubject<AppModel[]>>new BehaviorSubject([]);
+    this._items = <BehaviorSubject<Model[]>>new BehaviorSubject([]);
   }
 
   private dataStore: {
-    items: AppModel[]
+    items: Model[]
   };
 
-  private _items: BehaviorSubject<AppModel[]>;
+  private _items: BehaviorSubject<Model[]>;
 
   protected abstract getResource(): string;
 
+  /*
+    factory function to instantiate
+    object of class extending AppModel
+   */
+  protected abstract new(data?: any): Model;
+
   // GET all items from requested resource
-  getAll(options?: any): Observable<AppModel[]> {
+  getAll(options?: any): Observable<Model[]> {
       return this.http.get('api/' + this.getResource())
         .switchMap((res: Response) => {
           let body = res.json();
@@ -41,7 +47,7 @@ export abstract class AppService<AppModel> {
   }
 
   // GET resource specified by id
-  get(id: string, options?: any): Observable<AppModel> {
+  get(id: string, options?: any): Observable<Model> {
         return this.http.get('api/' + this.getResource() + '/' + id)
           .map(this.extractData)
           .catch(this.handleError)
@@ -50,13 +56,13 @@ export abstract class AppService<AppModel> {
   }
 
   // DELETE resource specified by id
-  delete(id: string): Observable<AppModel> {
+  delete(id: string): Observable<Model> {
     return this.http.delete('api/' + this.getResource() + '/' + id)
       .map((res: Response) => {
         if (res.status === 200 || res.status === 204) {
           // on successful backend deletion,
           // remove the item from our cache
-          this.dataStore.items = this.dataStore.items.filter((item: AppModel) => { return item._id != id; });
+          this.dataStore.items = this.dataStore.items.filter((item: Model) => { return item._id != id; });
 
           // set the next item to emit in the BehaviorSubject
           this._items.next(
@@ -70,19 +76,20 @@ export abstract class AppService<AppModel> {
   }
 
   // PUT updated resource specified by id
-  update(id: string, body: AppModel): Observable<AppModel> {
+  update(id: string, body: AppModel): Observable<Model> {
     return this.http.put('api/' + this.getResource() + '/' + id, body)
       .map(this.extractData).catch(this.handleError);
   }
 
   // POST newly created item
-  create(body: AppModel): Observable<AppModel[]> {
+  create(body: AppModel): Observable<Model[]> {
     return this.http.post('api/' + this.getResource(), body)
       .switchMap((res: Response) => {
         let body = res.json();
-
+        this.newlyCreatedItem = this.new(body.data);
         // insert our newly created item into the cache
-        this.dataStore.items.push(body.data);
+        this.dataStore.items.push(this.newlyCreatedItem);
+
         this._items.next(
           Object.assign(
             {},
@@ -98,6 +105,8 @@ export abstract class AppService<AppModel> {
     let body = res.json();
     return body || { };
   }
+
+  public newlyCreatedItem: Model;
 
   private handleError(error: any): Observable<any> {
     let errMsg: string;

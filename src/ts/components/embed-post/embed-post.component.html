@@ -3,8 +3,10 @@
     {{ post.title }}
   </md-card-title>
   <md-card-content>
+    <!--
     <div class="iframe-wrap" *ngFor="let iframe of post.embedContentSafe" [innerHtml]="iframe">
-    </div>
+    </div>-->
+    <img class="post-thumbnail-img" [src]="post.images[post.thumbnailIndex]">
     <div class="desc-wrap">
       {{ post.description }}
     </div>

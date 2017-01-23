@@ -1,16 +1,4 @@
 <div class="interface-wrap" (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
-
-  <!--
-  <md-toolbar color="primary" style="overflow: hidden; position: fixed !important; z-index: 20000 !important;">
-    <div>
-      <button (click)="handleToolbarSidenavButtonClick()" md-icon-button class="toolbar-menu-button" >
-        <md-icon class="toolbar-icon">menu</md-icon>
-      </button>
-    </div>
-
-    <span>Interface</span>
-  </md-toolbar>
--->
   <md-toolbar  color="primary">
     <span>Interface</span>
   </md-toolbar>
@@ -19,7 +7,7 @@
     <md-tab #musicTab label="Music">
 
         <div class="tab-wrapper">
-          <add-post (focused)="focusEvent($event)"
+          <post-form (focused)="focusEvent($event)"
                     (doneClick)="formDone()"
                     [focused]="focusForm"
                     tabindex="0"
@@ -32,34 +20,34 @@
                                   col-xl-6
                                   offset-xl-3
                                   col-xs-12 clearfix">
-          </add-post>
+          </post-form>
           <div class="grid-list-wrap">
 
             <md-grid-list  [cols]="cols" rowHeight="450px">
-              <md-grid-tile *ngFor="let post of embedPosts$ | async">
+              <md-grid-tile *ngFor="let post of embedPosts$ | async; trackBy: postTrackBy">
                 <embed-post [post]="post">
-                  <button type="button" md-raised-button color="primary">Ayy</button>
+                  <button type="button"
+                          md-raised-button
+                          color="primary"
+                          (click)="editPost()">Edit</button>
                   <button type="button"
                           md-raised-button
                           color="accent"
-                          (click)="removePost(post._id)">lmao</button>
-                </embed-post>
+                          (click)="removePost(post._id)">Delete</button>
+                  </embed-post>
               </md-grid-tile>
             </md-grid-list>
           </div>
         </div>
 
-
-
-
     </md-tab>
     <md-tab #frTab label="Field Recordings">
       <div class="tab-wrapper">
-        <add-post (focused)="focusEvent($event)"
-                  (doneClick)="formDone()"
-                  [focused]="focusForm"
-                  tabindex="0"
-                  class="add-post col-sm-10
+        <post-form (focused)="focusEvent($event)"
+                   (doneClick)="formDone()"
+                   [focused]="focusForm"
+                   tabindex="0"
+                   class="add-post col-sm-10
                                 offset-sm-1
                                 col-md-8
                                 offset-md-2
@@ -68,17 +56,16 @@
                                 col-xl-6
                                 offset-xl-3
                                 col-xs-12 clearfix">
-        </add-post>
+        </post-form>
       </div>
-
     </md-tab>
     <md-tab #aboutTab label="About">
       <div class="tab-wrapper">
-        <add-post (focused)="focusEvent($event)"
-                  (doneClick)="formDone()"
-                  [focused]="focusForm"
-                  tabindex="0"
-                  class="add-post col-sm-10
+        <post-form (focused)="focusEvent($event)"
+                   (doneClick)="formDone()"
+                   [focused]="focusForm"
+                   tabindex="0"
+                   class="add-post col-sm-10
                                 offset-sm-1
                                 col-md-8
                                 offset-md-2
@@ -87,7 +74,7 @@
                                 col-xl-6
                                 offset-xl-3
                                 col-xs-12 clearfix">
-        </add-post>
+        </post-form>
       </div>
 
     </md-tab>

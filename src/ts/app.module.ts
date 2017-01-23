@@ -4,6 +4,7 @@ import { MaterialModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppRoot } from './components/app.component';
 
@@ -13,8 +14,11 @@ import { EmbedPost } from './components/embed-post/embed-post.model';
 import { EmbedPostService } from './components/embed-post/embed-post.service';
 import { IndexRootComponent } from './components/index/index.component';
 import { InterfaceRootComponent } from './components/interface/interface.component';
-import { AddPostComponent } from './components/interface/add-post/add-post.component';
-import { AddPostInputComponent } from './components/interface/add-post/input/add-post-input.component';
+import { PostFormComponent } from './components/interface/post-form/post-form.component';
+import { PostFormInputComponent } from './components/interface/post-form/input/post-form-input.component';
+import { JDialogComponent } from './components/j-dialog/j-dialog.component';
+import { PostFormDialogComponent } from './components/interface/post-form/post-form-dialog/post-form-dialog.component';
+import { PostFormImagePreviewComponent } from './components/interface/post-form/image-preview/post-form-image-preview.component';
 
 // directives
 import { FocusedFormDirective } from './directives/focused-form.directive';
@@ -32,7 +36,8 @@ const appRoutes: Routes = [
     HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FileUploadModule
   ],
   declarations: [
     AppRoot,
@@ -41,11 +46,18 @@ const appRoutes: Routes = [
     EmbedPostComponent,
     IndexRootComponent,
     InterfaceRootComponent,
-    AddPostComponent,
-    AddPostInputComponent,
+    PostFormComponent,
+    PostFormInputComponent,
+    JDialogComponent,
+    PostFormDialogComponent,
+    PostFormImagePreviewComponent,
 
     // directives
     FocusedFormDirective
+  ],
+  entryComponents: [
+    JDialogComponent,
+    PostFormDialogComponent
   ],
   providers: [
     EmbedPostService
