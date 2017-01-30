@@ -26,7 +26,9 @@ export class PostFormInputComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    if (this._innerValue === "") this.fillerInputDisplay = true;
+    if(this.fillerInputDisplay === undefined) {
+      if (this._innerValue === "") this.fillerInputDisplay = true;
+    }
   }
 
   // internal data model
@@ -84,7 +86,7 @@ export class PostFormInputComponent implements ControlValueAccessor, OnInit {
   @Input() fillerText: string;
   @Input() inputMode: InputModeEnum;
   @Input() biggerInput: boolean;
-  fillerInputDisplay: boolean;
+  @Input() fillerInputDisplay: boolean;
 
   InputMode = InputModeEnum;
 

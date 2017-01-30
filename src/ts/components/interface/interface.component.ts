@@ -20,6 +20,7 @@ export class InterfaceRootComponent implements OnInit {
     public dialog: MdDialog
   ) {
     this.embedPosts$ = this.embedPostService.getAll();
+    this.isLoading = false;
   }
 
   dialogRef: MdDialogRef<PostFormDialogComponent>;
@@ -37,11 +38,14 @@ export class InterfaceRootComponent implements OnInit {
     this.embedPosts$.map(items => items.pop()).subscribe();
   }
 
-  editPost() {
+  editPost(post: EmbedPost) {
     console.log("edit post");
+
     this.dialogRef = this.dialog.open(PostFormDialogComponent, {
-      width: "65%"
+      width: "65%",
+      disableClose: true,
     });
+    this.dialogRef.componentInstance.newEmbedPost = post;
     this.dialogRef.afterClosed().subscribe(result => {
       this.dialogRef = null;
     });
@@ -53,6 +57,23 @@ export class InterfaceRootComponent implements OnInit {
 
   formDone() {
     this.focusForm = false;
+  }
+
+  handleSubmission() {
+    console.log('ayy lmao');
+    // get current height of screen
+    this.screenHeight = this.elementRef.nativeElement.ownerDocument.body.clientHeight;
+    this.isLoading = true;
+  }
+
+  submissionFinished() {
+    console.log("submission finished");
+    this.isLoading = false;
+  }
+
+  submissionFinishedWithError() {
+    this.isLoading = false;
+    alert("There was an error while processing the request. Please refresh and try again.")
   }
 
   postTrackBy(index: number, item: EmbedPost) {
@@ -99,5 +120,7 @@ export class InterfaceRootComponent implements OnInit {
   embedPosts$: Observable<EmbedPost[]>;
   subscriptions: Subscription[];
   screenWidth: number;
+  screenHeight: number;
   cols: number;
+  isLoading: boolean;
 }

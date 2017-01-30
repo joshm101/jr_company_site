@@ -7,11 +7,18 @@
     <md-tab #musicTab label="Music">
 
         <div class="tab-wrapper">
-          <post-form (focused)="focusEvent($event)"
-                    (doneClick)="formDone()"
-                    [focused]="focusForm"
-                    tabindex="0"
-                    class="add-post col-sm-10
+          <div class="loading-wrap-interface" *ngIf="isLoading" [ngStyle]="{ 'height': screenHeight + 'px' }">
+            <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
+          </div>
+          <div class="interface-content-wrap" [hidden]="isLoading">
+            <post-form (focused)="focusEvent($event)"
+                       (startLoad)="handleSubmission()"
+                       (doneLoad)="submissionFinished()"
+                       (doneloaderror)="submissionFinishedWithError()"
+                       (doneClick)="formDone()"
+                       [focused]="focusForm"
+                       tabindex="0"
+                       class="add-post col-sm-10
                                   offset-sm-1
                                   col-md-8
                                   offset-md-2
@@ -20,23 +27,24 @@
                                   col-xl-6
                                   offset-xl-3
                                   col-xs-12 clearfix">
-          </post-form>
-          <div class="grid-list-wrap">
+            </post-form>
+            <div class="grid-list-wrap">
 
-            <md-grid-list  [cols]="cols" rowHeight="450px">
-              <md-grid-tile *ngFor="let post of embedPosts$ | async; trackBy: postTrackBy">
-                <embed-post [post]="post">
-                  <button type="button"
-                          md-raised-button
-                          color="primary"
-                          (click)="editPost()">Edit</button>
-                  <button type="button"
-                          md-raised-button
-                          color="accent"
-                          (click)="removePost(post._id)">Delete</button>
+              <md-grid-list  [cols]="cols" rowHeight="450px">
+                <md-grid-tile *ngFor="let post of embedPosts$ | async; trackBy: postTrackBy">
+                  <embed-post [post]="post">
+                    <button type="button"
+                            md-raised-button
+                            color="primary"
+                            (click)="editPost(post)">Edit</button>
+                    <button type="button"
+                            md-raised-button
+                            color="accent"
+                            (click)="removePost(post._id)">Delete</button>
                   </embed-post>
-              </md-grid-tile>
-            </md-grid-list>
+                </md-grid-tile>
+              </md-grid-list>
+            </div>
           </div>
         </div>
 

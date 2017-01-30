@@ -30,11 +30,15 @@ export abstract class AppService<Model extends AppModel> {
       return this.http.get('api/' + this.getResource())
         .switchMap((res: Response) => {
           let body = res.json();
-
+          console.log("BODY: ", body);
+          let temp: Model[] = [];
+          body.forEach((item: Model) => { temp.push(this.new(item))});
           // set all the items
           // retrieved from the backend
           // as our cached set
-          this.dataStore.items = body;
+          this.dataStore.items = temp;
+
+          console.log("TEMP: ", temp);
 
           // set the next item to emit in the BehaviorSubject
           this._items.next(Object.assign(
@@ -76,9 +80,24 @@ export abstract class AppService<Model extends AppModel> {
   }
 
   // PUT updated resource specified by id
-  update(id: string, body: AppModel): Observable<Model> {
-    return this.http.put('api/' + this.getResource() + '/' + id, body)
-      .map(this.extractData).catch(this.handleError);
+  update(body: AppModel): Observable<Model> {
+    return this.http.put('api/' + this.getResource() + '/' + body._id, body)
+      .map((res: Response) => {
+        let body = res.json();
+        this.editedItem = this.new(body.data);
+        this.dataStore.items.forEach((item, index) => {
+          if (item._id === this.editedItem._id) {
+            this.dataStore.items[index] = this.editedItem;
+          }
+        });
+        this._items.next(
+          Object.assign(
+            {},
+            this.dataStore
+          ).items);
+        console.log("_items: ", this._items);
+        return this.editedItem;
+      });
   }
 
   // POST newly created item
@@ -107,6 +126,7 @@ export abstract class AppService<Model extends AppModel> {
   }
 
   public newlyCreatedItem: Model;
+  public editedItem: Model;
 
   private handleError(error: any): Observable<any> {
     let errMsg: string;

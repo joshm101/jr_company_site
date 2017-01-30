@@ -1,63 +1,90 @@
-<form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)">
+<form md-dialog-content class="dialog-post-form" [formGroup]="addPostForm" (ngSubmit)="updatePostSubmit($event)">
   {{ descTest }}
-  <div md-dialog-content >
-    <div class="post-form-comp-wrap" tabindex="0">
+  <div class="post-form-comp-wrap" tabindex="0">
 
-      <div class="add-post-input-wrap">
-        <post-form-input fillerText="Title"
-                         [inputMode]="inputMode.SingleLine"
-                         [biggerInput]="true"
-                         formControlName="title">
-        </post-form-input>
-      </div>
+    <div class="add-post-input-wrap">
+      <post-form-input fillerText="Title"
+                       [fillerInputDisplay]="false"
+                       [inputMode]="inputMode.SingleLine"
+                       [biggerInput]="true"
+                       formControlName="title">
+      </post-form-input>
+    </div>
 
-      <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
-        <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
-          <div [formGroupName]="i" class="add-post-input-inner-wrap">
-            <post-form-input fillerText="Embed Code"
-                             [inputMode]="inputMode.MultiLine"
-                             [biggerInput]="false"
-                             formControlName="embedItem">
-            </post-form-input>
-          </div>
-          <button md-tooltip="Remove embeddable content"
-                  type="button"
-                  (click)="removeEmbedContent(i, $event)"
-                  [hidden]="!focused" md-icon-button>
-            <md-icon>remove</md-icon>
-          </button>
+    <div class="add-post-input-wrap" formArrayName="embedContent">
+      <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
+        <div [formGroupName]="i" class="add-post-input-inner-wrap">
+          <post-form-input fillerText="Embed Code"
+                           [inputMode]="inputMode.MultiLine"
+                           [biggerInput]="false"
+                           formControlName="embedItem">
+          </post-form-input>
         </div>
+        <button md-tooltip="Remove embeddable content"
+                type="button"
+                (click)="removeEmbedContent(i, $event)"
+                md-icon-button>
+          <md-icon>remove</md-icon>
+        </button>
       </div>
-      <button md-tooltip="Add embeddable content"
-              class="add-embed-input-button"
-              type="button"
-              (click)="addEmbedContent()"
-              [hidden]="!focused" md-icon-button>
-        <md-icon>add</md-icon>
-      </button>
+    </div>
+    <button md-tooltip="Add embeddable content"
+            class="add-embed-input-button"
+            type="button"
+            (click)="addEmbedContent()"
+            md-icon-button>
+      <md-icon>add</md-icon>
+    </button>
 
-      <div [hidden]="!focused" class="add-post-input-wrap">
-        <post-form-input fillerText="Description"
-                         [inputMode]="inputMode.MultiLine"
-                         [biggerInput]="false"
-                         formControlName="description">
-        </post-form-input>
-      </div>
+    <div  class="add-post-input-wrap">
+      <post-form-input fillerText="Description"
+                       [inputMode]="inputMode.MultiLine"
+                       [fillerInputDisplay]="!newEmbedPost.description"
+                       [biggerInput]="false"
+                       formControlName="description">
+      </post-form-input>
+    </div>
 
-      <div [hidden]="!focused" class="add-post-action-bar-wrap">
-        <md-toolbar class="add-post-action-bar">
-          <button class="add-image-button" md-tooltip="Add image" md-icon-button>
-            <md-icon class="add-image-icon">image</md-icon>
-          </button>
-          <span flex style="flex: 1 1 auto;"></span>
-          <button (click)="doneClicked($event)"
-                  tabindex="0"
-                  md-button type="submit"
-                  class="add-post-done-button">Done</button>
-        </md-toolbar>
-      </div>
+    <input hidden #fileInput type="file"
+           ng2FileSelect
+           #input
+           (change)="handleFileSelection(input)"
+           [uploader]="uploader" />
+
+
+    <div class="col-lg-4 col-sm-6 col-xs-12"
+         *ngFor="let image of images;trackBy:i; let i = index;">
+      <post-form-image-preview [imgData]="image"
+                               [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
+                               (setAsThumbnail)="setThumbnail(i)"
+                               (removeImage)="removeImage(i)">
+      </post-form-image-preview>
 
     </div>
-  </div>
 
+
+    <div class="add-post-action-bar-wrap">
+      <md-toolbar class="add-post-action-bar">
+        <button class="add-image-button"
+                md-tooltip="Add image"
+                md-icon-button
+                type="button"
+                (click)="selectFileInput()">
+          <md-icon class="add-image-icon">image</md-icon>
+        </button>
+        <span flex style="flex: 1 1 auto;"></span>
+        <button tabindex="0"
+                #close
+                md-button type="button"
+                md-dialog-close>
+          Cancel
+        </button>
+        <button (click)="doneClicked($event)"
+                tabindex="0"
+                md-button type="submit"
+                class="add-post-done-button">Done</button>
+      </md-toolbar>
+    </div>
+
+  </div>
 </form>

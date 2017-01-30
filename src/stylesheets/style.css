@@ -32,6 +32,12 @@ textarea {
   height: auto;
 }
 
+@media screen and (min-width: 1460px) {
+  .loading-wrap {
+    padding-left: 25px;
+  }
+}
+
 .filler-title-text {
   width: 100%;
   position: absolute;
@@ -87,6 +93,11 @@ textarea {
 .post-form-image-preview-comp-wrap {
   margin: 5px;
   text-align: center;
+}
+
+.dialog-post-form {
+  overflow-x: hidden !important;
+  position: relative;
 }
 
 .remove-img-button-wrap {

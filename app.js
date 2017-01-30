@@ -13,7 +13,7 @@ var api = require('./lib/routes/api');
 mongoose.connect('mongodb://127.0.0.1:27017');
 
 var app = module.exports = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('src/static'));
 

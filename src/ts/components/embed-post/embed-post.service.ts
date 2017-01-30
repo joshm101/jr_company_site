@@ -19,6 +19,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   public new(data?: any) {
+    console.log("data: ", data);
     return new EmbedPost(data);
   }
 
@@ -30,6 +31,24 @@ export class EmbedPostService extends AppService<EmbedPost> {
       posts.forEach(post => this.createSafeHtml(post));
       return posts;
     })
+  }
+
+  update(body: EmbedPost): Observable<EmbedPost> {
+    return super.update(body).switchMap((post: EmbedPost) => {
+      // Mark all of the iframes as safe html
+      this.createSafeHtml(post);
+      if (this.uploader.queue.length > 0) {
+        return this.uploadImages(post.imagesId)
+          .map(returnedPost => Object.assign(
+            post,
+            {
+              images: returnedPost.images
+            }
+          ));
+      } else {
+        return Observable.of(post);
+      }
+    });
   }
 
   create(post: EmbedPost): Observable<EmbedPost[]> {
@@ -52,19 +71,14 @@ export class EmbedPostService extends AppService<EmbedPost> {
       // a reference to the post in case the uploading
       // fails.
       if (this.uploader.queue.length > 0) {
-        let formData = new FormData();
-        formData.append('imagesid', this.newlyCreatedItem.imagesId);
-        this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-        console.log(this.uploader.queue);
-
-        return this.http.post('/api/upload', formData)
-          .map(res => res.json())
+        return this.uploadImages(this.newlyCreatedItem.imagesId)
           .map((returnedPost: EmbedPost): EmbedPost[] => {
+            console.log('posts: ', posts);
             posts.forEach(post => {
               if (post.imagesId === returnedPost.imagesId) {
                 // update the recently created post's images
                 // array to contain the paths of images uploaded
-                // for the post.
+                // for the post
                 post.images = returnedPost.images;
               }
             });
@@ -77,8 +91,25 @@ export class EmbedPostService extends AppService<EmbedPost> {
     });
   }
 
+  uploadImages(imagesId: string): Observable<EmbedPost> {
+    let formData = new FormData();
+    formData.append('imagesid', imagesId);
+    this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
+    return this.http.post('/api/upload', formData)
+      .map(res => {
+        this.initializeUploaderInstance();
+        return res.json();
+      });
+  }
+
   getUploaderInstance() {
     return this.uploader;
+  }
+
+  initializeUploaderInstance() {
+    this.uploader = new FileUploader({
+      url: "http://localhost:3000/api/upload"
+    });
   }
 
   // Marks each embedded item
@@ -87,9 +118,11 @@ export class EmbedPostService extends AppService<EmbedPost> {
   // view
   createSafeHtml(post: EmbedPost) {
     post.embedContentSafe = [];
-    post.embedContent.forEach(iframe =>
-      post.embedContentSafe.push(this.sanitizer.bypassSecurityTrustHtml(iframe))
-    );
+    if (post.embedContent) {
+      post.embedContent.forEach(iframe =>
+        post.embedContentSafe.push(this.sanitizer.bypassSecurityTrustHtml(iframe))
+      );
+    }
   }
 
   protected getResource(): string {

@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
+import { MdButton } from '@angular/material';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { MdDialogRef } from '@angular/material';
-import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
+import { FileUploader } from 'ng2-file-upload';
 
+import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
 import { InputModeEnum } from '../../../../enums/input-mode.enum';
 
 /**
@@ -18,16 +20,73 @@ export class PostFormDialogComponent implements OnInit {
   constructor(
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
-    private _fb: FormBuilder,
-    public dialogRef: MdDialogRef<PostFormDialogComponent>
+    protected sanitizer: DomSanitizer,
+    private _fb: FormBuilder
   ) {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
+    this.embedPostService.initializeUploaderInstance();
+    this.uploader = this.embedPostService.getUploaderInstance();
+
   }
 
-  @Input() focused: boolean = true;
 
+
+  @Input() focused: boolean;
   @Output() doneClick: EventEmitter<boolean>;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('close') close: MdButton;
+  uploader: FileUploader;
+  safeImages: any[];
+  images: any[];
+
+  handleFileSelection(input: any) {
+    let reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.url = e.target.result;
+      this.images.push(this.url);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  removeImage(i: number) {
+    // set a timeout because the focusedForm
+    // directive checks if the click event occurred in an
+    // element contained by the form. If we immediately
+    // remove the image component, then the button that the
+    // image component contains will disappear before
+    // the directive registers the click event, so the
+    // remove button will no longer technically
+    // be contained by the form, which results
+    // in the form being collapsed (undesired).
+    setTimeout(() => {
+
+      // if the index is greater than the current
+      // post's saved images length, then we
+      // are removing an image that has not yet
+      // been uploaded, so we want to make sure
+      // we remove it from the upload queue
+      if (i >= this.embedPostEdit.images.length) {
+
+        // remove at offset.
+        this.embedPostService.uploader.queue.splice(i - this.embedPostEdit.images.length, 1);
+      }
+      this.images.splice(i, 1);
+      if (i == this.addPostForm.value.thumbnailIndex) {
+        this.addPostForm.value.thumbnailIndex = 0;
+      }
+      this.focused = true;
+    }, 100);
+
+  }
+
+  setThumbnail(index: number) {
+    this.addPostForm.value.thumbnailIndex = index;
+  }
+
+  selectFileInput() {
+    this.fileInput.nativeElement.click();
+  }
 
   doneClicked(event: Event) {
     event.stopPropagation();
@@ -54,28 +113,28 @@ export class PostFormDialogComponent implements OnInit {
   }
 
   // form submission handler
-  addPostSubmit(event: Event) {
-
+  updatePostSubmit(event: Event) {
+    let regex = /data:/;
     // prevent default form submission.
     // if the form errors out, we do not
     // want the default refresh action
     event.preventDefault();
     this.newEmbedPost = new EmbedPost();
-
-    Object.assign(
-      this.newEmbedPost,
-      {
-        title: this.addPostForm.value.title,
-        description: this.addPostForm.value.description
-      }
-    );
-    this.newEmbedPost.embedContent = [];
-    this.addPostForm.value.embedContent.forEach((item: any) =>
-      this.newEmbedPost.embedContent.push(item.embedItem)
-    );
-
-    this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
-      (items) => {} ,
+    if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
+    this.embedPostEdit.title = this.addPostForm.value.title;
+    this.embedPostEdit.description = this.addPostForm.value.description;
+    this.embedPostEdit.thumbnailIndex = this.addPostForm.value.thumbnailIndex;
+    if (!this.images[this.embedPostEdit.thumbnailIndex]) {
+      this.embedPostEdit.thumbnailIndex = 0;
+    }
+    this.embedPostEdit.images = this.images.filter(image => !regex.test(image));
+    console.log("this.embedPostEdit: ", this.embedPostEdit);
+    // Includes image uploading
+    this.embedPostService.update(this.embedPostEdit).take(1).subscribe(
+      (item: EmbedPost) => {
+        console.log("this.close: ", this.close);
+        this.close._getHostElement().click();
+      },
       (error) => {
         console.error(error);
       }
@@ -88,9 +147,9 @@ export class PostFormDialogComponent implements OnInit {
   // of embed content fields in the
   // form. We begin by initializing
   // one embedContent field.
-  initEmbedContent() {
+  initEmbedContent(val?: string) {
     return this._fb.group({
-      embedItem: ['']
+      embedItem: [val]
     });
   }
 
@@ -111,15 +170,27 @@ export class PostFormDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.images = [];
+    this.safeImages = [];
+    this.embedPostEdit = this.embedPostService.new(this.newEmbedPost);
+    console.log(this.embedPostEdit);
+    if (!this.embedPostEdit.embedContent) {
+      this.embedPostEdit.embedContent = [];
+    }
     // initialize the form
     this.addPostForm = this._fb.group({
-      title: ['', [Validators.required]],
-      description: [''],
+      title: [this.embedPostEdit.title, [Validators.required]],
+      description: [this.embedPostEdit.description],
       embedContent: this._fb.array([
         this.initEmbedContent()
-      ])
+      ]),
+      thumbnailIndex: [this.embedPostEdit.thumbnailIndex]
     });
+    this.embedPostEdit.images.forEach((image: string) => {
+      this.images.push((' ' + image).slice(1));
+    });
+
+    console.log("this.newEmbedPost: ", this.newEmbedPost);
   }
 
   addPostForm: FormGroup;
@@ -129,6 +200,11 @@ export class PostFormDialogComponent implements OnInit {
   titleFocus: boolean = false;
   descFocus: boolean = false;
   newEmbedPost: EmbedPost;
-
+  embedPostEdit: EmbedPost;
   inputMode = InputModeEnum;
+  thumbnailIndex: number = 0;
+  url: any;
+
+
 }
+

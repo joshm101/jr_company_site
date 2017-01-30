@@ -25,12 +25,17 @@ export class PostFormComponent implements OnInit {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
     this.uploader = this.embedPostService.getUploaderInstance();
+    this.startLoad = new EventEmitter<boolean>();
+    this.doneLoad = new EventEmitter<boolean>();
   }
 
 
 
   @Input() focused: boolean;
   @Output() doneClick: EventEmitter<boolean>;
+  @Output() startLoad: EventEmitter<boolean>;
+  @Output() doneLoad: EventEmitter<boolean>;
+  @Output() doneLoadError: EventEmitter<boolean>;
   @ViewChild('fileInput') fileInput: ElementRef;
   uploader: FileUploader;
   safeImages: any[];
@@ -77,11 +82,11 @@ export class PostFormComponent implements OnInit {
 
   doneClicked(event: Event) {
     event.stopPropagation();
-
     // set timeout to allow
     // for display of button ripple
     // animation
     setTimeout(() => {
+
       this.focused = false;
       this.doneClick.emit(true);
     }, 150);
@@ -101,11 +106,13 @@ export class PostFormComponent implements OnInit {
 
   // form submission handler
   addPostSubmit(event: Event) {
-
+    this.currentHeight = this.elementRef.nativeElement.offsetHeight;
+    this.isLoading = true;
     // prevent default form submission.
     // if the form errors out, we do not
     // want the default refresh action
     event.preventDefault();
+    this.startLoad.emit();
     this.newEmbedPost = new EmbedPost();
     if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
 
@@ -122,13 +129,19 @@ export class PostFormComponent implements OnInit {
       this.newEmbedPost.embedContent.push(item.embedItem)
     );
 
+    if (this.newEmbedPost.embedContent.length === 1 && this.newEmbedPost.embedContent[0] === '') {
+      this.newEmbedPost.embedContent = [];
+    }
+
     // Includes image uploading
     this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
       (items: EmbedPost[]) => {
+        this.doneLoad.emit(true);
 
       },
       (error) => {
         console.error(error);
+        this.doneLoadError.emit(true);
       }
     );
 
@@ -185,5 +198,6 @@ export class PostFormComponent implements OnInit {
   inputMode = InputModeEnum;
   thumbnailIndex: number = 0;
   url: any;
-
+  isLoading: boolean;
+  currentHeight: number;
 }
