@@ -43,11 +43,19 @@ export class PostFormComponent implements OnInit {
 
   handleFileSelection(input: any) {
     let reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      this.url = e.target.result;
-      this.images.push(this.url);
-    };
+      reader.onload = (e: any) => {
+        let computedSrc: string = '';
+        // sanitize the base64 encoded image because if you just
+        // set [src] to the unsanitized base64 string, internally,
+        // angular will attempt a regular expression match as well
+        // as a sanitization which in some cases (not always) causes
+        // a Maximum Call Stack Exceeded error. By sanitizing the string myself,
+        // angular does not perform the sanitization + regexp match
+        // internally when setting img [src], preventing the
+        // Maximum Call Stack Size Exceeded error.
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
+        this.images.push(this.url);
+      };
     reader.readAsDataURL(input.files[0]);
   }
 
@@ -97,6 +105,7 @@ export class PostFormComponent implements OnInit {
   // the form.
   focusCard() {
     this.formHidden = false;
+
   }
 
   unfocusCard() {
@@ -136,8 +145,9 @@ export class PostFormComponent implements OnInit {
     // Includes image uploading
     this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
       (items: EmbedPost[]) => {
-        this.doneLoad.emit(true);
-
+        //this.doneLoad.emit(true);
+        this.initializeForm();
+        this.embedPostService.initializeUploaderInstance();
       },
       (error) => {
         console.error(error);
@@ -175,8 +185,24 @@ export class PostFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initializeForm();
+  }
+
+  resetFileInput() {
+    this.fileInput.nativeElement.value = '';
+    if (this.fileInput.nativeElement.value) {
+      this.fileInput.nativeElement.type = 'text';
+      this.fileInput.nativeElement.type = 'file';
+    }
+  }
+
+  initializeForm() {
     this.images = [];
     this.safeImages = [];
+    this.showFiller = true;
+    this.embedPostService.initializeUploaderInstance();
+    this.uploader = this.embedPostService.uploader;
+    this.resetFileInput();
     // initialize the form
     this.addPostForm = this._fb.group({
       title: ['', [Validators.required]],
@@ -196,6 +222,7 @@ export class PostFormComponent implements OnInit {
   descFocus: boolean = false;
   newEmbedPost: EmbedPost;
   inputMode = InputModeEnum;
+  showFiller: boolean;
   thumbnailIndex: number = 0;
   url: any;
   isLoading: boolean;

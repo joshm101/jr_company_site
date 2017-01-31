@@ -10,6 +10,7 @@ export class PostFormImagePreviewComponent {
   ) {
     this.setAsThumbnail = new EventEmitter<boolean>();
     this.removeImage = new EventEmitter<boolean>();
+    this.previewError = new EventEmitter<boolean>();
   }
 
   removeThisImage(event: Event) {
@@ -35,4 +36,6 @@ export class PostFormImagePreviewComponent {
   // parent form component can keep
   // data model consistent
   @Output() removeImage: EventEmitter<boolean>;
+
+  @Output() previewError: EventEmitter<boolean>;
 }

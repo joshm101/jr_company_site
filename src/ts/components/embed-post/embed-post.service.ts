@@ -94,9 +94,11 @@ export class EmbedPostService extends AppService<EmbedPost> {
   uploadImages(imagesId: string): Observable<EmbedPost> {
     let formData = new FormData();
     formData.append('imagesid', imagesId);
+    this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
     return this.http.post('/api/upload', formData)
       .map(res => {
+        this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
         return res.json();
       });
@@ -110,6 +112,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     this.uploader = new FileUploader({
       url: "http://localhost:3000/api/upload"
     });
+
   }
 
   // Marks each embedded item
@@ -128,4 +131,10 @@ export class EmbedPostService extends AppService<EmbedPost> {
   protected getResource(): string {
     return 'embedPosts';
   }
+
+  get uploadRequestInFlight() {
+    return this._uploadRequestInFlight;
+  }
+
+  private _uploadRequestInFlight: boolean;
 }

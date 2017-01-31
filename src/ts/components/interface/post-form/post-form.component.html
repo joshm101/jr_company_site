@@ -47,7 +47,7 @@
              ng2FileSelect
              #input
              (change)="handleFileSelection(input)"
-             [uploader]="uploader" />
+             [uploader]="embedPostService.uploader" />
 
 
       <div [hidden]="!focused" class="col-lg-4 col-sm-6 col-xs-12"

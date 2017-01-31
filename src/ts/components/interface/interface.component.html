@@ -7,7 +7,7 @@
     <md-tab #musicTab label="Music">
 
         <div class="tab-wrapper">
-          <div class="loading-wrap-interface" *ngIf="isLoading" [ngStyle]="{ 'height': screenHeight + 'px' }">
+          <div class="loading-wrap-interface" [hidden]="!isLoading" [ngStyle]="{ 'height': screenHeight + 'px' }">
             <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
           </div>
           <div class="interface-content-wrap" [hidden]="isLoading">
@@ -31,8 +31,9 @@
             <div class="grid-list-wrap">
 
               <md-grid-list  [cols]="cols" rowHeight="450px">
-                <md-grid-tile *ngFor="let post of embedPosts$ | async; trackBy: postTrackBy">
-                  <embed-post [post]="post">
+                <md-grid-tile *ngFor="let post of embedPosts; trackBy: postTrackBy">
+                  <embed-post [post]="post"
+                              (doneLoading)="postDoneLoading()">
                     <button type="button"
                             md-raised-button
                             color="primary"

@@ -68,6 +68,9 @@ export class PostFormInputComponent implements ControlValueAccessor, OnInit {
   //Form ControlValueAccessor interface
   registerOnChange(fn: any) {
       this.onChangeCallback = fn;
+      if (this._innerValue == '') {
+        this.fillerInputDisplay = true;
+      }
   }
 
   // Form ControlValueAccessor interface

@@ -19,27 +19,45 @@ export class InterfaceRootComponent implements OnInit {
     protected sanitizer: DomSanitizer,
     public dialog: MdDialog
   ) {
-    this.embedPosts$ = this.embedPostService.getAll();
-    this.isLoading = false;
+    this.isLoading = true;
+    this.embedPostService.getAll().filter(Boolean).subscribe(
+      (posts) => {
+        // once we have our posts,
+        // we begin the process of
+        // loading all of the thumbnail
+        // images, so show loading spinner
+        this.isLoading = true;
+        this.embedPosts = posts;
+        this.numPosts = posts.length;
+
+        // no posts to load,
+        // don't show spinner
+        if (this.numPosts === 0) {
+          this.isLoading = false;
+        }
+      }
+    );
   }
 
   dialogRef: MdDialogRef<PostFormDialogComponent>;
 
   removePost(id: string) {
-    this.embedPostService.delete(id).take(1).subscribe(
-      () => {},
+    this.embedPostService.delete(id).subscribe(
+      () => {
+
+        // One less post loaded
+        // as one has been deleted.
+        this.numPostsLoaded--;
+        this.isLoading = false;
+      },
       (error) => {
         console.error(error);
+        this.isLoading = false;
       }
     );
   }
 
-  test() {
-    this.embedPosts$.map(items => items.pop()).subscribe();
-  }
-
   editPost(post: EmbedPost) {
-    console.log("edit post");
 
     this.dialogRef = this.dialog.open(PostFormDialogComponent, {
       width: "65%",
@@ -60,7 +78,7 @@ export class InterfaceRootComponent implements OnInit {
   }
 
   handleSubmission() {
-    console.log('ayy lmao');
+    this.numPosts++;
     // get current height of screen
     this.screenHeight = this.elementRef.nativeElement.ownerDocument.body.clientHeight;
     this.isLoading = true;
@@ -68,7 +86,7 @@ export class InterfaceRootComponent implements OnInit {
 
   submissionFinished() {
     console.log("submission finished");
-    this.isLoading = false;
+    //this.isLoading = false;
   }
 
   submissionFinishedWithError() {
@@ -78,6 +96,13 @@ export class InterfaceRootComponent implements OnInit {
 
   postTrackBy(index: number, item: EmbedPost) {
     return item._id;
+  }
+
+  postDoneLoading() {
+    this.numPostsLoaded++;
+    if (this.numPostsLoaded === this.numPosts) {
+      this.isLoading = false;
+    }
   }
 
   ngOnInit() {
@@ -118,9 +143,12 @@ export class InterfaceRootComponent implements OnInit {
 
   focusForm: boolean = false;
   embedPosts$: Observable<EmbedPost[]>;
+  embedPosts: EmbedPost[];
   subscriptions: Subscription[];
   screenWidth: number;
   screenHeight: number;
   cols: number;
   isLoading: boolean;
+  numPosts: number;
+  numPostsLoaded: number = 0;
 }
