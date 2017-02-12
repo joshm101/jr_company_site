@@ -31,6 +31,27 @@ export class EmbedPostComponent implements OnInit {
   finishedLoadingPost() {
     this.doneLoading.emit(true);
   }
+
+  handlePostLoadError() {
+
+    // Current application will receive a response with a post
+    // and then upload images. The loading spinner will be displayed,
+    // but the post will be rendered "behind" the spinner (out of sight)
+    // without a thumbnail to render (because images are uploading,
+    // including thumbnail). This throws a 404 on a null image
+    // path. SO, if an upload is happening, we will not emit
+    // done loading on error because of pending upload to finish.
+    // Once image uploading is done, the <img> src tag
+    // will be updated, causing a GET for the image request,
+    // and subsequent finishedLoadingPost() call on
+    // successful load (to then properly emit doneLoading event).
+    // If, in fact, there is no pending upload and we have a 404
+    // on an <img> src, then we will mark as done loading
+    // so spinner can properly go away.
+    if (!this.embedPostService.uploadRequestInFlight) {
+      this.doneLoading.emit(true);
+    }
+  }
   @Input() post: EmbedPost;
   @Output() doneLoading: EventEmitter<boolean>;
 

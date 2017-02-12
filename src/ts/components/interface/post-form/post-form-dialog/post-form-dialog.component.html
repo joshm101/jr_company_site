@@ -10,14 +10,13 @@
                        formControlName="title">
       </post-form-input>
     </div>
-
-    <div class="add-post-input-wrap" formArrayName="embedContent">
+    <div class="add-post-input-wrap" formArrayName="embedContent" *ngIf="addPostForm && addPostForm.controls">
       <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
-        <div [formGroupName]="i" class="add-post-input-inner-wrap">
+        <div class="add-post-input-inner-wrap">
           <post-form-input fillerText="Embed Code"
                            [inputMode]="inputMode.MultiLine"
                            [biggerInput]="false"
-                           formControlName="embedItem">
+                           [formControlName]="i">
           </post-form-input>
         </div>
         <button md-tooltip="Remove embeddable content"

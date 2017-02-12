@@ -61,16 +61,19 @@ export class PostFormInputComponent implements ControlValueAccessor, OnInit {
   // Form ControlValueAccessor interface
   writeValue(value: any) {
     if (value !== this._innerValue) {
+      if (value !== undefined || value !== '') {
+        this.fillerInputDisplay = false;
+      }
       this._innerValue = value;
     }
   }
 
   //Form ControlValueAccessor interface
   registerOnChange(fn: any) {
-      this.onChangeCallback = fn;
       if (this._innerValue == '') {
         this.fillerInputDisplay = true;
       }
+      this.onChangeCallback = fn;
   }
 
   // Form ControlValueAccessor interface

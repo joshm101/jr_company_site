@@ -1,6 +1,6 @@
 <div class="interface-wrap" (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
-  <md-toolbar  color="primary">
-    <span>Interface</span>
+  <md-toolbar class="interface-toolbar"  color="primary">
+    <span>Manage Site Content</span>
   </md-toolbar>
 
   <md-tab-group color="primary">
@@ -10,7 +10,7 @@
           <div class="loading-wrap-interface" [hidden]="!isLoading" [ngStyle]="{ 'height': screenHeight + 'px' }">
             <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
           </div>
-          <div class="interface-content-wrap" [hidden]="isLoading">
+          <div class="interface-content-wrap" [hidden]="isLoading" [@interfaceState]="animationState">
             <post-form (focused)="focusEvent($event)"
                        (startLoad)="handleSubmission()"
                        (doneLoad)="submissionFinished()"

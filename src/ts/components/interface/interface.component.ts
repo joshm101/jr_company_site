@@ -1,5 +1,5 @@
-import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, trigger, transition, style, state, animate, AfterViewInit } from '@angular/core';
+import { MdDialog, MdDialogRef, MdTabHeader } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/rx';
 
@@ -10,6 +10,16 @@ import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-
 
 @Component({
   selector: 'interface-root',
+  animations: [
+    trigger(
+      'interfaceState', [
+        state('inactive', style({opacity: 0})),
+        state('active', style({opacity: 1})),
+        transition('inactive => active', animate('300ms ease-in')),
+        transition('active => inactive', animate('300ms ease-out'))
+      ]
+    )
+  ],
   templateUrl: 'ts/components/interface/interface.component.html'
 })
 export class InterfaceRootComponent implements OnInit {
@@ -20,6 +30,7 @@ export class InterfaceRootComponent implements OnInit {
     public dialog: MdDialog
   ) {
     this.isLoading = true;
+    this.animationState = "inactive";
     this.embedPostService.getAll().filter(Boolean).subscribe(
       (posts) => {
         // once we have our posts,
@@ -27,6 +38,7 @@ export class InterfaceRootComponent implements OnInit {
         // loading all of the thumbnail
         // images, so show loading spinner
         this.isLoading = true;
+        this.animationState = "inactive";
         this.embedPosts = posts;
         this.numPosts = posts.length;
 
@@ -34,11 +46,11 @@ export class InterfaceRootComponent implements OnInit {
         // don't show spinner
         if (this.numPosts === 0) {
           this.isLoading = false;
+          this.animationState = "active";
         }
       }
     );
   }
-
   dialogRef: MdDialogRef<PostFormDialogComponent>;
 
   removePost(id: string) {
@@ -49,10 +61,12 @@ export class InterfaceRootComponent implements OnInit {
         // as one has been deleted.
         this.numPostsLoaded--;
         this.isLoading = false;
+        this.animationState = "active";
       },
       (error) => {
         console.error(error);
         this.isLoading = false;
+        this.animationState = "active";
       }
     );
   }
@@ -60,7 +74,7 @@ export class InterfaceRootComponent implements OnInit {
   editPost(post: EmbedPost) {
 
     this.dialogRef = this.dialog.open(PostFormDialogComponent, {
-      width: "65%",
+      width: this.screenWidth < 760 ? "95%" : "65%",
       disableClose: true,
     });
     this.dialogRef.componentInstance.newEmbedPost = post;
@@ -82,6 +96,7 @@ export class InterfaceRootComponent implements OnInit {
     // get current height of screen
     this.screenHeight = this.elementRef.nativeElement.ownerDocument.body.clientHeight;
     this.isLoading = true;
+    this.animationState = "inactive";
   }
 
   submissionFinished() {
@@ -91,6 +106,7 @@ export class InterfaceRootComponent implements OnInit {
 
   submissionFinishedWithError() {
     this.isLoading = false;
+    this.animationState = "active";
     alert("There was an error while processing the request. Please refresh and try again.")
   }
 
@@ -102,6 +118,7 @@ export class InterfaceRootComponent implements OnInit {
     this.numPostsLoaded++;
     if (this.numPostsLoaded === this.numPosts) {
       this.isLoading = false;
+      this.animationState = "active";
     }
   }
 
@@ -151,4 +168,6 @@ export class InterfaceRootComponent implements OnInit {
   isLoading: boolean;
   numPosts: number;
   numPostsLoaded: number = 0;
+  animationState: string;
+  applyToolbarShadow: boolean;
 }

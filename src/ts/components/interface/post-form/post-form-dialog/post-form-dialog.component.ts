@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { MdButton } from '@angular/material';
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 
 import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
@@ -121,12 +121,21 @@ export class PostFormDialogComponent implements OnInit {
     event.preventDefault();
     this.newEmbedPost = new EmbedPost();
     if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
+
+    // extract information from our form model
     this.embedPostEdit.title = this.addPostForm.value.title;
     this.embedPostEdit.description = this.addPostForm.value.description;
     this.embedPostEdit.thumbnailIndex = this.addPostForm.value.thumbnailIndex;
     if (!this.images[this.embedPostEdit.thumbnailIndex]) {
       this.embedPostEdit.thumbnailIndex = 0;
     }
+    this.embedPostEdit.embedContent = [];
+    this.addPostForm.value.embedContent.forEach((item: string) => {
+      // don't save empty fields
+      if (item !== undefined && item !== '') {
+        this.embedPostEdit.embedContent.push(item)
+      }
+    });
     this.embedPostEdit.images = this.images.filter(image => !regex.test(image));
     console.log("this.embedPostEdit: ", this.embedPostEdit);
     // Includes image uploading
@@ -148,8 +157,9 @@ export class PostFormDialogComponent implements OnInit {
   // form. We begin by initializing
   // one embedContent field.
   initEmbedContent(val?: string) {
-    return this._fb.group({
-      embedItem: [val]
+    console.log("val is: ", val);
+    return new FormGroup({
+      'embedItem': new FormControl(val)
     });
   }
 
@@ -157,7 +167,7 @@ export class PostFormDialogComponent implements OnInit {
   // to the form model
   addEmbedContent() {
     const control = <FormArray>this.addPostForm.controls['embedContent'];
-    control.push(this.initEmbedContent());
+    control.push(new FormControl(''));
   }
 
   // remove the specified embed
@@ -177,20 +187,28 @@ export class PostFormDialogComponent implements OnInit {
     if (!this.embedPostEdit.embedContent) {
       this.embedPostEdit.embedContent = [];
     }
-    // initialize the form
+    // Form initialization
+
+    // Populate the form fields for array of iframe strings
+    this.embedContentFormArray = this._fb.array([]);
+    this.embedPostEdit.embedContent.forEach((content: string, index: number) => {
+      this.embedContentFormArray.controls.push(
+        new FormControl(this.embedPostEdit.embedContent[index])
+      );
+    });
+
+    // initialize the form model with preexisting values
     this.addPostForm = this._fb.group({
       title: [this.embedPostEdit.title, [Validators.required]],
       description: [this.embedPostEdit.description],
-      embedContent: this._fb.array([
-        this.initEmbedContent()
-      ]),
+      embedContent: this.embedContentFormArray,
       thumbnailIndex: [this.embedPostEdit.thumbnailIndex]
     });
+
+    // set the images for the post to edit for viewing.
     this.embedPostEdit.images.forEach((image: string) => {
       this.images.push((' ' + image).slice(1));
     });
-
-    console.log("this.newEmbedPost: ", this.newEmbedPost);
   }
 
   addPostForm: FormGroup;
@@ -201,6 +219,7 @@ export class PostFormDialogComponent implements OnInit {
   descFocus: boolean = false;
   newEmbedPost: EmbedPost;
   embedPostEdit: EmbedPost;
+  embedContentFormArray: FormArray;
   inputMode = InputModeEnum;
   thumbnailIndex: number = 0;
   url: any;
