@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ContentTypeEnum } from '../../../enums/content-type.enum';
 
 @Component({
   selector: 'interface-root',
@@ -10,11 +11,13 @@ export class InterfaceRootComponent implements AfterViewInit {
     this.tabLinks = [
       {
         label: 'Music',
-        path: 'music'
+        path: 'music',
+        contentType: ContentTypeEnum.Music
       },
       {
         label: 'Field Recordings',
-        path: 'field-recordings'
+        path: 'field-recordings',
+        contentType: ContentTypeEnum.FieldRecordings
       }
     ];
     this.activeLinkIndex = 0;
@@ -27,5 +30,7 @@ export class InterfaceRootComponent implements AfterViewInit {
   rlaSafe: boolean;
   activeLinkIndex: number;
   tabLinks: any[];
+
+  ContentTypeEnum = ContentTypeEnum;
 }
 

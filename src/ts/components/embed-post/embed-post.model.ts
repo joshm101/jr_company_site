@@ -17,5 +17,6 @@ export class EmbedPost extends AppModel {
   public imagesId:  string;
   public images: string[];
   public thumbnailIndex: number;
+  public contentType: number;
   public _id: string;
 }

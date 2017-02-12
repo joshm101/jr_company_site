@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
@@ -20,6 +21,7 @@ export class PostFormComponent implements OnInit {
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
     protected sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
     private _fb: FormBuilder
   ) {
     this.formHidden = true;
@@ -27,6 +29,11 @@ export class PostFormComponent implements OnInit {
     this.uploader = this.embedPostService.getUploaderInstance();
     this.startLoad = new EventEmitter<boolean>();
     this.doneLoad = new EventEmitter<boolean>();
+    this.route.params.filter(Boolean).subscribe(
+      (params) => {
+        this.contentType = params['contentType'];
+      }
+    )
   }
 
 
@@ -122,7 +129,9 @@ export class PostFormComponent implements OnInit {
     // want the default refresh action
     event.preventDefault();
     this.startLoad.emit();
-    this.newEmbedPost = new EmbedPost();
+    this.newEmbedPost = new EmbedPost({
+      contentType: this.contentType
+    });
     if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
 
     Object.assign(
@@ -145,6 +154,7 @@ export class PostFormComponent implements OnInit {
     // Includes image uploading
     this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
       (items: EmbedPost[]) => {
+        console.log("items sub fire create: ", items);
         //this.doneLoad.emit(true);
         this.initializeForm();
         this.embedPostService.initializeUploaderInstance();
@@ -227,4 +237,5 @@ export class PostFormComponent implements OnInit {
   url: any;
   isLoading: boolean;
   currentHeight: number;
+  contentType: number;
 }

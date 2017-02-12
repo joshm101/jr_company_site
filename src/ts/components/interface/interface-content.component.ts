@@ -1,4 +1,5 @@
 import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, trigger, transition, style, state, animate, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef, MdTabHeader } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/rx';
@@ -27,18 +28,31 @@ export class InterfaceContentComponent implements OnInit {
     protected elementRef: ElementRef,
     protected embedPostService: EmbedPostService,
     protected sanitizer: DomSanitizer,
-    public dialog: MdDialog
+    public dialog: MdDialog,
+    private route: ActivatedRoute
   ) {
     this.isLoading = true;
     this.animationState = "inactive";
-    this.embedPostService.getAll().filter(Boolean).subscribe(
-      (posts) => {
+
+    this.route.params.filter(Boolean).subscribe(
+      (params) => {
+        this.contentType = parseInt(params['contentType']);
+        this.embedPostService.contentType = parseInt(params['contentType']);
+      }
+    );
+
+
+    /* Posts displayed depend on route params */
+    Observable.combineLatest(
+      this.route.params,
+      this.embedPostService.getAll()
+    ).subscribe(
+      ([params, posts]) => {
         // once we have our posts,
         // we begin the process of
         // loading all of the thumbnail
         // images, so show loading spinner
         this.isLoading = true;
-        this.animationState = "inactive";
         this.embedPosts = posts;
         this.numPosts = posts.length;
 
@@ -49,9 +63,14 @@ export class InterfaceContentComponent implements OnInit {
           this.animationState = "active";
         }
       }
-    );
+    )
   }
   dialogRef: MdDialogRef<PostFormDialogComponent>;
+
+
+  ngOnInit() {
+    this.calculateColumns();
+  }
 
   removePost(id: string) {
     this.embedPostService.delete(id).subscribe(
@@ -122,10 +141,6 @@ export class InterfaceContentComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.calculateColumns();
-  }
-
   // hook into the resize event and check the width of the page/document,
   // setting the number of columns in our grid list as appropriate
   onResize(event: Event) {
@@ -169,5 +184,6 @@ export class InterfaceContentComponent implements OnInit {
   numPosts: number;
   numPostsLoaded: number = 0;
   animationState: string;
+  contentType: number;
   applyToolbarShadow: boolean;
 }

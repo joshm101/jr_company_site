@@ -17,6 +17,7 @@ export class IndexRootComponent implements OnDestroy {
   ) {
     this.subscriptions = [];
     this.isLoading = true;
+    /*
     this.subscriptions.push(
       this.embedPostService.getAll().filter(Boolean).take(1).subscribe(
         posts => {
@@ -32,7 +33,7 @@ export class IndexRootComponent implements OnDestroy {
           console.log(error);
         }
       )
-    );
+    ); */
   }
 
   isLoading: boolean;

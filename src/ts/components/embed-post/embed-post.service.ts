@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/rx';
@@ -11,7 +12,11 @@ import { FileUploader } from 'ng2-file-upload';
 export class EmbedPostService extends AppService<EmbedPost> {
 
   public uploader: FileUploader;
-  constructor(protected http: Http, protected sanitizer: DomSanitizer) {
+  constructor(
+    protected http: Http,
+    protected sanitizer: DomSanitizer,
+    private route: ActivatedRoute
+  ) {
     super(http);
     this.uploader = new FileUploader({
       url: "http://localhost:3000/api/upload"
@@ -19,18 +24,24 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   public new(data?: any) {
-    console.log("data: ", data);
     return new EmbedPost(data);
   }
 
   getAll(): Observable<EmbedPost[]> {
-    return super.getAll().distinctUntilChanged().map((posts: EmbedPost[]) => {
-      posts.forEach((post) => {
-        post.embedContentSafe = [];
-      });
-      posts.forEach(post => this.createSafeHtml(post));
-      return posts;
-    })
+    if (this.contentType || this.contentType === 0) {
+      return super.getAll().map((posts: EmbedPost[]) => {
+        return posts.filter(post => post.contentType == this.contentType);
+      }).map(posts => {
+        posts.forEach((post) => {
+          post.embedContentSafe = [];
+        });
+        posts.forEach(post => this.createSafeHtml(post));
+        return posts;
+      })
+    } else {
+      return Observable.of([]);
+    }
+
   }
 
   update(body: EmbedPost): Observable<EmbedPost> {
@@ -73,7 +84,6 @@ export class EmbedPostService extends AppService<EmbedPost> {
       if (this.uploader.queue.length > 0) {
         return this.uploadImages(this.newlyCreatedItem.imagesId)
           .map((returnedPost: EmbedPost): EmbedPost[] => {
-            console.log('posts: ', posts);
             posts.forEach(post => {
               if (post.imagesId === returnedPost.imagesId) {
                 // update the recently created post's images
@@ -135,6 +145,16 @@ export class EmbedPostService extends AppService<EmbedPost> {
   get uploadRequestInFlight() {
     return this._uploadRequestInFlight;
   }
+
+  set contentType(val: number) {
+    this._contentType = val;
+  }
+
+  get contentType() {
+    return this._contentType;
+  }
+
+  private _contentType:  number;
 
   private _uploadRequestInFlight: boolean;
 }
