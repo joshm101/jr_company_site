@@ -1,0 +1,28 @@
+<div class="interface-wrap">
+  <md-toolbar class="interface-toolbar"  color="primary">
+    <span>Manage Site Content</span>
+  </md-toolbar>
+
+  <nav md-tab-nav-bar color="primary">
+    <a md-tab-link
+       *ngFor="let link of tabLinks; let i = index"
+       [routerLink]="link.path"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rlaSafe && activeLinkIndex === i"
+       (click)="activeLinkIndex = i"
+       #musicTab>
+      {{ link.label }}
+    </a>
+    <!--
+    <a md-tab-link
+       #aboutTab label="About">
+      <interface-content></interface-content>
+    </a>-->
+  </nav>
+  <div style="padding-top: 150px !important;">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+
+

@@ -13,7 +13,8 @@ import { EmbedPostComponent } from './components/embed-post/embed-post.component
 import { EmbedPost } from './components/embed-post/embed-post.model';
 import { EmbedPostService } from './components/embed-post/embed-post.service';
 import { IndexRootComponent } from './components/index/index.component';
-import { InterfaceRootComponent } from './components/interface/interface.component';
+import { InterfaceRootComponent } from './components/interface/root/interface-root.component';
+import { InterfaceContentComponent } from './components/interface/interface-content.component';
 import { PostFormComponent } from './components/interface/post-form/post-form.component';
 import { PostFormInputComponent } from './components/interface/post-form/input/post-form-input.component';
 import { JDialogComponent } from './components/j-dialog/j-dialog.component';
@@ -26,7 +27,13 @@ import { FocusedFormDirective } from './directives/focused-form.directive';
 import 'hammerjs';
 
 const appRoutes: Routes = [
-  { path: 'interface', component: InterfaceRootComponent },
+  { path: 'interface',
+    component: InterfaceRootComponent,
+    children: [
+      { path: 'music', component: InterfaceContentComponent },
+      { path: 'field-recordings', component: InterfaceContentComponent }
+    ]
+  },
   { path: '', component: IndexRootComponent }
 ];
 
@@ -46,6 +53,7 @@ const appRoutes: Routes = [
     EmbedPostComponent,
     IndexRootComponent,
     InterfaceRootComponent,
+    InterfaceContentComponent,
     PostFormComponent,
     PostFormInputComponent,
     JDialogComponent,

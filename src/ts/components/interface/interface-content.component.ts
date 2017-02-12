@@ -9,7 +9,7 @@ import { JDialogComponent } from '../j-dialog/j-dialog.component';
 import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-dialog.component';
 
 @Component({
-  selector: 'interface-root',
+  selector: 'interface-content',
   animations: [
     trigger(
       'interfaceState', [
@@ -20,9 +20,9 @@ import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-
       ]
     )
   ],
-  templateUrl: 'ts/components/interface/interface.component.html'
+  templateUrl: 'ts/components/interface/interface-content.component.html'
 })
-export class InterfaceRootComponent implements OnInit {
+export class InterfaceContentComponent implements OnInit {
   constructor(
     protected elementRef: ElementRef,
     protected embedPostService: EmbedPostService,
