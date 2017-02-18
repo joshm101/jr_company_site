@@ -34,7 +34,9 @@ const appRoutes: Routes = [
     component: InterfaceRootComponent,
     children: [
       { path: 'music', component: InterfaceContentComponent },
-      { path: 'field-recordings', component: InterfaceContentComponent }
+      { path: 'field-recordings', component: InterfaceContentComponent },
+      { path: 'film', component: InterfaceContentComponent },
+      { path: 'other', component: InterfaceContentComponent }
     ]
   },
   { path: '', component: IndexRootComponent }

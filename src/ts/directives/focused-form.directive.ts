@@ -33,7 +33,7 @@ export class FocusedFormDirective implements AfterViewInit {
   }
 
 
-  @HostListener('click', ['$event'])
+  @HostListener('mousedown', ['$event'])
   onClick(event: any) {
     if (this.addPostElement.contains(event.target)) {
       // the click happened inside of the add post

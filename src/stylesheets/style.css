@@ -39,12 +39,39 @@ md-sidenav {
 
 }
 
+[md-tab-nav-bar] {
+  overflow-x: auto !important;
+}
+
 md-dialog-container {
   max-width: 95vw !important;
 }
 @media (max-width: 600px) {
   md-tab-header {
     margin-top: 56px !important;
+  }
+  [md-tab-link] {
+    min-width: 100px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  [md-tab-link] {
+    min-width: 105px !important;
+  }
+}
+
+@media (max-width: 325px) {
+  [md-tab-link] {
+    min-width: 90px !important;
+  }
+}
+
+
+
+@media (min-width: 500px) {
+  [md-tab-link] {
+    min-width: 110px !important;
   }
 }
 

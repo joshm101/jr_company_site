@@ -15,9 +15,23 @@ export class InterfaceRootComponent implements AfterViewInit {
         contentType: ContentTypeEnum.Music
       },
       {
-        label: 'Field Recordings',
+        label: 'Field Rec.',
         path: 'field-recordings',
         contentType: ContentTypeEnum.FieldRecordings
+      },
+      {
+        label: 'Film',
+        path: 'film',
+        contentType: ContentTypeEnum.Film
+      },
+      {
+        label: 'Other',
+        path: 'other',
+        contentType: ContentTypeEnum.Eng
+      },
+      {
+        label: 'About',
+        path: 'about'
       }
     ];
     this.activeLinkIndex = 0;
