@@ -100,6 +100,20 @@ export abstract class AppService<Model extends AppModel> {
       });
   }
 
+  protected updateDataStore(body: AppModel) {
+    this.editedItem = this.new(body);
+    this.dataStore.items.forEach((item, index) => {
+      if (item._id === this.editedItem._id) {
+        this.dataStore.items[index] = this.editedItem;
+      }
+    });
+    this._items.next(
+      Object.assign(
+        {},
+        this.dataStore
+      ).items);
+  }
+
   // POST newly created item
   create(body: AppModel): Observable<Model[]> {
     return this.http.post('api/' + this.getResource(), body)

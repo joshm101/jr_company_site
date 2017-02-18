@@ -1,36 +1,33 @@
-import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
-import { MdButton } from '@angular/material';
+import { MdButton, MdSnackBar } from '@angular/material';
 import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
 import { InputModeEnum } from '../../../../enums/input-mode.enum';
+import { ContentLoadService } from '../../../../external_services/content-load/content-load-service';
 
-/**
- * This component acts as our main form
- * for posts on the interface
- *
- */
 @Component({
   selector: 'post-form-dialog',
   templateUrl: 'ts/components/interface/post-form/post-form-dialog/post-form-dialog.component.html'
 })
-export class PostFormDialogComponent implements OnInit {
+export class PostFormDialogComponent implements OnInit, OnDestroy {
   constructor(
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
     protected sanitizer: DomSanitizer,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private contentLoadService: ContentLoadService,
+    private snackBar: MdSnackBar
   ) {
     this.formHidden = true;
+    this.subscriptions = [];
     this.doneClick = new EventEmitter<boolean>();
     this.embedPostService.initializeUploaderInstance();
     this.uploader = this.embedPostService.getUploaderInstance();
-
   }
-
-
 
   @Input() focused: boolean;
   @Output() doneClick: EventEmitter<boolean>;
@@ -40,9 +37,41 @@ export class PostFormDialogComponent implements OnInit {
   safeImages: any[];
   images: any[];
 
+  ngOnInit() {
+    this.images = [];
+    this.safeImages = [];
+    this.contentLoadService.removeContentToTrack(this.postToEdit);
+    this.embedPostEdit = this.embedPostService.new(this.postToEdit);
+    console.log(this.embedPostEdit);
+    if (!this.embedPostEdit.embedContent) {
+      this.embedPostEdit.embedContent = [];
+    }
+    // Form initialization
+
+    // Populate the form fields for array of iframe strings
+    this.embedContentFormArray = this._fb.array([]);
+    this.embedPostEdit.embedContent.forEach((content: string, index: number) => {
+      this.embedContentFormArray.controls.push(
+        new FormControl(this.embedPostEdit.embedContent[index])
+      );
+    });
+
+    // initialize the form model with preexisting values
+    this.addPostForm = this._fb.group({
+      title: [this.embedPostEdit.title, [Validators.required]],
+      description: [this.embedPostEdit.description],
+      embedContent: this.embedContentFormArray,
+      thumbnailIndex: [this.embedPostEdit.thumbnailIndex]
+    });
+
+    // set the images for the post to edit for viewing.
+    this.embedPostEdit.images.forEach((image: string) => {
+      this.images.push((' ' + image).slice(1));
+    });
+  }
+
   handleFileSelection(input: any) {
     let reader = new FileReader();
-
     reader.onload = (e: any) => {
       this.url = e.target.result;
       this.images.push(this.url);
@@ -119,7 +148,6 @@ export class PostFormDialogComponent implements OnInit {
     // if the form errors out, we do not
     // want the default refresh action
     event.preventDefault();
-    this.newEmbedPost = new EmbedPost();
     if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
 
     // extract information from our form model
@@ -138,15 +166,25 @@ export class PostFormDialogComponent implements OnInit {
     });
     this.embedPostEdit.images = this.images.filter(image => !regex.test(image));
     console.log("this.embedPostEdit: ", this.embedPostEdit);
+    this.embedPostService.requestInFlight = true;
+    this.close._getHostElement().click();
     // Includes image uploading
-    this.embedPostService.update(this.embedPostEdit).take(1).subscribe(
-      (item: EmbedPost) => {
-        console.log("this.close: ", this.close);
-        this.close._getHostElement().click();
-      },
-      (error) => {
-        console.error(error);
-      }
+    this.subscriptions.push(
+      this.embedPostService.update(this.embedPostEdit).subscribe(
+        (item: EmbedPost) => {
+          this.contentLoadService.contentNeedsLoading(item);
+        },
+        (error) => {
+          this.snackBar.open("Error. Check your connection & try again.", "", { duration: 5000 });
+          console.error(error);
+
+          // notify that an error has occurred
+          // so that the interface can be properly
+          // notified to handle the error accordingly
+          this.embedPostService.notifyError();
+          this.embedPostService.requestInFlight = false;
+        }
+      )
     );
 
   }
@@ -157,7 +195,6 @@ export class PostFormDialogComponent implements OnInit {
   // form. We begin by initializing
   // one embedContent field.
   initEmbedContent(val?: string) {
-    console.log("val is: ", val);
     return new FormGroup({
       'embedItem': new FormControl(val)
     });
@@ -179,51 +216,24 @@ export class PostFormDialogComponent implements OnInit {
     control.removeAt(i);
   }
 
-  ngOnInit() {
-    this.images = [];
-    this.safeImages = [];
-    this.embedPostEdit = this.embedPostService.new(this.newEmbedPost);
-    console.log(this.embedPostEdit);
-    if (!this.embedPostEdit.embedContent) {
-      this.embedPostEdit.embedContent = [];
-    }
-    // Form initialization
-
-    // Populate the form fields for array of iframe strings
-    this.embedContentFormArray = this._fb.array([]);
-    this.embedPostEdit.embedContent.forEach((content: string, index: number) => {
-      this.embedContentFormArray.controls.push(
-        new FormControl(this.embedPostEdit.embedContent[index])
-      );
-    });
-
-    // initialize the form model with preexisting values
-    this.addPostForm = this._fb.group({
-      title: [this.embedPostEdit.title, [Validators.required]],
-      description: [this.embedPostEdit.description],
-      embedContent: this.embedContentFormArray,
-      thumbnailIndex: [this.embedPostEdit.thumbnailIndex]
-    });
-
-    // set the images for the post to edit for viewing.
-    this.embedPostEdit.images.forEach((image: string) => {
-      this.images.push((' ' + image).slice(1));
-    });
-  }
-
   addPostForm: FormGroup;
   formHidden: boolean = true;
   imageButtonFocus: boolean = false;
   cardFocus: boolean = false;
   titleFocus: boolean = false;
   descFocus: boolean = false;
-  newEmbedPost: EmbedPost;
+  postToEdit: EmbedPost;
   embedPostEdit: EmbedPost;
   embedContentFormArray: FormArray;
   inputMode = InputModeEnum;
   thumbnailIndex: number = 0;
   url: any;
+  subscriptions: Subscription[];
 
-
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    })
+  }
 }
 

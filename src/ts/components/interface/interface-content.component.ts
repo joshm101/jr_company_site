@@ -1,6 +1,6 @@
-import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, trigger, transition, style, state, animate, AfterViewInit } from '@angular/core';
+import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, trigger, transition, style, state, animate, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef, MdTabHeader } from '@angular/material';
+import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/rx';
 
@@ -8,6 +8,7 @@ import { EmbedPost, EmbedPostService } from '../embed-post/embed-post.index';
 import { PostFormComponent } from './post-form/post-form.component';
 import { JDialogComponent } from '../j-dialog/j-dialog.component';
 import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-dialog.component';
+import { ContentLoadService } from '../../external_services/content-load/content-load-service';
 
 @Component({
   selector: 'interface-content',
@@ -21,26 +22,43 @@ import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-
       ]
     )
   ],
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'ts/components/interface/interface-content.component.html'
 })
-export class InterfaceContentComponent implements OnInit {
+export class InterfaceContentComponent implements OnInit, OnDestroy {
   constructor(
     protected elementRef: ElementRef,
     protected embedPostService: EmbedPostService,
     protected sanitizer: DomSanitizer,
     public dialog: MdDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private contentLoadService: ContentLoadService,
+    private snackBar: MdSnackBar
   ) {
     this.isLoading = true;
     this.animationState = "inactive";
-
+    this.doneLoadingContent = false;
     this.route.params.filter(Boolean).subscribe(
       (params) => {
         this.contentType = parseInt(params['contentType']);
         this.embedPostService.contentType = parseInt(params['contentType']);
       }
     );
-
+    this.embedPostService.editErrorOccurred$.subscribe(
+      (result) => {
+        if (result === true) {
+          this.doneLoadingContent = true;
+        }
+      }
+    );
+    this.contentLoadService.doneLoading$.subscribe(
+      (result) => {
+        this.doneLoadingContent = result;
+        if (this.doneLoadingContent) {
+          this.animationState = 'active';
+        }
+      }
+    );
 
     /* Posts displayed depend on route params */
     Observable.combineLatest(
@@ -48,6 +66,13 @@ export class InterfaceContentComponent implements OnInit {
       this.embedPostService.getAll()
     ).subscribe(
       ([params, posts]) => {
+
+        // check if the service has not yet
+        // had posts set (first getAll()) and
+        // set if posts haven't been set.
+        if (!this.contentLoadService.contentBeingTracked()) {
+          this.contentLoadService.setPostMap(posts);
+        }
         // once we have our posts,
         // we begin the process of
         // loading all of the thumbnail
@@ -55,13 +80,6 @@ export class InterfaceContentComponent implements OnInit {
         this.isLoading = true;
         this.embedPosts = posts;
         this.numPosts = posts.length;
-
-        // no posts to load,
-        // don't show spinner
-        if (this.numPosts === 0) {
-          this.isLoading = false;
-          this.animationState = "active";
-        }
       }
     )
   }
@@ -96,9 +114,17 @@ export class InterfaceContentComponent implements OnInit {
       width: this.screenWidth < 760 ? "95%" : "65%",
       disableClose: true,
     });
-    this.dialogRef.componentInstance.newEmbedPost = post;
+    this.dialogRef.componentInstance.postToEdit = post;
     this.dialogRef.afterClosed().subscribe(result => {
       this.dialogRef = null;
+
+      // We don't want to hide content when cancel button
+      // in edit form was clicked
+      if (this.embedPostService.requestInFlight) {
+        this.animationState = "inactive";
+      } else {
+        this.doneLoadingContent = true;
+      }
     });
   }
 
@@ -119,14 +145,15 @@ export class InterfaceContentComponent implements OnInit {
   }
 
   submissionFinished() {
-    console.log("submission finished");
     //this.isLoading = false;
+    console.log("successful submission");
   }
 
   submissionFinishedWithError() {
     this.isLoading = false;
+    console.log("submissionfinishedwitherror()");
     this.animationState = "active";
-    alert("There was an error while processing the request. Please refresh and try again.")
+    this.snackBar.open("Error. Check your connection & try again.", "", { duration: 5000 });
   }
 
   postTrackBy(index: number, item: EmbedPost) {
@@ -137,7 +164,6 @@ export class InterfaceContentComponent implements OnInit {
     this.numPostsLoaded++;
     if (this.numPostsLoaded === this.numPosts) {
       this.isLoading = false;
-      this.animationState = "active";
     }
   }
 
@@ -185,5 +211,11 @@ export class InterfaceContentComponent implements OnInit {
   numPostsLoaded: number = 0;
   animationState: string;
   contentType: number;
+  doneLoadingContent$: Observable<boolean>;
+  doneLoadingContent: boolean;
   applyToolbarShadow: boolean;
+
+  ngOnDestroy() {
+    this.contentLoadService.removeAllTrackedContent();
+  }
 }

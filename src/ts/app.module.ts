@@ -21,6 +21,9 @@ import { JDialogComponent } from './components/j-dialog/j-dialog.component';
 import { PostFormDialogComponent } from './components/interface/post-form/post-form-dialog/post-form-dialog.component';
 import { PostFormImagePreviewComponent } from './components/interface/post-form/image-preview/post-form-image-preview.component';
 
+// external services
+import { ContentLoadService } from './external_services/content-load/content-load-service';
+
 // directives
 import { FocusedFormDirective } from './directives/focused-form.directive';
 
@@ -68,7 +71,8 @@ const appRoutes: Routes = [
     PostFormDialogComponent
   ],
   providers: [
-    EmbedPostService
+    EmbedPostService,
+    ContentLoadService
   ],
   bootstrap: [AppRoot]
 })

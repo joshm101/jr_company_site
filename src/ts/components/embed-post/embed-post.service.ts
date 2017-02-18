@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/rx';
+import { Observable, Subject } from 'rxjs/rx';
 
 import { EmbedPost } from './embed-post.model';
 import { AppService } from '../app.service';
 import { FileUploader } from 'ng2-file-upload';
+import { ContentLoadService } from '../../external_services/content-load/content-load-service';
 
 @Injectable()
 export class EmbedPostService extends AppService<EmbedPost> {
@@ -15,12 +16,18 @@ export class EmbedPostService extends AppService<EmbedPost> {
   constructor(
     protected http: Http,
     protected sanitizer: DomSanitizer,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private contentLoadService: ContentLoadService
   ) {
     super(http);
     this.uploader = new FileUploader({
       url: "http://localhost:3000/api/upload"
     });
+    this._requestInFlight = false;
+    this.editErrorArbiter = new Subject<boolean>();
+    this.editErrorOccurred$ = this.editErrorArbiter.asObservable();
+    this.editErrorArbiter.next(false);
+
   }
 
   public new(data?: any) {
@@ -28,10 +35,12 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   getAll(): Observable<EmbedPost[]> {
+    this._requestInFlight = true;
     if (this.contentType || this.contentType === 0) {
       return super.getAll().map((posts: EmbedPost[]) => {
         return posts.filter(post => post.contentType == this.contentType);
       }).map(posts => {
+        this._requestInFlight = false;
         posts.forEach((post) => {
           post.embedContentSafe = [];
         });
@@ -39,31 +48,39 @@ export class EmbedPostService extends AppService<EmbedPost> {
         return posts;
       })
     } else {
+      this._requestInFlight = false;
       return Observable.of([]);
     }
 
   }
 
   update(body: EmbedPost): Observable<EmbedPost> {
+    this._requestInFlight = true;
     return super.update(body).switchMap((post: EmbedPost) => {
       // Mark all of the iframes as safe html
       this.createSafeHtml(post);
+      this.contentLoadService.contentNeedsLoading(post);
       if (this.uploader.queue.length > 0) {
         return this.uploadImages(post.imagesId)
-          .map(returnedPost => Object.assign(
-            post,
-            {
-              images: returnedPost.images
-            }
-          ));
+          .map(returnedPost => {
+            this._requestInFlight = false;
+            return Object.assign(
+                post,
+                {
+                  images: returnedPost.images
+                }
+              );
+          });
       } else {
+        // this.contentLoadService.contentNeedsLoading(post);
+        this._requestInFlight = false;
         return Observable.of(post);
       }
     });
   }
 
   create(post: EmbedPost): Observable<EmbedPost[]> {
-
+    this._requestInFlight = true;
     // our service super class handles almost all of the
     // creation logic, but EmbedPosts in particular have
     // the field embedContent which is an array of iframes.
@@ -71,6 +88,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return super.create(post).switchMap((posts: EmbedPost[]) => {
       let i = posts.length - 1;
       let post: EmbedPost = posts[i];
+      this.contentLoadService.contentNeedsLoading(post);
 
       // Mark all of the iframes as safe html
       this.createSafeHtml(post);
@@ -85,6 +103,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
         return this.uploadImages(this.newlyCreatedItem.imagesId)
           .map((returnedPost: EmbedPost): EmbedPost[] => {
             posts.forEach(post => {
+              this._requestInFlight = false;
               if (post.imagesId === returnedPost.imagesId) {
                 // update the recently created post's images
                 // array to contain the paths of images uploaded
@@ -95,6 +114,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
             return posts;
           });
       } else {
+        this._requestInFlight = false;
         // no images uploaded.
         return Observable.of(posts);
       }
@@ -146,6 +166,14 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return this._uploadRequestInFlight;
   }
 
+  set requestInFlight(val: boolean) {
+    this._requestInFlight = val;
+  }
+
+  get requestInFlight() {
+    return this._requestInFlight;
+  }
+
   set contentType(val: number) {
     this._contentType = val;
   }
@@ -154,7 +182,15 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return this._contentType;
   }
 
+  notifyError() {
+    this.editErrorArbiter.next(true);
+    this.editErrorArbiter.next(false);
+  }
+
+  editErrorOccurred$: Observable<boolean>;
+  private editErrorArbiter: Subject<boolean>;
   private _contentType:  number;
 
   private _uploadRequestInFlight: boolean;
+  private _requestInFlight: boolean;
 }

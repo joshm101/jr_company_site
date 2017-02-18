@@ -1,12 +1,12 @@
 <div (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
-  <div class="loading-wrap-interface" [hidden]="!isLoading" [ngStyle]="{ 'height': screenHeight + 'px' }">
+  <div class="loading-wrap-interface" *ngIf="doneLoadingContent === false" >
     <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
   </div>
-  <div class="interface-content-wrap" [hidden]="isLoading" [@interfaceState]="animationState">
+  <div class="interface-content-wrap" [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
     <post-form (focused)="focusEvent($event)"
                (startLoad)="handleSubmission()"
                (doneLoad)="submissionFinished()"
-               (doneloaderror)="submissionFinishedWithError()"
+               (doneLoadError)="submissionFinishedWithError()"
                (doneClick)="formDone()"
                [focused]="focusForm"
                tabindex="0"
@@ -23,7 +23,7 @@
     <div class="grid-list-wrap">
 
       <md-grid-list  [cols]="cols" rowHeight="450px">
-        <md-grid-tile *ngFor="let post of embedPosts; trackBy: postTrackBy">
+        <md-grid-tile *ngFor="let post of embedPosts;">
           <embed-post [post]="post"
                       (doneLoading)="postDoneLoading()">
             <button type="button"

@@ -3,6 +3,7 @@ import { Observable, Subscription } from 'rxjs/rx';
 
 import { EmbedPost } from './embed-post.model';
 import { EmbedPostService } from './embed-post.service';
+import { ContentLoadService } from '../../external_services/content-load/content-load-service';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { EmbedPostService } from './embed-post.service';
 })
 export class EmbedPostComponent implements OnInit {
   constructor(
-    protected embedPostService: EmbedPostService
+    protected embedPostService: EmbedPostService,
+    private contentLoadService: ContentLoadService
   ) {
     this.doneLoading = new EventEmitter<boolean>();
 
@@ -25,11 +27,15 @@ export class EmbedPostComponent implements OnInit {
     // when the upload request has finished, so
     // not done loading until upload is finished and
     // thumbnail is rendered.
-    if (this.post.images.length === 0 && !this.embedPostService.uploadRequestInFlight) this.doneLoading.emit(true);
+    if (this.post.images.length === 0 && !this.embedPostService.uploadRequestInFlight) {
+      this.doneLoading.emit(true);
+      this.contentLoadService.contentLoadingDone(this.post);
+    }
   }
 
   finishedLoadingPost() {
     this.doneLoading.emit(true);
+    this.contentLoadService.contentLoadingDone(this.post);
   }
 
   handlePostLoadError() {
@@ -50,6 +56,7 @@ export class EmbedPostComponent implements OnInit {
     // so spinner can properly go away.
     if (!this.embedPostService.uploadRequestInFlight) {
       this.doneLoading.emit(true);
+      this.contentLoadService.contentLoadingDone(this.post);
     }
   }
   @Input() post: EmbedPost;

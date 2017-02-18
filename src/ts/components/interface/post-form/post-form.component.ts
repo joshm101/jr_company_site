@@ -29,6 +29,7 @@ export class PostFormComponent implements OnInit {
     this.uploader = this.embedPostService.getUploaderInstance();
     this.startLoad = new EventEmitter<boolean>();
     this.doneLoad = new EventEmitter<boolean>();
+    this.doneLoadError = new EventEmitter<boolean>();
     this.route.params.filter(Boolean).subscribe(
       (params) => {
         this.contentType = params['contentType'];
@@ -154,14 +155,20 @@ export class PostFormComponent implements OnInit {
     // Includes image uploading
     this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
       (items: EmbedPost[]) => {
-        console.log("items sub fire create: ", items);
-        //this.doneLoad.emit(true);
         this.initializeForm();
         this.embedPostService.initializeUploaderInstance();
       },
       (error) => {
         console.error(error);
         this.doneLoadError.emit(true);
+        this.initializeForm();
+        this.embedPostService.initializeUploaderInstance();
+
+        // notify that an error has occurred
+        // so that the interface can be properly
+        // notified to handle the error accordingly
+        this.embedPostService.notifyError();
+        this.embedPostService.requestInFlight = false;
       }
     );
 

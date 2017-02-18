@@ -1,5 +1,6 @@
-<form md-dialog-content class="dialog-post-form" [formGroup]="addPostForm" (ngSubmit)="updatePostSubmit($event)">
-  {{ descTest }}
+<form md-dialog-content class="dialog-post-form"
+      [formGroup]="addPostForm"
+      (ngSubmit)="updatePostSubmit($event)">
   <div class="post-form-comp-wrap" tabindex="0">
 
     <div class="add-post-input-wrap">
@@ -38,7 +39,7 @@
     <div  class="add-post-input-wrap">
       <post-form-input fillerText="Description"
                        [inputMode]="inputMode.MultiLine"
-                       [fillerInputDisplay]="!newEmbedPost.description"
+                       [fillerInputDisplay]="!postToEdit.description"
                        [biggerInput]="false"
                        formControlName="description">
       </post-form-input>
