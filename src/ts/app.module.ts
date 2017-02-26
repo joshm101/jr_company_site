@@ -10,16 +10,19 @@ import { AppRoot } from './components/app.component';
 
 // components
 import { EmbedPostComponent } from './components/embed-post/embed-post.component';
-import { EmbedPost } from './components/embed-post/embed-post.model';
 import { EmbedPostService } from './components/embed-post/embed-post.service';
 import { IndexRootComponent } from './components/index/index.component';
 import { InterfaceRootComponent } from './components/interface/root/interface-root.component';
-import { InterfaceContentComponent } from './components/interface/interface-content.component';
-import { PostFormComponent } from './components/interface/post-form/post-form.component';
-import { PostFormInputComponent } from './components/interface/post-form/input/post-form-input.component';
+import { InterfacePostContentComponent } from './components/interface/post/content/interface-post-content.component';
+import { InterfacePostFormComponent } from './components/interface/post/form/interface-post-form.component';
+import { InterfacePostFormInputComponent } from './components/interface/post/form/input/interface-post-form-input.component';
+import { InterfacePostFormDialogComponent } from './components/interface/post/form/dialog/interface-post-form-dialog.component';
+import { InterfacePostFormImagePreviewComponent } from './components/interface/post/form/image-preview/interface-post-form-image-preview.component';
 import { JDialogComponent } from './components/j-dialog/j-dialog.component';
-import { PostFormDialogComponent } from './components/interface/post-form/post-form-dialog/post-form-dialog.component';
-import { PostFormImagePreviewComponent } from './components/interface/post-form/image-preview/post-form-image-preview.component';
+import { AboutService } from './components/interface/about/about.index';
+import { InterfaceAboutContentComponent } from './components/interface/about/interface-about-content';
+import { InterfaceAboutFormComponent } from './components/interface/about/form/interface-about-form.component';
+import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
 
 // external services
 import { ContentLoadService } from './external_services/content-load/content-load-service';
@@ -33,10 +36,11 @@ const appRoutes: Routes = [
   { path: 'interface',
     component: InterfaceRootComponent,
     children: [
-      { path: 'music', component: InterfaceContentComponent },
-      { path: 'field-recordings', component: InterfaceContentComponent },
-      { path: 'film', component: InterfaceContentComponent },
-      { path: 'other', component: InterfaceContentComponent }
+      { path: 'music', component: InterfacePostContentComponent },
+      { path: 'field-recordings', component: InterfacePostContentComponent },
+      { path: 'film', component: InterfacePostContentComponent },
+      { path: 'other', component: InterfacePostContentComponent },
+      { path: 'about', component: InterfaceAboutContentComponent }
     ]
   },
   { path: '', component: IndexRootComponent }
@@ -58,23 +62,27 @@ const appRoutes: Routes = [
     EmbedPostComponent,
     IndexRootComponent,
     InterfaceRootComponent,
-    InterfaceContentComponent,
-    PostFormComponent,
-    PostFormInputComponent,
+    InterfacePostContentComponent,
+    InterfacePostFormComponent,
+    InterfacePostFormInputComponent,
+    InterfacePostFormDialogComponent,
+    InterfacePostFormImagePreviewComponent,
+    InterfaceAboutContentComponent,
+    InterfaceAboutFormComponent,
+    InterfaceAboutFormImagePreviewComponent,
     JDialogComponent,
-    PostFormDialogComponent,
-    PostFormImagePreviewComponent,
 
     // directives
     FocusedFormDirective
   ],
   entryComponents: [
     JDialogComponent,
-    PostFormDialogComponent
+    InterfacePostFormDialogComponent
   ],
   providers: [
     EmbedPostService,
-    ContentLoadService
+    ContentLoadService,
+    AboutService
   ],
   bootstrap: [AppRoot]
 })

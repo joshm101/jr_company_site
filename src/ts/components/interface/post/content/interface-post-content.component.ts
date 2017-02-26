@@ -4,11 +4,11 @@ import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/rx';
 
-import { EmbedPost, EmbedPostService } from '../embed-post/embed-post.index';
-import { PostFormComponent } from './post-form/post-form.component';
-import { JDialogComponent } from '../j-dialog/j-dialog.component';
-import { PostFormDialogComponent } from './post-form/post-form-dialog/post-form-dialog.component';
-import { ContentLoadService } from '../../external_services/content-load/content-load-service';
+import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
+import { InterfacePostFormComponent } from '../form/interface-post-form.component';
+//import { JDialogComponent } from '../j-dialog/j-dialog.component';
+import { InterfacePostFormDialogComponent } from '../form/dialog/interface-post-form-dialog.component';
+import { ContentLoadService } from '../../../../external_services/content-load/content-load-service';
 
 @Component({
   selector: 'interface-content',
@@ -23,9 +23,9 @@ import { ContentLoadService } from '../../external_services/content-load/content
     )
   ],
   //changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'ts/components/interface/interface-content.component.html'
+  templateUrl: 'ts/components/interface/post/content/interface-post-content.component.html'
 })
-export class InterfaceContentComponent implements OnInit, OnDestroy {
+export class InterfacePostContentComponent implements OnInit, OnDestroy {
   constructor(
     protected elementRef: ElementRef,
     protected embedPostService: EmbedPostService,
@@ -51,9 +51,10 @@ export class InterfaceContentComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.contentLoadService.doneLoading$.subscribe(
+    this.contentLoadService.doneLoading$.debounce(() => Observable.timer(5)).subscribe(
       (result) => {
         this.doneLoadingContent = result;
+        console.log("this.doneLoadingContent: ", this.doneLoadingContent);
         if (this.doneLoadingContent) {
           this.animationState = 'active';
         }
@@ -83,8 +84,7 @@ export class InterfaceContentComponent implements OnInit, OnDestroy {
       }
     )
   }
-  dialogRef: MdDialogRef<PostFormDialogComponent>;
-
+  dialogRef: MdDialogRef<InterfacePostFormDialogComponent>;
 
   ngOnInit() {
     this.calculateColumns();
@@ -110,7 +110,7 @@ export class InterfaceContentComponent implements OnInit, OnDestroy {
 
   editPost(post: EmbedPost) {
 
-    this.dialogRef = this.dialog.open(PostFormDialogComponent, {
+    this.dialogRef = this.dialog.open(InterfacePostFormDialogComponent, {
       width: this.screenWidth < 760 ? "95%" : "65%",
       disableClose: true,
     });
@@ -158,13 +158,6 @@ export class InterfaceContentComponent implements OnInit, OnDestroy {
 
   postTrackBy(index: number, item: EmbedPost) {
     return item._id;
-  }
-
-  postDoneLoading() {
-    this.numPostsLoaded++;
-    if (this.numPostsLoaded === this.numPosts) {
-      this.isLoading = false;
-    }
   }
 
   // hook into the resize event and check the width of the page/document,

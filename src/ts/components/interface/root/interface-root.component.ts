@@ -1,5 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ContentTypeEnum } from '../../../enums/content-type.enum';
 
 @Component({
@@ -7,7 +6,13 @@ import { ContentTypeEnum } from '../../../enums/content-type.enum';
   templateUrl: 'ts/components/interface/root/interface-root.component.html'
 })
 export class InterfaceRootComponent implements AfterViewInit {
-  constructor() {
+  constructor(
+
+  ) {
+
+    // get initial tab index from contentType
+    // based on contentType parameter, if exists
+    this.activeLinkIndex = parseInt(window.location.href[window.location.href.length - 1]);
     this.tabLinks = [
       {
         label: 'Music',
@@ -31,10 +36,10 @@ export class InterfaceRootComponent implements AfterViewInit {
       },
       {
         label: 'About',
-        path: 'about'
+        path: 'about',
+        contentType: ContentTypeEnum.About
       }
     ];
-    this.activeLinkIndex = 0;
   }
 
   ngAfterViewInit() {

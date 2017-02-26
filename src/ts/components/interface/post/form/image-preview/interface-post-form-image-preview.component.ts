@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'post-form-image-preview',
-  templateUrl: 'ts/components/interface/post-form/image-preview/post-form-image-preview.component.html'
+  selector: 'int-post-form-image-preview',
+  templateUrl: 'ts/components/interface/post/form/image-preview/interface-post-form-image-preview.component.html'
 })
-export class PostFormImagePreviewComponent {
+export class InterfacePostFormImagePreviewComponent {
   constructor(
 
   ) {
@@ -21,7 +21,7 @@ export class PostFormImagePreviewComponent {
     this.setAsThumbnail.emit(true);
   }
 
-  // base64 image data
+  // base64 image data string or image path
   @Input() imgData: string;
   @Input() isThumbnail: boolean = false;
 

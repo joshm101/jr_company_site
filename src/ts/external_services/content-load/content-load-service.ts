@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { EmbedPost } from '../../components/embed-post/embed-post.index';
+import { AppModel } from '../../components/app.model';
 
 @Injectable()
 export class ContentLoadService {
   constructor() {
-    this.postMapping = new Map<EmbedPost, number>();
+    this.postMapping = new Map<AppModel, number>();
     this.doneLoadingArbiter = new Subject<boolean>();
     this.doneLoadingArbiter.next(false);
     this.doneLoading$ = this.doneLoadingArbiter.asObservable();
@@ -17,7 +17,7 @@ export class ContentLoadService {
    * of posts
    * @param posts
    */
-  setPostMap(posts: EmbedPost[]) {
+  setPostMap(posts: AppModel[]) {
     posts.forEach(post => {
         this.postMapping.set(post, 0);
     });
@@ -43,7 +43,7 @@ export class ContentLoadService {
    */
   removeAllTrackedContent() {
     this.postMapping.clear();
-    this.doneLoadingArbiter.next(false);
+    //this.doneLoadingArbiter.next(false);
   }
 
   /**
@@ -51,7 +51,7 @@ export class ContentLoadService {
    * map.
    * @param post
    */
-  removeContentToTrack(post: EmbedPost) {
+  removeContentToTrack(post: AppModel) {
     if (this.postMapping.has(post)) {
       this.postMapping.delete(post);
     }
@@ -63,7 +63,7 @@ export class ContentLoadService {
    * can update accordingly.
    * @param post
    */
-  contentLoadingDone(post: EmbedPost) {
+  contentLoadingDone(post: AppModel) {
     console.log("post: ", post);
     console.log("this.postMapping: ", this.postMapping);
     if (this.postMapping.has(post)) {
@@ -78,7 +78,7 @@ export class ContentLoadService {
    * edited
    * @param post
    */
-  contentNeedsLoading(post: EmbedPost) {
+  contentNeedsLoading(post: AppModel) {
     this.postMapping.set(post, 0);
     this.doneLoadingArbiter.next(false);
   }
@@ -108,11 +108,11 @@ export class ContentLoadService {
    * @param post
    * @returns {boolean}
    */
-  checkLoadStatus(post: EmbedPost) {
+  checkLoadStatus(post: AppModel) {
     return this.postMapping.has(post);
   }
 
   doneLoading$: Observable<boolean>;
   private doneLoadingArbiter: Subject<boolean>;
-  postMapping: Map<EmbedPost, number>;
+  postMapping: Map<AppModel, number>;
 }

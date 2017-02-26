@@ -1,23 +1,23 @@
 <form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)">
   {{ descTest }}
-  <md-card class="post-form-comp-wrap" tabindex="0">
+  <md-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
     <div class="form-wrap">
       <div class="add-post-input-wrap">
-        <post-form-input fillerText="Title"
+        <int-post-form-input fillerText="Title"
                          [inputMode]="inputMode.SingleLine"
                          [biggerInput]="true"
                          formControlName="title">
-        </post-form-input>
+        </int-post-form-input>
       </div>
 
       <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
         <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
           <div [formGroupName]="i" class="add-post-input-inner-wrap">
-            <post-form-input fillerText="Embed Code"
+            <int-post-form-input fillerText="Embed Code"
                              [inputMode]="inputMode.MultiLine"
                              [biggerInput]="false"
                              formControlName="embedItem">
-            </post-form-input>
+            </int-post-form-input>
           </div>
           <button md-tooltip="Remove embeddable content"
                   type="button"
@@ -36,11 +36,11 @@
       </button>
 
       <div [hidden]="!focused" class="add-post-input-wrap">
-        <post-form-input fillerText="Description"
+        <int-post-form-input fillerText="Description"
                          [inputMode]="inputMode.MultiLine"
                          [biggerInput]="false"
                          formControlName="description">
-        </post-form-input>
+        </int-post-form-input>
       </div>
 
       <input hidden #fileInput type="file"
@@ -52,11 +52,11 @@
 
       <div [hidden]="!focused" class="col-lg-4 col-sm-6 col-xs-12"
            *ngFor="let image of images;trackBy:i; let i = index;">
-        <post-form-image-preview [imgData]="image"
+        <int-post-form-image-preview [imgData]="image"
                                  [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
                                  (setAsThumbnail)="setThumbnail(i)"
                                  (removeImage)="removeImage(i)">
-        </post-form-image-preview>
+        </int-post-form-image-preview>
 
       </div>
 

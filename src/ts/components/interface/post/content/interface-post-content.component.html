@@ -3,7 +3,7 @@
     <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
   </div>
   <div class="interface-content-wrap" [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
-    <post-form (focused)="focusEvent($event)"
+    <int-post-form (focused)="focusEvent($event)"
                (startLoad)="handleSubmission()"
                (doneLoad)="submissionFinished()"
                (doneLoadError)="submissionFinishedWithError()"
@@ -19,21 +19,21 @@
                           col-xl-6
                           offset-xl-3
                           col-xs-12 clearfix">
-    </post-form>
+    </int-post-form>
     <div class="grid-list-wrap">
 
       <md-grid-list  [cols]="cols" rowHeight="450px">
         <md-grid-tile *ngFor="let post of embedPosts;">
-          <embed-post [post]="post"
-                      (doneLoading)="postDoneLoading()">
+          <embed-post [post]="post">
+            <button type="button"
+                    md-raised-button
+                    color="warn"
+                    (click)="removePost(post._id)">Delete</button>
             <button type="button"
                     md-raised-button
                     color="primary"
+                    style="float: right;"
                     (click)="editPost(post)">Edit</button>
-            <button type="button"
-                    md-raised-button
-                    color="accent"
-                    (click)="removePost(post._id)">Delete</button>
           </embed-post>
         </md-grid-tile>
       </md-grid-list>

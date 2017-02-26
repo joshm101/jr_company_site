@@ -6,7 +6,7 @@
     <!--
     <div class="iframe-wrap" *ngFor="let iframe of post.embedContentSafe" [innerHtml]="iframe">
     </div>-->
-    <img class="post-thumbnail-img" (error)="handlePostLoadError()" (load)="finishedLoadingPost()" [src]="post.images[post.thumbnailIndex]">
+    <img class="post-thumbnail-img" *ngIf="post.images[post.thumbnailIndex]" (error)="handlePostLoadError()" (load)="finishedLoadingPost()" [src]="post.images[post.thumbnailIndex]">
     <div class="desc-wrap">
       {{ post.description }}
     </div>

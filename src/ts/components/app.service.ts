@@ -52,11 +52,28 @@ export abstract class AppService<Model extends AppModel> {
 
   // GET resource specified by id
   get(id: string, options?: any): Observable<Model> {
-        return this.http.get('api/' + this.getResource() + '/' + id)
-          .map(this.extractData)
-          .catch(this.handleError)
-          .publishReplay(1)
-          .refCount();
+        return this.http.get('api/' + this.getResource() + '/' + (id || '0'))
+          .switchMap((res: Response) => {
+            let body = res.json();
+            let idx;
+            let temp: Model = this.new(body);
+            this.dataStore.items.forEach((item, index) => {
+              if (item._id === temp._id) {
+                this.dataStore.items[index] = temp;
+                idx = index;
+              }
+            });
+            if (!idx) {
+              this.dataStore.items.push(temp);
+              idx = this.dataStore.items.length - 1;
+            }
+            this._items.next(Object.assign(
+              {},
+              this.dataStore
+            ).items);
+            return Observable.of(this._items.value[idx]);
+          })
+          .catch(this.handleError);
   }
 
   // DELETE resource specified by id
@@ -138,6 +155,25 @@ export abstract class AppService<Model extends AppModel> {
     let body = res.json();
     return body || { };
   }
+
+  get uploadRequestInFlight() {
+    return this._uploadRequestInFlight;
+  }
+
+  set uploadRequestInFlight(val: boolean) {
+    this._uploadRequestInFlight = val;
+  }
+
+  set requestInFlight(val: boolean) {
+    this._requestInFlight = val;
+  }
+
+  get requestInFlight() {
+    return this._requestInFlight;
+  }
+
+  protected _uploadRequestInFlight: boolean;
+  protected _requestInFlight: boolean;
 
   public newlyCreatedItem: Model;
   public editedItem: Model;

@@ -5,15 +5,15 @@
 // Including base styles for Angular Material core. We
 // include this here so that you only have to load a single
 // css file for Angular Material in your app
-@include md-core();
+@include mat-core();
 
-$jr-company-site-primary: md-palette($md-teal, 900);
-$jr-company-site-accent: md-palette($md-amber);
+$jr-company-site-primary: mat-palette($mat-teal, 500);
+$jr-company-site-accent: mat-palette($mat-teal, A700);
 
-$jr-company-site-warn: md-palette($md-blue-grey);
+$jr-company-site-warn: mat-palette($mat-blue-grey);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$jr-company-site-theme: md-light-theme($jr-company-site-primary, $jr-company-site-accent, $jr-company-site-warn);
+$jr-company-site-theme: mat-light-theme($jr-company-site-primary, $jr-company-site-accent, $jr-company-site-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

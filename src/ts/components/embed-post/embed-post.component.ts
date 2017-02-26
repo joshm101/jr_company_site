@@ -15,8 +15,6 @@ export class EmbedPostComponent implements OnInit {
     protected embedPostService: EmbedPostService,
     private contentLoadService: ContentLoadService
   ) {
-    this.doneLoading = new EventEmitter<boolean>();
-
   }
 
   ngOnInit() {
@@ -28,13 +26,11 @@ export class EmbedPostComponent implements OnInit {
     // not done loading until upload is finished and
     // thumbnail is rendered.
     if (this.post.images.length === 0 && !this.embedPostService.uploadRequestInFlight) {
-      this.doneLoading.emit(true);
-      this.contentLoadService.contentLoadingDone(this.post);
+      this.finishedLoadingPost();
     }
   }
 
   finishedLoadingPost() {
-    this.doneLoading.emit(true);
     this.contentLoadService.contentLoadingDone(this.post);
   }
 
@@ -55,11 +51,8 @@ export class EmbedPostComponent implements OnInit {
     // on an <img> src, then we will mark as done loading
     // so spinner can properly go away.
     if (!this.embedPostService.uploadRequestInFlight) {
-      this.doneLoading.emit(true);
       this.contentLoadService.contentLoadingDone(this.post);
     }
   }
   @Input() post: EmbedPost;
-  @Output() doneLoading: EventEmitter<boolean>;
-
 }

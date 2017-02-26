@@ -1,24 +1,24 @@
 import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { InputModeEnum } from '../../../../enums/input-mode.enum';
+import { InputModeEnum } from '../../../../../enums/input-mode.enum';
 
 const noop = () => {
 };
 
 export const ADD_POST_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => PostFormInputComponent),
+  useExisting: forwardRef(() => InterfacePostFormInputComponent),
   multi: true
 };
 
 @Component({
-  selector: 'post-form-input',
-  templateUrl: 'ts/components/interface/post-form/input/post-form-input.component.html',
+  selector: 'int-post-form-input',
+  templateUrl: 'ts/components/interface/post/form/input/interface-post-form-input.component.html',
   providers: [
       ADD_POST_INPUT_CONTROL_VALUE_ACCESSOR
   ]
 })
-export class PostFormInputComponent implements ControlValueAccessor, OnInit {
+export class InterfacePostFormInputComponent implements ControlValueAccessor, OnInit {
   constructor(
 
   ) {

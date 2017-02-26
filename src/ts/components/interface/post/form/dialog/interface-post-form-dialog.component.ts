@@ -5,15 +5,15 @@ import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@ang
 import { FileUploader } from 'ng2-file-upload';
 import { Observable, Subscription } from 'rxjs/Rx';
 
-import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
-import { InputModeEnum } from '../../../../enums/input-mode.enum';
-import { ContentLoadService } from '../../../../external_services/content-load/content-load-service';
+import { EmbedPost, EmbedPostService } from '../../../../embed-post/embed-post.index';
+import { InputModeEnum } from '../../../../../enums/input-mode.enum';
+import { ContentLoadService } from '../../../../../external_services/content-load/content-load-service';
 
 @Component({
-  selector: 'post-form-dialog',
-  templateUrl: 'ts/components/interface/post-form/post-form-dialog/post-form-dialog.component.html'
+  selector: 'int-post-form-dialog',
+  templateUrl: 'ts/components/interface/post/form/dialog/interface-post-form-dialog.component.html'
 })
-export class PostFormDialogComponent implements OnInit, OnDestroy {
+export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
   constructor(
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
@@ -71,12 +71,14 @@ export class PostFormDialogComponent implements OnInit, OnDestroy {
   }
 
   handleFileSelection(input: any) {
-    let reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.url = e.target.result;
-      this.images.push(this.url);
-    };
-    reader.readAsDataURL(input.files[0]);
+    if (input.files.length > 0) {
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.url = e.target.result;
+        this.images.push(this.url);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
   }
   removeImage(i: number) {
     // set a timeout because the focusedForm
@@ -115,18 +117,6 @@ export class PostFormDialogComponent implements OnInit, OnDestroy {
 
   selectFileInput() {
     this.fileInput.nativeElement.click();
-  }
-
-  doneClicked(event: Event) {
-    event.stopPropagation();
-
-    // set timeout to allow
-    // for display of button ripple
-    // animation
-    setTimeout(() => {
-      this.focused = false;
-      this.doneClick.emit(true);
-    }, 150);
   }
 
   // event handlers for

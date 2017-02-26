@@ -1,6 +1,6 @@
 import { Directive, ElementRef, AfterViewInit, HostListener, EventEmitter, Output } from '@angular/core';
 
-import { PostFormComponent } from '../components/interface/post-form/post-form.component';
+import { InterfacePostFormComponent } from '../components/interface/post/form/interface-post-form.component';
 
 @Directive({
   selector: '[focusedForm]'
@@ -54,5 +54,5 @@ export class FocusedFormDirective implements AfterViewInit {
 
   @Output() focused: EventEmitter<boolean>;
   element: ElementRef;
-  addPostElement: ElementRef;
+  addPostElement: Element;
 }

@@ -21,7 +21,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
   ) {
     super(http);
     this.uploader = new FileUploader({
-      url: "http://localhost:3000/api/upload"
+      url: "http://localhost:3000/api/embed-post/upload"
     });
     this._requestInFlight = false;
     this.editErrorArbiter = new Subject<boolean>();
@@ -126,7 +126,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     formData.append('imagesid', imagesId);
     this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-    return this.http.post('/api/upload', formData)
+    return this.http.post('/api/embed-post/upload', formData)
       .map(res => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
@@ -140,9 +140,8 @@ export class EmbedPostService extends AppService<EmbedPost> {
 
   initializeUploaderInstance() {
     this.uploader = new FileUploader({
-      url: "http://localhost:3000/api/upload"
+      url: "http://localhost:3000/api/embed-post/upload"
     });
-
   }
 
   // Marks each embedded item
@@ -162,18 +161,6 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return 'embedPosts';
   }
 
-  get uploadRequestInFlight() {
-    return this._uploadRequestInFlight;
-  }
-
-  set requestInFlight(val: boolean) {
-    this._requestInFlight = val;
-  }
-
-  get requestInFlight() {
-    return this._requestInFlight;
-  }
-
   set contentType(val: number) {
     this._contentType = val;
   }
@@ -191,6 +178,4 @@ export class EmbedPostService extends AppService<EmbedPost> {
   private editErrorArbiter: Subject<boolean>;
   private _contentType:  number;
 
-  private _uploadRequestInFlight: boolean;
-  private _requestInFlight: boolean;
 }

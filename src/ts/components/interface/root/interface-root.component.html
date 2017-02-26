@@ -11,8 +11,7 @@
          [routerLink]="[link.path, { contentType: link.contentType }]"
          routerLinkActive #rla="routerLinkActive"
          [active]="rlaSafe && activeLinkIndex === i"
-         (click)="activeLinkIndex = i"
-         #musicTab>
+         (click)="activeLinkIndex = i">
         {{ link.label }}
       </a>
       <!--

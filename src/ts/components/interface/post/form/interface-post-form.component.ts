@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 
-import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
-import { InputModeEnum } from '../../../enums/input-mode.enum';
+import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
+import { InputModeEnum } from '../../../../enums/input-mode.enum';
 
 /**
  * This component acts as our main form
@@ -13,10 +13,10 @@ import { InputModeEnum } from '../../../enums/input-mode.enum';
  *
  */
 @Component({
-  selector: 'post-form',
-  templateUrl: 'ts/components/interface/post-form/post-form.component.html'
+  selector: 'int-post-form',
+  templateUrl: 'ts/components/interface/post/form/interface-post-form.component.html'
 })
-export class PostFormComponent implements OnInit {
+export class InterfacePostFormComponent implements OnInit {
   constructor(
     protected embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
@@ -50,7 +50,8 @@ export class PostFormComponent implements OnInit {
   images: any[];
 
   handleFileSelection(input: any) {
-    let reader = new FileReader();
+    if (input.files.length > 0) {
+      let reader = new FileReader();
       reader.onload = (e: any) => {
         let computedSrc: string = '';
         // sanitize the base64 encoded image because if you just
@@ -64,7 +65,8 @@ export class PostFormComponent implements OnInit {
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
         this.images.push(this.url);
       };
-    reader.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(input.files[0]);
+    }
   }
 
   removeImage(i: number) {
