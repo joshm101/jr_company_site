@@ -36,6 +36,11 @@ export class AuthService {
     }
   }
 
+  get token() {
+    console.log('token: ', localStorage.getItem('jr_jwt'));
+    return localStorage.getItem('jr_jwt');
+  }
+
   get isAuthenticated() {
     if(localStorage.getItem('jr_jwt')) {
       return true;

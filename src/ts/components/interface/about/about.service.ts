@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Injectable, Injector } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { AppService } from '../../app.service';
@@ -11,9 +11,10 @@ import { ContentLoadService } from '../../../external_services/content-load/cont
 export class AboutService extends AppService<About> {
   constructor(
     http: Http,
-    private contentLoadService: ContentLoadService
+    private contentLoadService: ContentLoadService,
+    injector: Injector
   ) {
-    super(http);
+    super(http, injector);
     this.uploader = new FileUploader({
       url: "http://localhost:3000/api/about/upload"
     });
@@ -85,10 +86,12 @@ export class AboutService extends AppService<About> {
   uploadImage(imageId: string): Observable<About> {
     let formData = new FormData();
     formData.append('imagesid', imageId);
+    let headers = new Headers({ 'Authorization': this._authService.token });
+    let options = new RequestOptions({ headers: headers });
     this._uploadRequestInFlight = true;
     formData.append('fileUpload', this.uploader.queue[this.uploader.queue.length - 1]._file);
     //this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-    return this.http.post('/api/about/upload', formData)
+    return this.http.post('/api/about/upload', formData, options)
       .map(res => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();

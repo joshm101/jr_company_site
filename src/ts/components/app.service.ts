@@ -1,14 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams, RequestOptions } from '@angular/http';
+import { Injectable, Injector } from '@angular/core';
+import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs/rx';
 
 import { AppModel } from './app.model';
+import { AuthService } from './auth/auth.service';
 
 @Injectable()
 export abstract class AppService<Model extends AppModel> {
-  constructor(protected http: Http) {
+  protected _authService: AuthService;
+  constructor(
+    protected http: Http,
+    private injector: Injector
+  ) {
+   // this._authService = Inject(AuthService);
+    this._authService = this.injector.get(AuthService);
+    console.log("this.authService: ", this._authService);
+    console.log("this.authService.token: ", this._authService.token);
     this.dataStore = { items: [] };
     this._items = <BehaviorSubject<Model[]>>new BehaviorSubject([]);
+
   }
 
   private dataStore: {
@@ -27,6 +37,7 @@ export abstract class AppService<Model extends AppModel> {
 
   // GET all items from requested resource
   getAll(options?: any): Observable<Model[]> {
+    console.log("token: ", this._authService.token);
       return this.http.get('api/' + this.getResource())
         .switchMap((res: Response) => {
           let body = res.json();
@@ -78,7 +89,9 @@ export abstract class AppService<Model extends AppModel> {
 
   // DELETE resource specified by id
   delete(id: string): Observable<Model> {
-    return this.http.delete('api/' + this.getResource() + '/' + id)
+    let headers = new Headers({ 'Authorization': this._authService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.delete('api/' + this.getResource() + '/' + id, options)
       .map((res: Response) => {
         if (res.status === 200 || res.status === 204) {
           // on successful backend deletion,
@@ -98,7 +111,9 @@ export abstract class AppService<Model extends AppModel> {
 
   // PUT updated resource specified by id
   update(body: AppModel): Observable<Model> {
-    return this.http.put('api/' + this.getResource() + '/' + body._id, body)
+    let headers = new Headers({ 'Authorization': this._authService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.put('api/' + this.getResource() + '/' + body._id, body, options)
       .map((res: Response) => {
         let body = res.json();
         this.editedItem = this.new(body.data);
@@ -133,7 +148,9 @@ export abstract class AppService<Model extends AppModel> {
 
   // POST newly created item
   create(body: AppModel): Observable<Model[]> {
-    return this.http.post('api/' + this.getResource(), body)
+    let headers = new Headers({ 'Authorization': this._authService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post('api/' + this.getResource(), body, options)
       .switchMap((res: Response) => {
         let body = res.json();
         this.newlyCreatedItem = this.new(body.data);

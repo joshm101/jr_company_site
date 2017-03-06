@@ -26,6 +26,7 @@ import { InterfaceAboutFormImagePreviewComponent } from './components/interface/
 import { AuthLoginComponent } from './components/auth/login/auth-login.component';
 import { AuthLoginFormComponent } from './components/auth/login/form/auth-login-form.component';
 import { AuthService } from './components/auth/auth.service';
+import { AuthGuard } from './components/auth/auth.guard';
 
 // external services
 import { ContentLoadService } from './external_services/content-load/content-load-service';
@@ -44,10 +45,12 @@ const appRoutes: Routes = [
       { path: 'film', component: InterfacePostContentComponent },
       { path: 'other', component: InterfacePostContentComponent },
       { path: 'about', component: InterfaceAboutContentComponent }
-    ]
+    ],
+    canActivate: [AuthGuard]
   },
   { path: '', component: IndexRootComponent },
-  { path: 'login', component: AuthLoginComponent }
+  { path: 'login', component: AuthLoginComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
@@ -89,7 +92,8 @@ const appRoutes: Routes = [
     EmbedPostService,
     ContentLoadService,
     AboutService,
-    AuthService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppRoot]
 })

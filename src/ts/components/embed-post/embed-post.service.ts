@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, Subject } from 'rxjs/rx';
 
 import { EmbedPost } from './embed-post.model';
@@ -17,9 +17,10 @@ export class EmbedPostService extends AppService<EmbedPost> {
     protected http: Http,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private contentLoadService: ContentLoadService
+    private contentLoadService: ContentLoadService,
+    injector: Injector
   ) {
-    super(http);
+    super(http, injector);
     this.uploader = new FileUploader({
       url: "http://localhost:3000/api/embed-post/upload"
     });
@@ -124,9 +125,11 @@ export class EmbedPostService extends AppService<EmbedPost> {
   uploadImages(imagesId: string): Observable<EmbedPost> {
     let formData = new FormData();
     formData.append('imagesid', imagesId);
+    let headers = new Headers({ 'Authorization': this._authService.token });
+    let options = new RequestOptions({ headers: headers });
     this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-    return this.http.post('/api/embed-post/upload', formData)
+    return this.http.post('/api/embed-post/upload', formData, options)
       .map(res => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
