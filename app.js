@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'src')));
 app.use('/', index);
 app.use('/interface', index);
 app.use('/interface/*', index);
+app.use('/login', index);
 app.use('/api', api);
 app.use('/users', users);
 

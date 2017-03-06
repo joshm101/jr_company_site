@@ -22,6 +22,10 @@ a {
   overflow-x: hidden;
 }
 
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
 .interface-toolbar {
   position: fixed;
   top: 0;
@@ -547,3 +551,18 @@ html[xmlns] .clearfix {
 .toolbar-menu-button {
   margin-right: 25px !important;
 }
+
+.auth-input-container {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.auth-login-form {
+  padding: 12px;
+}
+
+.auth-card {
+  margin-top: 10%;
+  margin-bottom: 10px;
+}
+

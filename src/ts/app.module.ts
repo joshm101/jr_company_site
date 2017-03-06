@@ -23,6 +23,9 @@ import { AboutService } from './components/interface/about/about.index';
 import { InterfaceAboutContentComponent } from './components/interface/about/interface-about-content';
 import { InterfaceAboutFormComponent } from './components/interface/about/form/interface-about-form.component';
 import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
+import { AuthLoginComponent } from './components/auth/login/auth-login.component';
+import { AuthLoginFormComponent } from './components/auth/login/form/auth-login-form.component';
+import { AuthService } from './components/auth/auth.service';
 
 // external services
 import { ContentLoadService } from './external_services/content-load/content-load-service';
@@ -43,7 +46,8 @@ const appRoutes: Routes = [
       { path: 'about', component: InterfaceAboutContentComponent }
     ]
   },
-  { path: '', component: IndexRootComponent }
+  { path: '', component: IndexRootComponent },
+  { path: 'login', component: AuthLoginComponent }
 ];
 
 @NgModule({
@@ -71,6 +75,8 @@ const appRoutes: Routes = [
     InterfaceAboutFormComponent,
     InterfaceAboutFormImagePreviewComponent,
     JDialogComponent,
+    AuthLoginComponent,
+    AuthLoginFormComponent,
 
     // directives
     FocusedFormDirective
@@ -82,7 +88,8 @@ const appRoutes: Routes = [
   providers: [
     EmbedPostService,
     ContentLoadService,
-    AboutService
+    AboutService,
+    AuthService
   ],
   bootstrap: [AppRoot]
 })

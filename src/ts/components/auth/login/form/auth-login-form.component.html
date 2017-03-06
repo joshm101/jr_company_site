@@ -1,0 +1,32 @@
+<form autocomplete="off" class="auth-login-form"
+      [formGroup]="loginForm" (submit)="loginFormSubmit()">
+  <div>
+    <md-input-container class="full-width auth-input-container">
+      <input mdInput
+             required
+             formControlName="username"
+             type="text"
+             placeholder="Username">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container class="full-width auth-input-container">
+      <input mdInput
+             required
+             formControlName="password"
+             type="password"
+             minlength="6"
+             placeholder="Password">
+    </md-input-container>
+  </div>
+  <div class="text-xs-right">
+    <button type="submit"
+            md-raised-button
+            [disabled]="loginForm.invalid"
+            color="primary">Sign in</button>
+  </div>
+
+</form>
+
+
+
