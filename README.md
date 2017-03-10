@@ -11,5 +11,5 @@ mongod
 ~~~
 then, in another terminal/cmd:
 ~~~
-set DEV_ENV=jr_company_site:* & nodemon
+set DEBUG_ENV=jr_company_site:* & nodemon
 ~~~
