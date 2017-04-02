@@ -17,16 +17,18 @@
     'rxjs': 'node_modules/rxjs',
     'ng2-file-upload': 'node_modules/ng2-file-upload',
     '@angular': 'node_modules/@angular',
-    'app': 'src/ts',
-    'hammerjs': './src/ts'
+    'hammerjs': './src/hammer',
+    'aot': 'src/ts/main-aot',
+    'jit': 'src/ts/main-jit'
   };
-
+  
   var packages = {
     'rxjs': { defaultExtension: 'js'},
-    'app': { main: 'main.js', defaultExtension: 'js'},
-    '@angular': { defaultExtension: 'js' },
-    'ng2-file-upload': { defaultExtension: 'js' }
-  };
+    'ng2-file-upload': { defaultExtension: 'js' },
+    'aot': { defaultExtension: 'js' },
+    'jit': { defaultExtension: 'js' },
+    '.': { defaultExtension: 'js' }
+    };
 
   var ngPackageNames = [
     'common',
@@ -36,14 +38,14 @@
     'forms',
     'platform-browser',
     'platform-browser-dynamic',
-    'router'
+    'router',
+    'material'
   ];
 
   ngPackageNames.forEach(function(pkgName) {
-    packages['@angular/' +pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+        packages['@angular/' + pkgName] = { main: 'index.js', defaultExtension: 'js' };
   });
 
-  packages['@angular/material'] = { main: '/bundles/material.umd.js', defaultExtension: 'js' };
   packages['ng2-file-upload'] = { main: '/bundles/ng2-file-upload.umd.js', defaultExtension: 'js' };
 
   var config = {

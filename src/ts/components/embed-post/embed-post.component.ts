@@ -8,7 +8,7 @@ import { ContentLoadService } from '../../external_services/content-load/content
 
 @Component({
   selector: 'embed-post',
-  templateUrl: 'ts/components/embed-post/embed-post.component.html'
+  templateUrl: 'embed-post.component.html'
 })
 export class EmbedPostComponent implements OnInit {
   constructor(

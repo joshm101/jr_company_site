@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'int-post-form-image-preview',
-  templateUrl: 'ts/components/interface/post/form/image-preview/interface-post-form-image-preview.component.html'
+  templateUrl: 'interface-post-form-image-preview.component.html'
 })
 export class InterfacePostFormImagePreviewComponent {
   constructor(

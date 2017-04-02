@@ -9,7 +9,7 @@ import { EmbedPostService } from './embed-post/embed-post.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'ts/components/app.component.html'
+  templateUrl: 'app.component.html'
 })
 export class AppRoot  {
   constructor() { }

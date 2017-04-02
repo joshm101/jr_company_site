@@ -14,11 +14,11 @@ import { InputModeEnum } from '../../../../enums/input-mode.enum';
  */
 @Component({
   selector: 'int-post-form',
-  templateUrl: 'ts/components/interface/post/form/interface-post-form.component.html'
+  templateUrl: 'interface-post-form.component.html'
 })
 export class InterfacePostFormComponent implements OnInit {
   constructor(
-    protected embedPostService: EmbedPostService,
+    public embedPostService: EmbedPostService,
     protected elementRef: ElementRef,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
@@ -221,7 +221,7 @@ export class InterfacePostFormComponent implements OnInit {
     this.showFiller = true;
     this.embedPostService.initializeUploaderInstance();
     this.uploader = this.embedPostService.uploader;
-    this.resetFileInput();
+    //this.resetFileInput();
     // initialize the form
     this.addPostForm = this._fb.group({
       title: ['', [Validators.required]],
@@ -247,4 +247,5 @@ export class InterfacePostFormComponent implements OnInit {
   isLoading: boolean;
   currentHeight: number;
   contentType: number;
+  public i: number;
 }

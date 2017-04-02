@@ -8,7 +8,7 @@ import { EmbedPostService } from '../embed-post/embed-post.service';
 
 @Component({
   selector: 'index-root',
-  templateUrl: 'ts/components/index/index.component.html'
+  templateUrl: 'index.component.html'
 })
 export class IndexRootComponent implements OnDestroy {
   constructor(

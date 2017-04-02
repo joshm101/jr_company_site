@@ -7,7 +7,7 @@ import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'auth-login-form',
-  templateUrl: 'ts/components/auth/login/form/auth-login-form.component.html'
+  templateUrl: 'auth-login-form.component.html'
 })
 export class AuthLoginFormComponent {
   public loginForm: FormGroup;

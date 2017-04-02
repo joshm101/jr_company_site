@@ -13,7 +13,7 @@ export const ADD_POST_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 
 @Component({
   selector: 'int-post-form-input',
-  templateUrl: 'ts/components/interface/post/form/input/interface-post-form-input.component.html',
+  templateUrl: 'interface-post-form-input.component.html',
   providers: [
       ADD_POST_INPUT_CONTROL_VALUE_ACCESSOR
   ]

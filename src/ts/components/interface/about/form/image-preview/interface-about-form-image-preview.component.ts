@@ -3,7 +3,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'int-about-form-image-preview',
-  templateUrl: 'ts/components/interface/about/form/image-preview/interface-about-form-image-preview.component.html'
+  templateUrl: 'interface-about-form-image-preview.component.html'
 })
 export class InterfaceAboutFormImagePreviewComponent {
   constructor() {

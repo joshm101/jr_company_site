@@ -15,7 +15,7 @@ import { ContentLoadService } from '../../../external_services/content-load/cont
       ]
     )
   ],
-  templateUrl: 'ts/components/interface/about/interface-about-content.html'
+  templateUrl: 'interface-about-content.html'
 })
 export class InterfaceAboutContentComponent implements OnDestroy {
   constructor(

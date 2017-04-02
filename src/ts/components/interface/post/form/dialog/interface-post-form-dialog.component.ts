@@ -11,7 +11,7 @@ import { ContentLoadService } from '../../../../../external_services/content-loa
 
 @Component({
   selector: 'int-post-form-dialog',
-  templateUrl: 'ts/components/interface/post/form/dialog/interface-post-form-dialog.component.html'
+  templateUrl: 'interface-post-form-dialog.component.html'
 })
 export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
   constructor(
@@ -155,7 +155,6 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
       }
     });
     this.embedPostEdit.images = this.images.filter(image => !regex.test(image));
-    console.log("this.embedPostEdit: ", this.embedPostEdit);
     this.embedPostService.requestInFlight = true;
     this.close._getHostElement().click();
     // Includes image uploading
@@ -219,8 +218,10 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
   thumbnailIndex: number = 0;
   url: any;
   subscriptions: Subscription[];
+  public i: number;
 
   ngOnDestroy() {
+    console.log('undefined?');
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();
     })

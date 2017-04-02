@@ -23,7 +23,7 @@ import { ContentLoadService } from '../../../../external_services/content-load/c
     )
   ],
   //changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'ts/components/interface/post/content/interface-post-content.component.html'
+  templateUrl: 'interface-post-content.component.html'
 })
 export class InterfacePostContentComponent implements OnInit, OnDestroy {
   constructor(

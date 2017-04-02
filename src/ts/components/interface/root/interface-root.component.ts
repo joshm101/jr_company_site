@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'interface-root',
-  templateUrl: 'ts/components/interface/root/interface-root.component.html'
+  templateUrl: 'interface-root.component.html'
 })
 export class InterfaceRootComponent implements AfterViewInit {
   constructor(

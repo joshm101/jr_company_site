@@ -8,7 +8,7 @@ import { ContentLoadService } from '../../../../external_services/content-load/c
 
 @Component({
   selector: 'int-about-form',
-  templateUrl: 'ts/components/interface/about/form/interface-about-form.component.html'
+  templateUrl: 'interface-about-form.component.html'
 })
 export class InterfaceAboutFormComponent implements OnInit {
   constructor(
