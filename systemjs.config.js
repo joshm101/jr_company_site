@@ -1,25 +1,11 @@
-/*System.config({
-  // use typescript for compilation
-  transpiler: 'typescript',
-  typescriptOptions: {
-    emitDecoratorMetadata: true
-  },
-  map: {
-    'app': './bundle',
-
-    '@angular/core': 'node_modules/core/bundles/core.umd.js',
-    '@angular/common': 'npm:@angular/common/bundles/common.umd.js'
-  }
-});*/
-
 (function(global) {
   var map = {
     'rxjs': 'node_modules/rxjs',
     'ng2-file-upload': 'node_modules/ng2-file-upload',
     '@angular': 'node_modules/@angular',
-    'hammerjs': './src/hammer',
-    'aot': 'src/ts/main-aot',
-    'jit': 'src/ts/main-jit'
+    'hammerjs': './client/src/hammer',
+    'aot': 'client/src/ts/main-aot',
+    'jit': 'client/src/ts/main-jit'
   };
   
   var packages = {

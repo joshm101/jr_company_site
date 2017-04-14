@@ -4,24 +4,26 @@
 /dist
 /tmp
 /aot
+/client/aot
 
 # dependencies
 /node_modules
 /bower_components
 
-/src/ts/**/*.js
-/src/stylesheets/bootstrap.css
-/src/stylesheets/theme.css
-/src/*.js
-/src/*.ts
-/src/static
-/src/*.map
+/client/src/ts/**/*.js
+/client/src/stylesheets/bootstrap.css
+/client/src/stylesheets/theme.css
+/client/src/*.js
+/client/src/*.ts
+/client/src/static
+/client/src/*.map
 
 # IDEs and editors
 /.idea
 /.vscode
 .project
 .classpath
+.editorconfig
 .c9/
 *.launch
 .settings/

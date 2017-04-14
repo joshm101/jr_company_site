@@ -2,8 +2,8 @@ const gulp = require('gulp');
 const del = require('del');
 const typescript = require('gulp-typescript');
 const sass = require('gulp-sass');
-const tscConfig = require('./tsconfig.json');
-const tscAotConfig = require('./tsconfig-aot.json');
+const tscConfig = require('./client/tsconfig.json');
+const tscAotConfig = require('./client/tsconfig-aot.json');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const Builder = require('systemjs-builder');
 const runSequence = require('run-sequence');
@@ -19,40 +19,40 @@ gulp.task('production', function () {
 
 // delete old JS
 gulp.task('clean', function() {
-  return del(['src/ts/**/*.js', 'src/ts/**/*.ngsummary.json', 'src/ts/**/*.js.map', 'src/ts/**/*.ngfactory.ts'])
+  return del(['client/src/ts/**/*.js', 'client/src/ts/**/*.ngsummary.json', 'client/src/ts/**/*.js.map', 'client/src/ts/**/*.ngfactory.ts'])
 })
 
 // TypeScript --> JavaScript "transpilation"
 gulp.task('compile', function() {
   return gulp
     .src([
-      'src/ts/**/*.ts'
+      'client/src/ts/**/*.ts'
       // don't include aot main file if we aren't building production
       // don't include jit main file if we aren't building dev
-      ].concat(flags.production ? [] : ['!src/ts/main-aot.ts']))
+      ].concat(flags.production ? [] : ['!client/src/ts/main-aot.ts']))
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(inlineNg2Template({
       target: 'es5',
       useRelativePaths: true
     }))
-    .pipe(gulp.dest('src/ts'));
+    .pipe(gulp.dest('client/src/ts'));
 });
 
 gulp.task('compile-aot', function () {
     return gulp
-      .src('aot/**/*.ts')
+      .src('client/aot/**/*.ts')
       .pipe(typescript(tscAotConfig.compilerOptions))
       .pipe(inlineNg2Template({
           target: 'es5',
           useRelativePaths: true
       }))
-      .pipe(gulp.dest('aot'));
+      .pipe(gulp.dest('client/aot'));
 });
 
 gulp.task('sass', function() {
-  return gulp.src('src/stylesheets/theme.scss')
+  return gulp.src('client/src/stylesheets/theme.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('src/stylesheets/'))
+    .pipe(gulp.dest('client/src/stylesheets/'))
 });
 
 gulp.task('copy:libs', ['copy:css'], function() {
@@ -70,25 +70,25 @@ gulp.task('copy:libs', ['copy:css'], function() {
     'node_modules/zone.js/dist/zone.js',
     'node_modules/hammerjs/hammer.js'
   ])
-    .pipe(gulp.dest('src'))
+    .pipe(gulp.dest('client/src'))
 });
 
 gulp.task('copy:css', function() {
   return gulp.src([
     'node_modules/bootstrap/dist/css/bootstrap.css'
   ])
-    .pipe(gulp.dest('src/stylesheets'))
+    .pipe(gulp.dest('client/src/stylesheets'))
 });
 
 var builder = new Builder('./', 'systemjs.config.js');
 gulp.task('bundle', function(cb) {
-  return builder.buildStatic(flags.production ? 'src/ts/main-aot.js' : 'src/ts/main-jit.js', 'src/bundle.js', {
+  return builder.buildStatic(flags.production ? 'client/src/ts/main-aot.js' : 'client/src/ts/main-jit.js', 'client/src/bundle.js', {
     globalName: (flags.production ? 'aot' : 'jit')
   })
 });
 
 gulp.task('compress', function() {
-  return gulp.src('src/bundle.js').pipe(uglify()).pipe(gulp.dest('src')) 
+  return gulp.src('client/src/bundle.js').pipe(uglify()).pipe(gulp.dest('client/src')) 
 });
 
 gulp.task('build', function() {
