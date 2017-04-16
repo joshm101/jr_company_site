@@ -68,8 +68,9 @@ export class InterfaceRootComponent implements AfterViewInit {
     this.currentWidth = this._screenSizeService.screenWidth;
   }
 
-  openSettings() {
+  goToSettings() {
     console.log("trigger settings");
+    this._router.navigate(['/settings']);
   }
 
   rlaSafe: boolean;

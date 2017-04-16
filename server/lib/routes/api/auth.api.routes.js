@@ -10,6 +10,6 @@ router.route('/login')
 router.route('/tokenvalid')
   .post(authController.checkTokenValidity);
 
-router.route('/:uid/changepassword')
+router.route('/changepassword/:uid')
   .post(authController.changePassword);
 module.exports = router;

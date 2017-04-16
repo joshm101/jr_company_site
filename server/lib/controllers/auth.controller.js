@@ -57,41 +57,49 @@ exports.changePassword = function(req, res) {
   var _res = res;
   var oldPassword = req.body.oldPassword;
   var newPassword = req.body.newPassword;
+  var confirmedPassword = req.body.confirmedPassword;
+  var token = req.headers.authorization;
 
-  if (oldPassword !== newPassword) { 
-    res.status(400).send();   // passwords do not match
-  }
-
-  User.findOne({ _id: req.params.uid }, function(err, user) {
+  jwt.verify(token, JRSECRET, function(err, decoded) {
     if (err) {
-      // wat
-      res.status(400).send();
+      res.status(401).send(false);
     } else {
-      bcrypt.compare(oldPassword, user.password, function(err, res) {
-        if (err) {
-          // wrong password given
-          res.status(401).send();
-        } else {
-          bcrypt.hash(newPassword, saltRounds, function(err, hash) {
-            if (err) {
-              // ISE on hashing error
-              res.status(500).send();
-            } else {
-              // successful password hash, update stored password hash.
-              user.password = hash;
-              user.save(function(err) {
-                if (err) {
-                  // ISE on DB save error
-                  res.status(500).send();
-                } else {
-                  // successful password update
-                  res.status(200).send();
-                }
-              })
-            }
-          })
-        }
-      });
+      if (newPassword !== confirmedPassword) { 
+        res.status(400).send(false);   // passwords do not match
+      } else {
+        User.findOne({ _id: req.params.uid }, function(err, user) {
+          if (err) {
+            // wat
+            res.status(400).send(false);
+          } else {
+            bcrypt.compare(oldPassword, user.password, function(err, res) {
+              if (err) {
+                // wrong password given
+                _res.status(401).send(false);
+              } else {
+                bcrypt.hash(newPassword, saltRounds, function(err, hash) {
+                  if (err) {
+                    // ISE on hashing error
+                    _res.status(500).send(false);
+                  } else {
+                    // successful password hash, update stored password hash.
+                    user.password = hash;
+                    user.save(function(err) {
+                      if (err) {
+                        // ISE on DB save error
+                        _res.status(500).send(false);
+                      } else {
+                        // successful password update
+                        _res.status(200).send(true);
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     }
   });
 }

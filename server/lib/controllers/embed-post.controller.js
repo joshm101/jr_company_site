@@ -11,13 +11,14 @@ const JRSECRET = process.env.JRSECRET;
 var EmbedPost = require('../models/embed-post.model');
 
 var pathsOfUploadedImages = [];
+var imagesId = '';
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
 
     imagesId = req.body.imagesid;
     if (imagesId !== undefined) {
-      cb(null, "./src/static/" + imagesId);
+      cb(null, "./client/static/images/posts/" + imagesId);
     } else {
       cb(new Error("The upload handshake failed."));
     }
@@ -38,7 +39,7 @@ var storage = multer.diskStorage({
 
     // construct the final filename and call callback
     var constructedFilename = dateTimeUploaded + "-" + randomlyGeneratedString + "-" + originalNameNormalized;
-    pathsOfUploadedImages.push(imagesId + "/" + constructedFilename);
+    pathsOfUploadedImages.push('images/posts/' + imagesId + "/" + constructedFilename);
     cb(null, constructedFilename);
 
   }
@@ -99,18 +100,23 @@ exports.createPost = function(req, res) {
       var embedPost = new EmbedPost(req.body);
       embedPost.edited = embedPost.created;
       embedPost.imagesId = randomstring.generate(12);
-      fs.mkdir('./src/static/' + embedPost.imagesId);
-      // save the newly created
-      // embedPost object to the DB
-      embedPost.save(function(err) {
+      fs.mkdir('./client/static/images/posts/' + embedPost.imagesId, function(err) {
         if (err) {
-          // handle any possible errors
-          // that may have occurred during
-          // the DB save. Send back response.
-          res.send(err);
+          res.status(500).send();
         } else {
-          // successful save to DB, send response.
-          res.json( { message: 'embedPost created!', data: embedPost} );
+          // save the newly created
+          // embedPost object to the DB
+          embedPost.save(function(err) {
+            if (err) {
+              // handle any possible errors
+              // that may have occurred during
+              // the DB save. Send back response.
+              res.send(err);
+            } else {
+              // successful save to DB, send response.
+              res.json( { message: 'embedPost created!', data: embedPost} );
+            }
+          });
         }
       });
     }
@@ -168,7 +174,7 @@ exports.updatePost = function(req, res) {
           });
           post.images.forEach(function(image, index) {
             if (!hashObject.hasOwnProperty(image)) {
-              fs.unlink('./src/static/' + image, function(err) {
+              fs.unlink('./static/images/posts/' + image, function(err) {
                 if (err) {
                   console.error(err);
                   //res.end(400);
@@ -204,7 +210,7 @@ exports.deletePost = function(req, res) {
           console.error(err);
           res.end(404);
         } else {
-          fs.remove('./src/static/' + post.imagesId, function(err) {
+          fs.remove('./client/static/images/posts/' + post.imagesId, function(err) {
             if (err) {
               console.error(err);
             }

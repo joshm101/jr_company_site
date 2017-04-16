@@ -23,6 +23,7 @@
     "@angular/router": "^3.3.0",
     "angular-in-memory-web-api": "^0.1.16",
     "angular2-in-memory-web-api": "0.0.21",
+    "angular2-jwt": "^0.2.2",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.15.2",
     "bootstrap": "4.0.0-alpha.5",

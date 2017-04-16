@@ -19,7 +19,13 @@ gulp.task('production', function () {
 
 // delete old JS
 gulp.task('clean', function() {
-  return del(['client/src/ts/**/*.js', 'client/src/ts/**/*.ngsummary.json', 'client/src/ts/**/*.js.map', 'client/src/ts/**/*.ngfactory.ts'])
+  return del([
+    'client/src/ts/**/*.js', 
+    'client/src/ts/**/*.ngsummary.json', 
+    'client/src/ts/**/*.js.map', 
+    'client/src/ts/**/*.ngfactory.ts',
+    'client/static/scripts/*.js',
+    ])
 })
 
 // TypeScript --> JavaScript "transpilation"
@@ -50,9 +56,9 @@ gulp.task('compile-aot', function () {
 });
 
 gulp.task('sass', function() {
-  return gulp.src('client/src/stylesheets/theme.scss')
+  return gulp.src('client/static/stylesheets/theme.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('client/src/stylesheets/'))
+    .pipe(gulp.dest('client/static/stylesheets/'))
 });
 
 gulp.task('copy:libs', ['copy:css'], function() {
@@ -60,29 +66,30 @@ gulp.task('copy:libs', ['copy:css'], function() {
     'node_modules/angular2/bundles/angular2-polyfills.js',
     'node_modules/systemjs/dist/system.js',
     'node_modules/systemjs/dist/system.js.map',
+    'node_modules/systemjs/dist/system.src.js',
     'node_modules/rxjs/bundles/Rx.js',
     'node_modules/angular2/bundles/angular2.dev.js',
     'node_modules/angular2/bundles/router.dev.js',
     'node_modules/jquery/dist/jquery.*js',
     'node_modules/bootstrap/dist/js/bootstrap.*js',
-    'node_modules/reflect-metadata/temp/Reflect.js',
-    'node_modules/reflect-metadata/temp/Reflect.js.map',
+    'node_modules/reflect-metadata/Reflect.js',
+    'node_modules/reflect-metadata/Reflect.js.map',
     'node_modules/zone.js/dist/zone.js',
     'node_modules/hammerjs/hammer.js'
   ])
-    .pipe(gulp.dest('client/src'))
+    .pipe(gulp.dest('client/static/scripts'))
 });
 
 gulp.task('copy:css', function() {
   return gulp.src([
     'node_modules/bootstrap/dist/css/bootstrap.css'
   ])
-    .pipe(gulp.dest('client/src/stylesheets'))
+    .pipe(gulp.dest('client/static/stylesheets'))
 });
 
 var builder = new Builder('./', 'systemjs.config.js');
 gulp.task('bundle', function(cb) {
-  return builder.buildStatic(flags.production ? 'client/src/ts/main-aot.js' : 'client/src/ts/main-jit.js', 'client/src/bundle.js', {
+  return builder.buildStatic(flags.production ? 'client/src/ts/main-aot.js' : 'client/src/ts/main-jit.js', 'client/static/scripts/bundle.js', {
     globalName: (flags.production ? 'aot' : 'jit')
   })
 });

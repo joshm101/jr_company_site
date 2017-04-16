@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { JwtHelper } from 'angular2-jwt';
 
 import { authOptionsProvider } from './auth.options';
 
@@ -8,6 +9,12 @@ type Credentials = {
   username: string,
   password: string
 };
+
+type PasswordChange = {
+  oldPassword: string,
+  newPassword: string,
+  confirmedPassword: string,
+}
 
 @Injectable()
 export class AuthService {
@@ -34,9 +41,34 @@ export class AuthService {
       return Observable.of(true);
   }
 
+  changePassword(changeInfo: PasswordChange) {
+    let uid = this.decodedToken['uid'];
+    if (changeInfo.newPassword !== changeInfo.confirmedPassword) {
+      return Observable.of(false);
+    }
+    if (this.decodedToken['uid'] && this.decodedToken['uid'].length > 0) {
+      // token's uid field exists
+      let headers = new Headers({ 'Authorization': `${this.token}` });
+      let options = new RequestOptions({ headers: headers });
+      return this._http.post(`api/auth/changepassword/${uid}`, changeInfo, options)
+        .map(res => res.json())
+        .map(res => {
+          if (res) {
+            return true;
+          } else {
+            return false;
+          }
+        }).catch(this.handleError);
+    }
+  }
+
   get token() {
-    console.log('token: ', localStorage.getItem('jr_jwt'));
     return localStorage.getItem('jr_jwt');
+  }
+
+  get decodedToken() {
+      let jwtHelper = new JwtHelper();
+      return jwtHelper.decodeToken(this.token);
   }
 
   private handleError(error: any): Observable<any> {

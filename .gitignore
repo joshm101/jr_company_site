@@ -15,7 +15,7 @@
 /client/src/stylesheets/theme.css
 /client/src/*.js
 /client/src/*.ts
-/client/src/static
+/client/static
 /client/src/*.map
 
 # IDEs and editors

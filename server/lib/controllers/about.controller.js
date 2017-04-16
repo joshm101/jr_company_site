@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
     imagesId = req.body.imagesid;
     console.log("imagesId: ", imagesId);
     if (imagesId !== undefined) {
-      cb(null, "./src/static/" + imagesId);
+      cb(null, "./client/static/images/about/" + imagesId);
     } else {
       cb(new Error("The upload handshake failed."));
     }
@@ -39,7 +39,7 @@ var storage = multer.diskStorage({
 
     // construct the final filename and call callback
     var constructedFilename = dateTimeUploaded + "-" + randomlyGeneratedString + "-" + originalNameNormalized;
-    pathsOfUploadedImages.push(imagesId + "/" + constructedFilename);
+    pathsOfUploadedImages.push('images/about/' + imagesId + "/" + constructedFilename);
     cb(null, constructedFilename);
 
   }
@@ -87,7 +87,7 @@ exports.createAboutPage = function(req, res) {
     } else {
       var about = new About(req.body);
       about.imageId = randomstring.generate(12);
-      fs.mkdir('./src/static/' + about.imageId);
+      fs.mkdir('./client/static/images/about/' + about.imageId);
       about.save(function(err) {
         if (err) {
           res.send(err);
@@ -114,7 +114,7 @@ exports.updateAboutPage = function(req, res) {
           about.description = req.body.description;
           if (req.body.image !== about.image) {
             // image has been replaced/removed, purge about images directory
-            fs.remove('./src/static/' + about.image, function(err) {
+            fs.remove('./client/static/images/about/' + about.image, function(err) {
               if (err) {
                 res.send(err);
               } else {

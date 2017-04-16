@@ -17,7 +17,6 @@ mongoose.connect('mongodb://127.0.0.1:27017');
 var app = module.exports = express();
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('src/static'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,10 +28,11 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client/src')));
+app.use(express.static(path.join(__dirname, '../client/static/')));
 app.use('/', index);
 app.use('/interface', index);
 app.use('/interface/*', index);
+app.use('/settings', index);
 app.use('/auth/login', index);
 app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);

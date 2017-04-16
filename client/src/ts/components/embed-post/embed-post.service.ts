@@ -129,7 +129,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     let options = new RequestOptions({ headers: headers });
     this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-    return this.http.post('/api/embed-post/upload', formData, options)
+    return this.http.post('/api/embedPosts/upload', formData, options)
       .map(res => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
@@ -143,7 +143,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
 
   initializeUploaderInstance() {
     this.uploader = new FileUploader({
-      url: "http://localhost:3000/api/embed-post/upload"
+      url: "http://localhost:3000/api/embedPosts/upload"
     });
   }
 

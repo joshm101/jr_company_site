@@ -32,13 +32,14 @@ export class InterfaceAboutFormComponent implements OnInit {
               this.contentLoadService.contentLoadingDone(aboutArray[0]);
             }
           }
-
         } else {
           // haven't configured about page before
           this.aboutObj = this.aboutService.new({
             header: '',
             description: ''
           });
+          this.contentLoadService.contentNeedsLoading(this.aboutObj);
+          this.contentLoadService.contentLoadingDone(this.aboutObj);
         }
         this.initializeForm();
         console.log("this.aboutObj: ", this.aboutObj);
@@ -120,7 +121,7 @@ export class InterfaceAboutFormComponent implements OnInit {
     console.log("this.aboutObj on submit: ", this.aboutObj);
 
     if (this.aboutObj._id) {
-      this.aboutService.update(this.aboutObj).subscribe(
+      this.aboutService.update(this.aboutObj).take(1).subscribe(
         (about) => {
           this.aboutObjBackup = this.aboutService.new(about);
           console.log("successful update: ", about);
@@ -133,10 +134,11 @@ export class InterfaceAboutFormComponent implements OnInit {
         }
       )
     } else {
-      this.aboutService.create(this.aboutObj).subscribe(
+      this.aboutService.create(this.aboutObj).take(1).subscribe(
         (about) => {
           this.aboutObjBackup = this.aboutService.new(about);
           console.log("successful creation: ", about);
+          this.snackBar.open("About page updated.","", { duration: 3000 });
           this.imageSrc = about[0].image;
         },
         (err) => {

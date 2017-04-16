@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
+import { AuthHttp } from 'angular2-jwt';
 
 import { AppRoot } from './components/app.component';
 
@@ -23,6 +24,9 @@ import { AboutService } from './components/interface/about/about.index';
 import { InterfaceAboutContentComponent } from './components/interface/about/interface-about-content';
 import { InterfaceAboutFormComponent } from './components/interface/about/form/interface-about-form.component';
 import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
+import { SettingsRootComponent } from './components/settings/settings-root.component';
+import { SettingsContentComponent } from './components/settings/content/settings-content.component';
+import { AuthChangePasswordComponent } from './components/auth/change-password/auth-change-password.component';
 import { AuthLoginComponent } from './components/auth/login/auth-login.component';
 import { AuthLoginFormComponent } from './components/auth/login/form/auth-login-form.component';
 import { AuthService } from './components/auth/auth.service';
@@ -50,6 +54,11 @@ const appRoutes: Routes = [
     ],
     canActivate: [AuthGuard]
   },
+  {
+    path: 'settings',
+    component: SettingsRootComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '', component: IndexRootComponent },
   { path: 'login', component: AuthLoginComponent },
   { path: '**', redirectTo: '' }
@@ -62,7 +71,8 @@ const appRoutes: Routes = [
     MaterialModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    FormsModule,
   ],
   declarations: [
     AppRoot,
@@ -82,6 +92,9 @@ const appRoutes: Routes = [
     JDialogComponent,
     AuthLoginComponent,
     AuthLoginFormComponent,
+    SettingsRootComponent,
+    SettingsContentComponent,
+    AuthChangePasswordComponent,
 
     // directives
     FocusedFormDirective
@@ -97,6 +110,7 @@ const appRoutes: Routes = [
     AboutService,
     AuthService,
     AuthGuard,
+    AuthHttp,
   ],
   bootstrap: [AppRoot]
 })
