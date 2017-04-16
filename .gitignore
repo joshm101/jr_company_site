@@ -15,7 +15,10 @@
 /client/src/stylesheets/theme.css
 /client/src/*.js
 /client/src/*.ts
-/client/static
+/client/static/images
+/client/static/scripts
+/client/static/boostrap.css
+/client/static/theme.css
 /client/src/*.map
 
 # IDEs and editors
