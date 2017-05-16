@@ -17,8 +17,8 @@
 /client/src/*.ts
 /client/static/images
 /client/static/scripts
-/client/static/boostrap.css
-/client/static/theme.css
+/client/static/stylesheets/bootstrap.css
+/client/static/stylesheets/theme.css
 /client/src/*.map
 
 # IDEs and editors

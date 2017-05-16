@@ -26,6 +26,11 @@ import { InterfaceAboutFormComponent } from './components/interface/about/form/i
 import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
 import { SettingsRootComponent } from './components/settings/settings-root.component';
 import { SettingsContentComponent } from './components/settings/content/settings-content.component';
+import { PublicHomeComponent } from './components/public/home/public-home.component';
+import { PublicContainerComponent } from './components/public/container/public-container.component';
+import { PublicNavBarComponent } from './components/public/nav-bar/public-nav-bar.component';
+import { PublicNavBarLinksComponent } from './components/public/nav-bar/links/public-nav-bar-links.component';
+
 import { AuthChangePasswordComponent } from './components/auth/change-password/auth-change-password.component';
 import { AuthLoginComponent } from './components/auth/login/auth-login.component';
 import { AuthLoginFormComponent } from './components/auth/login/form/auth-login-form.component';
@@ -59,7 +64,7 @@ const appRoutes: Routes = [
     component: SettingsRootComponent,
     canActivate: [AuthGuard]
   },
-  { path: '', component: IndexRootComponent },
+  { path: '', component: PublicContainerComponent },
   { path: 'login', component: AuthLoginComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -94,6 +99,11 @@ const appRoutes: Routes = [
     AuthLoginFormComponent,
     SettingsRootComponent,
     SettingsContentComponent,
+    PublicContainerComponent,
+    PublicHomeComponent,
+    PublicNavBarComponent,
+    PublicNavBarLinksComponent,
+
     AuthChangePasswordComponent,
 
     // directives

@@ -9,6 +9,40 @@ body {
   overflow-x: hidden;
 }
 
+.site-wrap {
+  height: inherit;
+}
+
+app-root {
+  height: inherit;
+  display: block;
+}
+
+public-container {
+  display: block;
+  height: inherit;
+}
+
+.public-container {
+  height: 100%;
+}
+
+@font-face {
+  font-family: headersFont;
+  src: url(../fonts/Neou-Thin.ttf);
+}
+
+@font-face {
+  font-family: headersFontBold;
+  font-weight: normal;
+  src: url(../fonts/Neou-Bold.ttf);
+}
+
+@font-face {
+  font-family: bodyFont;
+  src: url(../fonts/Derivia.TTF);
+}
+
 a {
   color: #00B7FF;
 }
@@ -612,5 +646,65 @@ html[xmlns] .clearfix {
 
 .text-right { 
   text-align: right;
+}
+
+.public-nav-bar { 
+  height: 125px;
+  position: relative;
+  color: #ffffff;
+  padding-top: 15px;
+}
+
+.public-nav-bar-links li{
+  font-family: headersFontBold;
+  display: inline-block;
+  margin: 0 35px;
+  font-weight: 900;
+  font-size: 16px;
+  text-align: center;
+}
+
+.public-nav-bar-links {
+  padding-left: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media screen and (max-width: 365px) {
+  #public-nav-bar-name {
+    font-size: 20px;
+    line-height: 30px; 
+  }
+}
+
+@media screen and (min-width: 366px) and (max-width: 500px) {
+  #public-nav-bar-name {
+    font-size: 25px;
+    line-height: 30px; 
+  }
+}
+
+@media screen and (min-width: 501px) {
+  #public-nav-bar-name {
+    font-size: 35px;
+    line-height: 50px; 
+  }
+}
+
+#public-nav-bar-name {
+  
+  font-family: headersFont;
+  font-weight: 800;
+}
+
+#public-nav-bar-name-wrap {
+  height: 45px;
+}
+
+.public-container {
+  font-family: bodyFont;
+  background-color: #16161d;
 }
 

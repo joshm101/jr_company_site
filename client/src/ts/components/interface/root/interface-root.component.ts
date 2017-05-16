@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ContentTypeEnum } from '../../../enums/content-type.enum';
@@ -51,6 +51,11 @@ export class InterfaceRootComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.rlaSafe = true;
+  }
+
+    @HostListener('window:scroll', ['$event'])
+  onWindowScrollEvent(event: Event) {
+    console.log("scroll event: ", event);
   }
 
   logout() {
