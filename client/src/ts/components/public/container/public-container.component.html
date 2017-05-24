@@ -1,3 +1,16 @@
 <div class="public-container">
-  <public-nav-bar></public-nav-bar>
+  <div class="nav-section">
+    <div class="nav-bar-wrap" 
+         expanding 
+         [marginTopExpanded]="navBarExpandedMargin" 
+         [marginTopCollapsed]="navBarCollapsedMargin"
+         [marginThreshold]="navBarThresholdMargin"
+         (isCollapsing)="handleNavCollapsing($event)"
+         (isExpanding)="handleNavExpanding($event)"
+         (marginThresholdReachedDown)="thresholdScrollDownExpandingNavBar()"
+         (marginThresholdReachedUp)="thresholdScrollUpExpandingNavBar()">
+        <public-nav-bar [shouldCollapseLogo]="shouldCollapseNavLogo" [linksOpacity]="navBarLinksOpacity"></public-nav-bar>
+    </div>
+  </div>
+  <div style="height: 1500px; background-color: bisque;"></div>
 </div>

@@ -30,6 +30,7 @@ import { PublicHomeComponent } from './components/public/home/public-home.compon
 import { PublicContainerComponent } from './components/public/container/public-container.component';
 import { PublicNavBarComponent } from './components/public/nav-bar/public-nav-bar.component';
 import { PublicNavBarLinksComponent } from './components/public/nav-bar/links/public-nav-bar-links.component';
+import { ExpandableComponent } from './components/expandable/expandable.component';
 
 import { AuthChangePasswordComponent } from './components/auth/change-password/auth-change-password.component';
 import { AuthLoginComponent } from './components/auth/login/auth-login.component';
@@ -44,6 +45,7 @@ import { ScreenSizeService } from './external_services/screen-size/screen-size.s
 
 // directives
 import { FocusedFormDirective } from './directives/focused-form.directive';
+import { ExpandingDirective } from './directives/expanding.directive';
 
 import 'hammerjs';
 
@@ -103,11 +105,13 @@ const appRoutes: Routes = [
     PublicHomeComponent,
     PublicNavBarComponent,
     PublicNavBarLinksComponent,
+    ExpandableComponent,
 
     AuthChangePasswordComponent,
 
     // directives
-    FocusedFormDirective
+    FocusedFormDirective,
+    ExpandingDirective,
   ],
   entryComponents: [
     JDialogComponent,

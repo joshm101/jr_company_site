@@ -1,26 +1,9 @@
-html {
-  height: 100%;
-}
-
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #e8e8e8;
   height: 100% !important;
   overflow-x: hidden;
-}
-
-.site-wrap {
-  height: inherit;
-}
-
-app-root {
-  height: inherit;
-  display: block;
-}
-
-public-container {
-  display: block;
-  height: inherit;
+  position: relative;
 }
 
 .public-container {
@@ -666,10 +649,6 @@ html[xmlns] .clearfix {
 
 .public-nav-bar-links {
   padding-left: 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 @media screen and (max-width: 365px) {
@@ -700,11 +679,42 @@ html[xmlns] .clearfix {
 }
 
 #public-nav-bar-name-wrap {
-  height: 45px;
+  height: 38px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 15px;
+}
+
+#public-nav-bar-name-wrap.scrolling-in {
+  margin-top: 70px;
+  position: absolute;
 }
 
 .public-container {
   font-family: bodyFont;
   background-color: #16161d;
+}
+
+.nav-bar-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #16161d;
+}
+
+.public-nav-bar-links-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  height: 20px;
+  transition: all 400ms ease-in-out;
+}
+
+.hide {
+  display: none;
 }
 

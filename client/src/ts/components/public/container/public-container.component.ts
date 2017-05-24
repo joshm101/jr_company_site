@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'public-container',
@@ -10,6 +10,18 @@ import { Subscription } from 'rxjs/Rx';
 export class PublicContainerComponent implements OnDestroy {
   public currentUrl: string;
   private _subscriptions: Subscription[];
+  private _shouldExpandNavBar: BehaviorSubject<boolean>;
+  public shouldExpandNavBar$: Observable<boolean>;
+
+  private _shouldCollapseNavLogo: boolean;
+  private _navBarLinksOpacity: number;
+
+  private _shouldExpandDiv: BehaviorSubject<boolean>;
+  public shouldExpandDiv$: Observable<boolean>;
+
+  public navBarCollapsedMargin: number = -125;
+  public navBarExpandedMargin: number = 0;
+  public navBarThresholdMargin: number = -55;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -26,6 +38,48 @@ export class PublicContainerComponent implements OnDestroy {
         }
       )
     );
+  }
+
+  public thresholdScrollDownExpandingNavBar() {
+    this.shouldCollapseNavLogo = false;
+  }
+
+  public thresholdScrollUpExpandingNavBar() {
+    this.shouldCollapseNavLogo = true;
+  }
+
+  public handleNavCollapsing(scrollTop: number) {
+    if (scrollTop > Math.abs(this.navBarCollapsedMargin) - 10) {
+      this.navBarLinksOpacity = 0.25;
+    }
+    if (scrollTop < Math.abs(this.navBarCollapsedMargin) - 10) {
+      this.navBarLinksOpacity = 0;
+    }   
+  }
+
+  public handleNavExpanding(scrollTop: number) {
+    if (scrollTop > Math.abs(this.navBarCollapsedMargin) - 10) {
+      this.navBarLinksOpacity = 0.25;
+    }
+    if (scrollTop >= Math.abs(this.navBarCollapsedMargin)) {
+      this.navBarLinksOpacity = 1;
+    }
+  }
+
+  get shouldCollapseNavLogo() {
+    return this._shouldCollapseNavLogo;
+  }
+
+  set shouldCollapseNavLogo(val: boolean) {
+    this._shouldCollapseNavLogo = val;
+  }
+
+  get navBarLinksOpacity() {
+    return this._navBarLinksOpacity;
+  }
+
+  set navBarLinksOpacity(amount: number) {
+    this._navBarLinksOpacity = amount;
   }
 
   ngOnDestroy() {
