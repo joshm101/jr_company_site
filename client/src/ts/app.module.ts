@@ -42,10 +42,11 @@ import { authOptionsProvider } from './components/auth/auth.options';
 // external services
 import { ContentLoadService } from './external_services/content-load/content-load.service';
 import { ScreenSizeService } from './external_services/screen-size/screen-size.service';
+import { WindowRefService } from './external_services/window/window.service';
 
 // directives
 import { FocusedFormDirective } from './directives/focused-form.directive';
-import { ExpandingDirective } from './directives/expanding.directive';
+import { MarginTopDirective } from './directives/margin-top.directive';
 
 import 'hammerjs';
 
@@ -111,7 +112,7 @@ const appRoutes: Routes = [
 
     // directives
     FocusedFormDirective,
-    ExpandingDirective,
+    MarginTopDirective,
   ],
   entryComponents: [
     JDialogComponent,
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
     EmbedPostService,
     ContentLoadService,
     ScreenSizeService,
+    WindowRefService,
     AboutService,
     AuthService,
     AuthGuard,

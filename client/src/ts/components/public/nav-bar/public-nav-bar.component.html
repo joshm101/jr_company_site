@@ -1,8 +1,17 @@
 <div class="public-nav-bar container">
-  <div class="text-xs-center" id="public-nav-bar-name-wrap" [class.scrolling-in]="shouldCollapseLogo">
+  <div 
+    class="text-xs-center" 
+    id="public-nav-bar-wrap-name" 
+    class="public-nav-bar-name-wrap text-xs-center" 
+    [class.not-scrolling-in]="!shouldCollapseLogo" 
+    [class.scrolling-in]="shouldCollapseLogo"
+  >
     <span id="public-nav-bar-name">Jacob Ruttenberg</span>
   </div>
-  <div class="text-xs-center public-nav-bar-links-wrap" [style.opacity]="linksOpacity" [class.hide]="shouldHideLinks">
+  <div class="text-xs-center public-nav-bar-links-wrap" 
+    [style.opacity]="linksOpacity" 
+    [class.hide]="shouldHideLinks" 
+    [class.show]="!shouldHideLinks">
       <public-nav-bar-links [links]="links"></public-nav-bar-links>
   </div>
 </div>

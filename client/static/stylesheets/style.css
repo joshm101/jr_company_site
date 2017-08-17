@@ -1,15 +1,3 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #e8e8e8;
-  height: 100% !important;
-  overflow-x: hidden;
-  position: relative;
-}
-
-.public-container {
-  height: 100%;
-}
-
 @font-face {
   font-family: headersFont;
   src: url(../fonts/Neou-Thin.ttf);
@@ -25,6 +13,20 @@ body {
   font-family: bodyFont;
   src: url(../fonts/Derivia.TTF);
 }
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #e8e8e8;
+  height: 100% !important;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+.public-container {
+  height: 100%;
+}
+
 
 a {
   color: #00B7FF;
@@ -633,6 +635,7 @@ html[xmlns] .clearfix {
 
 .public-nav-bar { 
   height: 125px;
+  font-family: headersFontBold;
   position: relative;
   color: #ffffff;
   padding-top: 15px;
@@ -673,23 +676,28 @@ html[xmlns] .clearfix {
 }
 
 #public-nav-bar-name {
-  
   font-family: headersFont;
   font-weight: 800;
 }
 
-#public-nav-bar-name-wrap {
-  height: 38px;
+.public-nav-bar-name-wrap.scrolling-in {
+  margin-top: 70px;
+  position: absolute;
+  z-index: 1000;
+  transition: none !important;
+}
+
+.public-nav-bar-name-wrap.not-scrolling-in {
+  margin-top: 15px;
   position: fixed;
+}
+
+.public-nav-bar-name-wrap {
   left: 0;
   right: 0;
   top: 0;
-  margin-top: 15px;
-}
-
-#public-nav-bar-name-wrap.scrolling-in {
-  margin-top: 70px;
-  position: absolute;
+  height: 38px;
+  z-index: 1000;
 }
 
 .public-container {
@@ -703,7 +711,11 @@ html[xmlns] .clearfix {
   left: 0;
   right: 0;
   background-color: #16161d;
+  transition: background-color 350ms;
+  z-index: 500;
+  margin-top: -125px;
 }
+
 
 .public-nav-bar-links-wrap {
   position: absolute;
@@ -711,10 +723,23 @@ html[xmlns] .clearfix {
   right: 0;
   bottom: 20px;
   height: 20px;
-  transition: all 400ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.fade-nav {
+  background-color: rgba(22,22,29, 0.75);
 }
 
 .hide {
   display: none;
 }
+
+.show {
+  display: block;
+}
+
+#public-nav-bar-wrap-name {
+  transition: margin-top 0s !important;
+}
+
 

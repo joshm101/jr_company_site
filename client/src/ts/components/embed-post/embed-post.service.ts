@@ -37,22 +37,20 @@ export class EmbedPostService extends AppService<EmbedPost> {
 
   getAll(): Observable<EmbedPost[]> {
     this._requestInFlight = true;
-    if (this.contentType || this.contentType === 0) {
-      return super.getAll().map((posts: EmbedPost[]) => {
-        return posts.filter(post => post.contentType == this.contentType);
-      }).map(posts => {
-        this._requestInFlight = false;
-        posts.forEach((post) => {
-          post.embedContentSafe = [];
-        });
-        posts.forEach(post => this.createSafeHtml(post));
+    return super.getAll().map((posts: EmbedPost[]) => {
+      if (this.contentType || this.contentType === 0) {
+        return posts.filter(post => post.contentType === this.contentType);
+      } else {
         return posts;
-      })
-    } else {
+      }
+    }).map(posts => {
       this._requestInFlight = false;
-      return Observable.of([]);
-    }
-
+      posts.forEach((post) => {
+        post.embedContentSafe = [];
+      });
+      posts.forEach(post => this.createSafeHtml(post));
+      return posts;
+    })
   }
 
   update(body: EmbedPost): Observable<EmbedPost> {

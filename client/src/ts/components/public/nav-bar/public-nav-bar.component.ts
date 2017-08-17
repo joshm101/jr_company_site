@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { ScreenSizeService } from '../../../external_services/screen-size/screen-size.service';
@@ -16,6 +16,7 @@ export class PublicNavBarComponent {
   @Input() set shouldCollapseLogo(val: boolean) {
     this._shouldCollapseLogo = val;
   }
+  
 
   get shouldCollapseLogo() {
     return this._shouldCollapseLogo;
@@ -25,12 +26,15 @@ export class PublicNavBarComponent {
     this._linksOpacity = val;
   }
 
+  @Output() onNavBarMouseEnter: EventEmitter<boolean>;
+  @Output() onNavBarMouseLeave: EventEmitter<boolean>;
+
   get linksOpacity() {
     return this._linksOpacity;
   }
 
   get shouldHideLinks() {
-    return this.linksOpacity === 0;
+    return this.shouldCollapseLogo || this.linksOpacity === 0;
   }
 
   public links: Link[];
@@ -67,6 +71,20 @@ export class PublicNavBarComponent {
 
     this._shouldExpandLinks = new BehaviorSubject(false);
     this.shouldExpandLinks$ = this._shouldExpandLinks.asObservable();
+    this.onNavBarMouseEnter = new EventEmitter<boolean>();
+    this.onNavBarMouseLeave = new EventEmitter<boolean>();
+  }
+
+  @HostListener('mouseenter')
+  private _handleMouseEnter() {
+    console.log("mouseenter");
+    this.onNavBarMouseEnter.emit(true);
+  }
+
+  @HostListener('mouseleave')
+  private _handleMouseLeave() {
+    console.log("mouseleave");
+    this.onNavBarMouseLeave.emit(true);
   }
 
   get screenWidth() {
