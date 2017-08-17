@@ -46,7 +46,6 @@ import { WindowRefService } from './external_services/window/window.service';
 
 // directives
 import { FocusedFormDirective } from './directives/focused-form.directive';
-import { MarginTopDirective } from './directives/margin-top.directive';
 
 import 'hammerjs';
 
@@ -112,7 +111,6 @@ const appRoutes: Routes = [
 
     // directives
     FocusedFormDirective,
-    MarginTopDirective,
   ],
   entryComponents: [
     JDialogComponent,
