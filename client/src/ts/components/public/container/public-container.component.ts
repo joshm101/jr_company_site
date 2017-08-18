@@ -421,7 +421,7 @@ export class PublicContainerComponent implements OnDestroy {
     '$event.target.scrollingElement.scrollTop',
     '$event.target.scrollingElement.scrollHeight',
   ])
-  private _handleScrollEvent(scrollTop: number, scrollHeight: number) {
+  public _handleScrollEvent(scrollTop: number, scrollHeight: number) {
     this._calculateScrollTopChange(scrollTop);
     if (!this._hoverOverride) {
       if (this._navBarInitialized) {

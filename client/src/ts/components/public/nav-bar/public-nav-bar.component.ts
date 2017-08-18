@@ -76,12 +76,12 @@ export class PublicNavBarComponent {
   }
 
   @HostListener('mouseenter')
-  private _handleMouseEnter() {
+  public _handleMouseEnter() {
     this.onNavBarMouseEnter.emit(true);
   }
 
   @HostListener('mouseleave')
-  private _handleMouseLeave() {
+  public _handleMouseLeave() {
     this.onNavBarMouseLeave.emit(true);
   }
 
