@@ -23,6 +23,11 @@ body {
   position: relative;
 }
 
+.prevent-body-scroll {
+  overflow-y: hidden;
+}  
+
+
 .public-container {
   height: 100%;
 }
@@ -654,25 +659,258 @@ html[xmlns] .clearfix {
   padding-left: 0;
 }
 
-@media screen and (max-width: 365px) {
+@media (max-width: 767px) {
+  .public-nav-bar-links li {
+    margin: 0 30px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-bar-wrap {
+    margin-top: -55px !important;
+  }
+
+  .public-nav-bar-links-wrap {
+    display: block !important;
+  }
+
+  .public-nav-bar-links {
+    transition: opacity 400ms ease-in-out, visibility 400ms ease-in-out;
+    opacity: 1;
+    visibility: visible;
+    bottom: 0px;
+    left: 0px;
+    overflow-y: auto;
+    padding-left: 0px;
+    position: fixed;
+    right: 0px;
+    top: 70px;  
+    border-top: 1px solid #21212B;
+    background-color: #16161d;
+    margin-bottom: 0 !important;
+  }
+
+  .public-nav-bar-links.show-links {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .public-nav-bar-links.hide-links {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .public-nav-bar-links li {
+    float: none;
+    margin: 0px;
+    opacity: 1;
+    width: 100%;
+  }
+
+  .public-nav-bar-links li:hover {
+    background-color: #21212B;
+    transition: all 400ms ease-in-out;    
+    cursor: pointer;
+  }
+
+  .public-nav-bar-links li span {
+    display: block;
+    padding: 20px 0px;
+  }
+
+  .public-nav-bar-menu-icon-bar {
+    width: 32px;
+    height: 5px;
+    margin: 6px 0;  
+    background-color: white;   
+    transition: 0.4s; 
+  }
+  
+  .public-nav-bar-menu-icon-wrap {
+    position: absolute; 
+    z-index: 1001;
+    top: 70px;
+  }
+
+  .public-nav-bar-menu-icon-wrap:hover {
+    cursor: pointer;
+  }
+
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-8px, 6px);
+    transform: rotate(-45deg) translate(-8px, 6px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-2 {
+    opacity: 0;
+  }  
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-9px, -8px);
+    transform: rotate(45deg) translate(-9px, -8px);
+  }
+}
+
+@media (max-width: 575px) {
+  .public-nav-bar-menu-icon-wrap {
+    left: 20px;
+  }
+  .public-nav-bar-menu-icon-bar {
+    width: 19px;
+    height: 3px;
+    margin: 2px 0;
+  }
+  .public-nav-bar-links {
+    top: 70px;
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-2px, 3px);
+    transform: rotate(-45deg) translate(-2px, 3px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-3px, -6px);
+    transform: rotate(45deg) translate(-3px, -6px);
+  }    
+}
+
+@media (max-width: 374px) {
   #public-nav-bar-name {
     font-size: 20px;
-    line-height: 30px; 
+    line-height: 20px; 
   }
+
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 16px !important;
+  }   
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
+  }  
+
+  .nav-bar-wrap {
+    margin-top: -78px !important;
+  }
+
+  .public-nav-bar-links {
+    top: 47px;
+  }
+
+  .public-nav-bar-menu-icon-bar {
+    width: 16px;
+    height: 2px;
+    margin: 3px 0;
+  }
+  .public-nav-bar-menu-icon-wrap {
+    top: 92px;
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-1px, 4px);
+    transform: rotate(-45deg) translate(-1px, 4px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-3px, -6px);
+    transform: rotate(45deg) translate(-3px, -6px);
+  }         
 }
 
-@media screen and (min-width: 366px) and (max-width: 500px) {
+@media (min-width: 375px) and (max-width: 424px) {
   #public-nav-bar-name {
     font-size: 25px;
-    line-height: 30px; 
+    line-height: 25px; 
+  }  
+
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 16px !important;
+  }  
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
   }
+
+  .nav-bar-wrap {
+    margin-top: -75px !important;
+  }
+
+  .public-nav-bar-links {
+    top: 50px;
+  }
+
+  .public-nav-bar-menu-icon-bar {
+    width: 22px;
+    height: 3px;
+    margin: 4px 0;
+  }
+  .public-nav-bar-menu-icon-wrap {
+    top: 87px;
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-4px, 5px);
+    transform: rotate(-45deg) translate(-4px, 5px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-4px, -6px);
+    transform: rotate(45deg) translate(-4px, -6px);
+  }          
 }
 
-@media screen and (min-width: 501px) {
+@media screen and (min-width: 425px) and (max-width: 509px) {
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 17px !important;
+  }
+
+  #public-nav-bar-name {
+    font-size: 28px;
+    line-height: 28px; 
+  }
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
+  }
+
+  .public-nav-bar-links {
+    top: 55px;
+  }
+
+  .nav-bar-wrap {
+    margin-top: -70px !important;
+  }
+
+  .public-nav-bar-menu-icon-bar {
+    width: 25px;
+    height: 3.5px;
+    margin: 5px 0;
+  }
+  .public-nav-bar-menu-icon-wrap {
+    top: 82px;
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-5px, 5px);
+    transform: rotate(-45deg) translate(-5px, 5px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-6px, -8px);
+    transform: rotate(45deg) translate(-6px, -8px);
+  }    
+}
+
+@media (min-width: 510px) {
+  .public-nav-bar-menu-icon-bar {
+    width: 32px;
+    height: 5px;
+    margin: 6px 0;
+  }
+
   #public-nav-bar-name {
     font-size: 35px;
     line-height: 50px; 
   }
+  .public-nav-bar-menu-icon-bar.change.bar-1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+  }
+  .public-nav-bar-menu-icon-bar.change.bar-3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+  }      
 }
 
 #public-nav-bar-name {

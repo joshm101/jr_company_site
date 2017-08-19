@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
@@ -16,7 +16,7 @@ enum ScrollDirection {
   selector: 'public-container',
   templateUrl: 'public-container.component.html'
 })
-export class PublicContainerComponent implements OnDestroy {
+export class PublicContainerComponent implements OnDestroy, OnInit {
   public currentUrl: string;
   private _subscriptions: Subscription[];
   private _shouldCollapseNavLogo: boolean;
@@ -30,6 +30,9 @@ export class PublicContainerComponent implements OnDestroy {
   private _previousNavBarLinksOpacity: number;
   private _scrollTopChange: number;
   private _hoverOverride: boolean = false;
+  private _mobileOverride: boolean = false;
+  private _menuIsOpen: boolean;
+  public screenWidth: number;
   public navBarCollapsedMargin: number = -125;
   public navBarExpandedMargin: number = 0;
   public navBarThresholdMargin: number = -55;
@@ -173,7 +176,6 @@ export class PublicContainerComponent implements OnDestroy {
     this._navBarMarginTop = this.navBarCollapsedMargin;
     this._navBarLinksOpacity = 0;
     this.fadeNavBar = false;
-
     // subscribe to the current URL to determine
     // proper component to render
     this._subscriptions.push(
@@ -190,6 +192,10 @@ export class PublicContainerComponent implements OnDestroy {
         this.embedPosts = embedPosts;
       }      
     )
+  }
+
+  ngOnInit() {
+    this.determineAndSetMobileOverride();
   }
 
   /**
@@ -375,20 +381,22 @@ export class PublicContainerComponent implements OnDestroy {
    * the navbar should become fully expanded with links fully visible.
    */
   public navBarMouseEnter() {
-    this._enableHoverOverride();
-    
-    // save current values for eventual mouseout event
-    this._previousMarginTop = this._navBarMarginTop;
-    this._previousFadeNavBar = this.fadeNavBar;
-    this._previousNavBarLinksOpacity = this.navBarLinksOpacity;
-    
-    this._disableNavBarFade();
+    if (!this._mobileOverride && this.screenWidth > 640) {
+      this._enableHoverOverride();
+      
+      // save current values for eventual mouseout event
+      this._previousMarginTop = this._navBarMarginTop;
+      this._previousFadeNavBar = this.fadeNavBar;
+      this._previousNavBarLinksOpacity = this.navBarLinksOpacity;
+      
+      this._disableNavBarFade();
 
-    // calculate difference from fully expanded state and invoke smooth
-    // expand for calculated amount.
-    let differenceRemaining = Math.abs(this._navBarMarginTop - this.navBarExpandedMargin);
-    if (differenceRemaining > 0) {
-      this._initiateSmoothExpand(differenceRemaining, this._navBarMarginTop, this.MARGIN_ANIMATION_TIME_MS);
+      // calculate difference from fully expanded state and invoke smooth
+      // expand for calculated amount.
+      let differenceRemaining = Math.abs(this._navBarMarginTop - this.navBarExpandedMargin);
+      if (differenceRemaining > 0) {
+        this._initiateSmoothExpand(differenceRemaining, this._navBarMarginTop, this.MARGIN_ANIMATION_TIME_MS);
+      }
     }
   }
 
@@ -398,17 +406,84 @@ export class PublicContainerComponent implements OnDestroy {
    * last mouseover occurred.
    */
   public navBarMouseLeave() {
-    if (this._previousMarginTop < this.navBarMarginTop) {
-      // there's a difference between current navBarMarginTop and
-      // the value before mousenter. calculate difference and
-      // collapse for calculated amount
-      let difference = Math.abs(this.navBarMarginTop - this._previousMarginTop);
-      this._initiateSmoothCollapse(difference, this._navBarMarginTop, this.MARGIN_ANIMATION_TIME_MS);
+    if (!this._mobileOverride && this.screenWidth > 640) {
+      if (this._previousMarginTop < this.navBarMarginTop) {
+        // there's a difference between current navBarMarginTop and
+        // the value before mousenter. calculate difference and
+        // collapse for calculated amount
+        let difference = Math.abs(this.navBarMarginTop - this._previousMarginTop);
+        this._initiateSmoothCollapse(difference, this._navBarMarginTop, this.MARGIN_ANIMATION_TIME_MS);
+      }
+      this.navBarLinksOpacity = this._previousNavBarLinksOpacity;
+      this.fadeNavBar = this._previousFadeNavBar;
+      this._disableHoverOverride();
     }
-    this.navBarLinksOpacity = this._previousNavBarLinksOpacity;
-    this.fadeNavBar = this._previousFadeNavBar;
-    this._disableHoverOverride();
   }  
+
+  /**
+   * Function invoked on window resize. On window resize,
+   * determine if we should render mobile menu or non-mobile menu
+   */
+  @HostListener('window:resize', [])
+  public _handleResizeEvent() {
+    this.determineAndSetMobileOverride();
+  }
+
+  /**
+   * Determines current window width & applies
+   * mobile menu or non-mobile menu, depending on
+   * calculated width.
+   */
+  public determineAndSetMobileOverride() {
+    this.screenWidth = window.innerWidth
+    let body = document.getElementsByTagName('body')[0];  
+    console.log("this.screenWidth: ", this.screenWidth);  
+    if (this.screenWidth <= 640) {
+      // mobile display
+
+      this._mobileOverride = true;
+      this._disableNavBarFade();
+      this._shouldCollapseNavLogo = false;
+      if (this._menuIsOpen) {
+        // mobile display and the mobile menu is open, prevent
+        // body scrolling.
+        body.classList.add('prevent-body-scroll');
+        this.navBarLinksOpacity = 1;
+      }
+    } else {
+      // non-mobile display
+      this._mobileOverride = false;
+
+      // non-mobile display, enable body scrolling
+      body.classList.remove('prevent-body-scroll');
+      console.log("this.navBarMarginTop: ", this.navBarMarginTop);
+      console.log("this.navbarTresholdMargin: ", this.navBarThresholdMargin);
+      if (this.navBarMarginTop <= this.navBarThresholdMargin) {
+        this.shouldCollapseNavLogo = true;
+        this.navBarLinksOpacity = 0;
+      }
+    }
+  }
+
+  public handleMenuOpenStatusChange(isOpen: boolean) {
+    this.navBarLinksOpacity = 1;
+    let body = document.getElementsByTagName('body')[0];
+    if (isOpen) {
+      this._menuIsOpen = true;
+      // overflow-y hidden class applied to body tag. Better overall
+      // UX with some trade-off of a tiny flicker on logo positioning
+      // when mobile menu opens. Also when opening the menu, there's a 1px
+      // line at the bottom of the menu that isn't covered, meaning you'll
+      // see a tiny bit of what's behind that menu in the aformentioned line.
+      // This behavior is deemed better than the behavior seen when
+      // scrolling in the mobile menu on https://themill.com (as of 8/19/2017)
+      body.classList.add('prevent-body-scroll');
+    } else {
+      this._menuIsOpen = false;
+      body.classList.remove('prevent-body-scroll');
+      //this.navBarLinksOpacity = 0;
+    }
+  }
 
   /**
    * Top level scrolling event handler. This method dispatches the appropriate
@@ -423,7 +498,7 @@ export class PublicContainerComponent implements OnDestroy {
   ])
   public _handleScrollEvent(scrollTop: number, scrollHeight: number) {
     this._calculateScrollTopChange(scrollTop);
-    if (!this._hoverOverride) {
+    if (!this._hoverOverride && !this._mobileOverride) {
       if (this._navBarInitialized) {
         switch(this.scrollDirection(scrollTop)) {
           case ScrollDirection.Down:

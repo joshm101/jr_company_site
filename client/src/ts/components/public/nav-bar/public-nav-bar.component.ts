@@ -28,6 +28,9 @@ export class PublicNavBarComponent {
 
   @Output() onNavBarMouseEnter: EventEmitter<boolean>;
   @Output() onNavBarMouseLeave: EventEmitter<boolean>;
+  @Output() menuOpenStatusChange: EventEmitter<boolean>;
+
+  @Input() public menuIsOpen: boolean = false;
 
   get linksOpacity() {
     return this._linksOpacity;
@@ -73,6 +76,7 @@ export class PublicNavBarComponent {
     this.shouldExpandLinks$ = this._shouldExpandLinks.asObservable();
     this.onNavBarMouseEnter = new EventEmitter<boolean>();
     this.onNavBarMouseLeave = new EventEmitter<boolean>();
+    this.menuOpenStatusChange = new EventEmitter<boolean>();
   }
 
   @HostListener('mouseenter')
@@ -83,6 +87,12 @@ export class PublicNavBarComponent {
   @HostListener('mouseleave')
   public _handleMouseLeave() {
     this.onNavBarMouseLeave.emit(true);
+  }
+
+  public handleNavMenuToggle() {
+    console.log('nav menu toggle');
+    this.menuIsOpen = !this.menuIsOpen;
+    this.menuOpenStatusChange.emit(this.menuIsOpen);
   }
 
   get screenWidth() {

@@ -30,6 +30,7 @@ import { PublicHomeComponent } from './components/public/home/public-home.compon
 import { PublicContainerComponent } from './components/public/container/public-container.component';
 import { PublicNavBarComponent } from './components/public/nav-bar/public-nav-bar.component';
 import { PublicNavBarLinksComponent } from './components/public/nav-bar/links/public-nav-bar-links.component';
+import { PublicNavBarMenuIconComponent } from './components/public/nav-bar/menu-icon/public-nav-bar-menu-icon.component';
 import { ExpandableComponent } from './components/expandable/expandable.component';
 
 import { AuthChangePasswordComponent } from './components/auth/change-password/auth-change-password.component';
@@ -105,6 +106,7 @@ const appRoutes: Routes = [
     PublicHomeComponent,
     PublicNavBarComponent,
     PublicNavBarLinksComponent,
+    PublicNavBarMenuIconComponent,
     ExpandableComponent,
 
     AuthChangePasswordComponent,
