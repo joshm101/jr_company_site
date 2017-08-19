@@ -435,8 +435,9 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
    * calculated width.
    */
   public determineAndSetMobileOverride() {
-    this.screenWidth = document.body.clientWidth;
-    let body = document.getElementsByTagName('body')[0];    
+    this.screenWidth = window.innerWidth
+    let body = document.getElementsByTagName('body')[0];  
+    console.log("this.screenWidth: ", this.screenWidth);  
     if (this.screenWidth <= 640) {
       // mobile display
 
@@ -447,6 +448,7 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
         // mobile display and the mobile menu is open, prevent
         // body scrolling.
         body.classList.add('prevent-body-scroll');
+        this.navBarLinksOpacity = 1;
       }
     } else {
       // non-mobile display
@@ -454,8 +456,11 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
 
       // non-mobile display, enable body scrolling
       body.classList.remove('prevent-body-scroll');
+      console.log("this.navBarMarginTop: ", this.navBarMarginTop);
+      console.log("this.navbarTresholdMargin: ", this.navBarThresholdMargin);
       if (this.navBarMarginTop <= this.navBarThresholdMargin) {
         this.shouldCollapseNavLogo = true;
+        this.navBarLinksOpacity = 0;
       }
     }
   }
