@@ -12,7 +12,7 @@ type Link = {
 export class PublicNavBarLinksComponent {
   @Input() public links: Link[];
   @Input() public isOpen: boolean = false;
-  @Input() public screenWidth: boolean;
+  @Input() public screenWidth: number;
 
   constructor(
 
