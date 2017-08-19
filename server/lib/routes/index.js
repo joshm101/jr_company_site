@@ -7,7 +7,7 @@ router.get([
   '/',
   '/audio',
   '/video',
-  '/about',
+  '/bio',
   '/contact'
 ], function(req, res, next) {
   res.sendFile(path.join(__dirname, '../views/index.html'));
