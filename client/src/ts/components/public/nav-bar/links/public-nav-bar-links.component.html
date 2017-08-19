@@ -1,5 +1,7 @@
 <div>
-  <ul class="public-nav-bar-links">
+  <ul class="public-nav-bar-links hide-links" 
+      [class.hide-links]="!isOpen"
+      [class.show-links]="isOpen && screenWidth <= 640">
     <li *ngFor="let link of links">
       <span>{{ link.label }}</span>
     </li>

@@ -1,4 +1,7 @@
 <div class="public-nav-bar container">
+  <div class="public-nav-bar-menu-icon-wrap" (click)="handleNavMenuToggle()">
+    <public-nav-bar-menu-icon [isOpen]="menuIsOpen"></public-nav-bar-menu-icon>
+  </div>
   <div 
     class="text-xs-center" 
     id="public-nav-bar-wrap-name" 
@@ -12,7 +15,7 @@
     [style.opacity]="linksOpacity" 
     [class.hide]="shouldHideLinks" 
     [class.show]="!shouldHideLinks">
-      <public-nav-bar-links [links]="links"></public-nav-bar-links>
+      <public-nav-bar-links [isOpen]="menuIsOpen" [screenWidth]="screenWidth" [links]="links"></public-nav-bar-links>
   </div>
 </div>
 
