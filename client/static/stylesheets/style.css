@@ -778,6 +778,14 @@ html[xmlns] .clearfix {
     line-height: 20px; 
   }
 
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 16px !important;
+  }   
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
+  }  
+
   .nav-bar-wrap {
     margin-top: -78px !important;
   }
@@ -810,6 +818,14 @@ html[xmlns] .clearfix {
     line-height: 25px; 
   }  
 
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 16px !important;
+  }  
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
+  }
+
   .nav-bar-wrap {
     margin-top: -75px !important;
   }
@@ -837,9 +853,17 @@ html[xmlns] .clearfix {
 }
 
 @media screen and (min-width: 425px) and (max-width: 509px) {
+  .public-nav-bar-name-wrap.not-scrolling-in {
+    margin-top: 17px !important;
+  }
+
   #public-nav-bar-name {
     font-size: 28px;
     line-height: 28px; 
+  }
+
+  .public-nav-bar-name-wrap {
+    max-height: 30px;
   }
 
   .public-nav-bar-links {
@@ -856,7 +880,7 @@ html[xmlns] .clearfix {
     margin: 5px 0;
   }
   .public-nav-bar-menu-icon-wrap {
-    top: 80px;
+    top: 82px;
   }
   .public-nav-bar-menu-icon-bar.change.bar-1 {
     -webkit-transform: rotate(-45deg) translate(-5px, 5px);
@@ -902,7 +926,7 @@ html[xmlns] .clearfix {
 }
 
 .public-nav-bar-name-wrap.not-scrolling-in {
-  margin-top: 16px;
+  margin-top: 15px;
   position: fixed;
 }
 
