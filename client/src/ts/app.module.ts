@@ -30,6 +30,12 @@ import { PublicHomeComponent } from './components/public/home/public-home.compon
 import { PublicContainerComponent } from './components/public/container/public-container.component';
 import { PublicNavBarComponent } from './components/public/nav-bar/public-nav-bar.component';
 import { PublicNavBarLinksComponent } from './components/public/nav-bar/links/public-nav-bar-links.component';
+import { PublicNavBarMenuIconComponent } from './components/public/nav-bar/menu-icon/public-nav-bar-menu-icon.component';
+import { PublicAudioComponent } from './components/public/audio/public-audio.component';
+import { PublicBioComponent } from './components/public/bio/public-bio.component';
+import { PublicContactComponent } from './components/public/contact/public-contact.component';
+import { PublicVideoComponent } from './components/public/video/public-video.component';
+
 import { ExpandableComponent } from './components/expandable/expandable.component';
 
 import { AuthChangePasswordComponent } from './components/auth/change-password/auth-change-password.component';
@@ -66,7 +72,15 @@ const appRoutes: Routes = [
     component: SettingsRootComponent,
     canActivate: [AuthGuard]
   },
-  { path: '', component: PublicContainerComponent },
+  { path: '', 
+    component: PublicContainerComponent,
+    children: [
+      { path: 'audio', component: PublicAudioComponent },
+      { path: 'video', component: PublicVideoComponent },
+      { path: 'bio', component: PublicBioComponent },
+      { path: 'contact', component: PublicContactComponent },
+    ],
+  },
   { path: 'login', component: AuthLoginComponent },
   { path: '**', redirectTo: '' }
 ];
@@ -103,8 +117,14 @@ const appRoutes: Routes = [
     SettingsContentComponent,
     PublicContainerComponent,
     PublicHomeComponent,
+    PublicAudioComponent,
+    PublicBioComponent,
+    PublicContactComponent,
+    PublicVideoComponent,
     PublicNavBarComponent,
     PublicNavBarLinksComponent,
+    PublicNavBarMenuIconComponent,
+
     ExpandableComponent,
 
     AuthChangePasswordComponent,
