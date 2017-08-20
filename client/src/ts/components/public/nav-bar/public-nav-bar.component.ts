@@ -64,7 +64,7 @@ export class PublicNavBarComponent {
       },
       {
         label: 'Bio',
-        url: '/about',
+        url: '/bio',
       },
       {
         label: 'Contact',
@@ -91,8 +91,8 @@ export class PublicNavBarComponent {
 
   public handleNavMenuToggle() {
     console.log('nav menu toggle');
-    this.menuIsOpen = !this.menuIsOpen;
-    this.menuOpenStatusChange.emit(this.menuIsOpen);
+    //this.menuIsOpen = !this.menuIsOpen;
+    this.menuOpenStatusChange.emit(!this.menuIsOpen);
   }
 
   get screenWidth() {

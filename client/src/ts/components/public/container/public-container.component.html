@@ -6,13 +6,14 @@
       <public-nav-bar 
         [shouldCollapseLogo]="shouldCollapseNavLogo" 
         [linksOpacity]="navBarLinksOpacity"
+        [menuIsOpen]="_menuIsOpen"
         (onNavBarMouseEnter)="navBarMouseEnter()"
         (onNavBarMouseLeave)="navBarMouseLeave()"
         (menuOpenStatusChange)="handleMenuOpenStatusChange($event)"
       ></public-nav-bar>
     </div>
   </div>
-  <div style="height: 2500px; background-color: grey;">
-
+  <div style="background-color: grey;">
+    <router-outlet></router-outlet>
   </div>   
 </div>

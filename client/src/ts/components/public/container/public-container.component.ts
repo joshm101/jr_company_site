@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
@@ -31,7 +31,7 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
   private _scrollTopChange: number;
   private _hoverOverride: boolean = false;
   private _mobileOverride: boolean = false;
-  private _menuIsOpen: boolean;
+  public _menuIsOpen: boolean;
   public screenWidth: number;
   public navBarCollapsedMargin: number = -125;
   public navBarExpandedMargin: number = 0;
@@ -167,9 +167,9 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
   }  
 
   constructor(
-    private _activatedRoute: ActivatedRoute,
     private _embedPostService: EmbedPostService,
     private _windowRefService: WindowRefService,
+    private _router: Router,
   ) {
     this._subscriptions = [];
     this._shouldCollapseNavLogo = true;
@@ -179,9 +179,14 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
     // subscribe to the current URL to determine
     // proper component to render
     this._subscriptions.push(
-      this._activatedRoute.url.subscribe(
-        (url) => {
-          this.currentUrl = url.toString();
+      this._router.events.subscribe(
+        (event) => {
+          console.log("this.currentUrl: ", this.currentUrl);
+          console.log("new url: ", event.url);
+          if (this.currentUrl !== event.url) {
+            this._menuIsOpen = false;
+          }
+          this.currentUrl = event.url;
         }
       ),
     );
