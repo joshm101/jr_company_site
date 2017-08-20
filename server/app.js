@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var MONGODB_CONNECTION_URL = process.env.MONGODB_CONNECTION_URL || 'mongodb://127.0.0.1:27017';
 
 var index = require('./lib/routes/index');
 var api = require('./lib/routes/api');
@@ -12,7 +13,7 @@ var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
 
-mongoose.connect('mongodb://127.0.0.1:27017');
+mongoose.connect(MONGODB_CONNECTION_URL);
 
 var app = module.exports = express();
 app.use(bodyParser.json({limit: '50mb'}));
