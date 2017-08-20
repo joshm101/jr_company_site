@@ -181,8 +181,6 @@ export class PublicContainerComponent implements OnDestroy, OnInit {
     this._subscriptions.push(
       this._router.events.subscribe(
         (event) => {
-          console.log("this.currentUrl: ", this.currentUrl);
-          console.log("new url: ", event.url);
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
           }
