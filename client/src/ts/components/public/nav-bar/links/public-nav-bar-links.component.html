@@ -3,7 +3,7 @@
       [class.hide-links]="!isOpen"
       [class.show-links]="isOpen && screenWidth <= 640">
     <li *ngFor="let link of links">
-      <span>{{ link.label }}</span>
+      <a [routerLink]="link.url"><span>{{ link.label }}</span></a>
     </li>
   </ul>
 </div>

@@ -655,6 +655,16 @@ html[xmlns] .clearfix {
   text-align: center;
 }
 
+.public-nav-bar-links li a {
+  text-decoration: none;
+  color: white;
+}
+
+.public-nav-bar-links li a:hover {
+  text-decoration: none;
+  color: white;
+}
+
 .public-nav-bar-links {
   padding-left: 0;
 }
