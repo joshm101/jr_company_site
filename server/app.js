@@ -11,6 +11,7 @@ var index = require('./lib/routes/index');
 var api = require('./lib/routes/api');
 var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
+var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
 
 mongoose.connect(MONGODB_CONNECTION_URL);
@@ -37,7 +38,8 @@ app.use('/settings', index);
 app.use('/auth/login', index);
 app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);
-app.use('/api/about', aboutPageRoutes)
+app.use('/api/about', aboutPageRoutes);
+app.use('/api/contactInfo', contactInfoRoutes);
 app.use('/api/auth', authRoutes);
 
 // catch 404 and forward to error handler
