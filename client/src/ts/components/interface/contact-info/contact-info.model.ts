@@ -4,7 +4,7 @@ export class ContactInfo extends AppModel {
   constructor(data?: any) {
     super(data);
   }
-  id: string;
+  _id: string;
   alias: string;
   email: string;
   facebookUrl: string;

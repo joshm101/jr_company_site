@@ -1,0 +1,71 @@
+<form
+  [formGroup]="contactInfoForm"
+  (submit)="contactInfoFormSubmit()"
+  *ngIf="contactInfoObj" autocomplete="off"
+>
+  <div
+    class="contact-info-form-wrap
+         offset-sm-1
+         col-md-8
+         offset-md-2
+         offset-lg-2
+         col-xl-6
+         offset-xl-3
+         col-xs-12"
+  >
+    <md-card>
+      <md-card-header class="contact-info-form-card-header" mdCardTitle="Contact Info">
+        <div class="row">
+          <div class="col-xs-12">
+            <md-input-container
+              dividerColor="primary"
+              class="contact-info-header-input-wrap full-width"
+            >
+              <input formControlName="alias" mdInput placeholder="Alias">
+            </md-input-container>
+          </div>
+        </div>
+      </md-card-header>
+      <md-card-content>
+        <md-input-container
+          dividerColor="primary"
+          class="full-width"
+        >
+          <input formControlName="email" mdInput placeholder="Email">
+        </md-input-container>
+        <md-input-container
+          dividerColor="primary"
+          class="full-width"
+        >
+          <input formControlName="soundcloudUrl" mdInput placeholder="Soundcloud URL">
+        </md-input-container>
+        <md-input-container
+          dividerColor="primary"
+          class="full-width"
+        >
+          <input formControlName="facebookUrl" mdInput placeholder="Facebook URL">
+        </md-input-container>
+        <md-input-container
+          dividerColor="primary"
+          class="full-width"
+        >
+          <input formControlName="instagramUrl" mdInput placeholder="Instagram URL">
+        </md-input-container>
+        <md-input-container
+          dividerColor="primary"
+          class="full-width"
+        >
+          <input formControlName="twitterUrl" mdInput placeholder="Twitter URL">
+        </md-input-container>
+      </md-card-content>
+      <md-card-actions>
+        <button tabindex="0"
+                (click)="cancelChanges()"
+                md-button type="button">Cancel Changes</button>
+        <button tabindex="0"
+                md-button type="submit"
+                class="add-post-done-button">Done</button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</form>

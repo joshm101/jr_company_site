@@ -26,6 +26,7 @@ import { InterfaceAboutFormComponent } from './components/interface/about/form/i
 import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
 import { ContactInfoService } from './components/interface/contact-info/contact-info.index';
 import { InterfaceContactInfoContentComponent } from './components/interface/contact-info/interface-contact-info-content.component';
+import { InterfaceContactInfoFormComponent } from './components/interface/contact-info/form/interface-contact-info-form.component';
 import { SettingsRootComponent } from './components/settings/settings-root.component';
 import { SettingsContentComponent } from './components/settings/content/settings-content.component';
 import { PublicHomeComponent } from './components/public/home/public-home.component';
@@ -114,6 +115,7 @@ const appRoutes: Routes = [
     InterfaceAboutFormComponent,
     InterfaceAboutFormImagePreviewComponent,
     InterfaceContactInfoContentComponent,
+    InterfaceContactInfoFormComponent,
     JDialogComponent,
     AuthLoginComponent,
     AuthLoginFormComponent,
