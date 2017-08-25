@@ -44,6 +44,11 @@ export class InterfaceRootComponent implements AfterViewInit {
         label: 'About',
         path: 'about',
         contentType: ContentTypeEnum.About
+      },
+      {
+        label: 'Contact Info',
+        path: 'contact-info',
+        contentType: ContentTypeEnum.ContactInfo
       }
     ];
     this.currentWidth = this._screenSizeService.screenWidth;
@@ -85,4 +90,3 @@ export class InterfaceRootComponent implements AfterViewInit {
 
   ContentTypeEnum = ContentTypeEnum;
 }
-

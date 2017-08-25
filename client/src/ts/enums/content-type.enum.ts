@@ -3,5 +3,6 @@ export enum ContentTypeEnum {
   FieldRecordings = 1,
   Film = 2,
   Eng = 3,
-  About = 4
+  About = 4,
+  ContactInfo = 5,
 }

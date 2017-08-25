@@ -25,7 +25,7 @@ body {
 
 .prevent-body-scroll {
   overflow-y: hidden;
-}  
+}
 
 
 .public-container {
@@ -200,6 +200,10 @@ textarea {
   margin-top: 30px !important;
 }
 
+.contact-info-header-input-wrap {
+  font-size: 20pt !important;
+}
+
 .about-form-card-header .mat-card-header-text {
   margin: 0 !important;
 }
@@ -208,7 +212,7 @@ textarea {
   margin-top: 50px;
 }
 
-.about-form-wrap {
+.about-form-wrap, .contact-info-form-wrap {
   margin-bottom: 50px;
 }
 
@@ -218,6 +222,18 @@ textarea {
   float: left;
   width: 100%;
   margin-bottom: 50px !important;
+}
+
+.contact-info-form-card-header {
+  height: auto !important;
+  display: block !important;
+  float: left;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+
+.contact-info-form-card-header .mat-card-header-text {
+  height: 0;
 }
 
 .about-form-card-header .mat-card-header-text {
@@ -482,7 +498,7 @@ html[xmlns] .clearfix {
   [md-dialog-content] {
     max-height: 45vh !important;
   }
-  
+
   md-dialog-container {
     padding: 3px;
   }
@@ -634,11 +650,11 @@ html[xmlns] .clearfix {
   padding: 5px 25px;
 }
 
-.text-right { 
+.text-right {
   text-align: right;
 }
 
-.public-nav-bar { 
+.public-nav-bar {
   height: 125px;
   font-family: headersFontBold;
   position: relative;
@@ -695,7 +711,7 @@ html[xmlns] .clearfix {
     padding-left: 0px;
     position: fixed;
     right: 0px;
-    top: 70px;  
+    top: 70px;
     border-top: 1px solid #21212B;
     background-color: #16161d;
     margin-bottom: 0 !important;
@@ -720,7 +736,7 @@ html[xmlns] .clearfix {
 
   .public-nav-bar-links li:hover {
     background-color: #21212B;
-    transition: all 400ms ease-in-out;    
+    transition: all 400ms ease-in-out;
     cursor: pointer;
   }
 
@@ -732,13 +748,13 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar {
     width: 32px;
     height: 5px;
-    margin: 6px 0;  
-    background-color: white;   
-    transition: 0.4s; 
+    margin: 6px 0;
+    background-color: white;
+    transition: 0.4s;
   }
-  
+
   .public-nav-bar-menu-icon-wrap {
-    position: absolute; 
+    position: absolute;
     z-index: 1001;
     top: 70px;
   }
@@ -753,7 +769,7 @@ html[xmlns] .clearfix {
   }
   .public-nav-bar-menu-icon-bar.change.bar-2 {
     opacity: 0;
-  }  
+  }
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-9px, -8px);
     transform: rotate(45deg) translate(-9px, -8px);
@@ -779,22 +795,22 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-3px, -6px);
     transform: rotate(45deg) translate(-3px, -6px);
-  }    
+  }
 }
 
 @media (max-width: 374px) {
   #public-nav-bar-name {
     font-size: 20px;
-    line-height: 20px; 
+    line-height: 20px;
   }
 
   .public-nav-bar-name-wrap.not-scrolling-in {
     margin-top: 16px !important;
-  }   
+  }
 
   .public-nav-bar-name-wrap {
     max-height: 30px;
-  }  
+  }
 
   .nav-bar-wrap {
     margin-top: -78px !important;
@@ -819,18 +835,18 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-3px, -6px);
     transform: rotate(45deg) translate(-3px, -6px);
-  }         
+  }
 }
 
 @media (min-width: 375px) and (max-width: 424px) {
   #public-nav-bar-name {
     font-size: 25px;
-    line-height: 25px; 
-  }  
+    line-height: 25px;
+  }
 
   .public-nav-bar-name-wrap.not-scrolling-in {
     margin-top: 16px !important;
-  }  
+  }
 
   .public-nav-bar-name-wrap {
     max-height: 30px;
@@ -859,7 +875,7 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-4px, -6px);
     transform: rotate(45deg) translate(-4px, -6px);
-  }          
+  }
 }
 
 @media screen and (min-width: 425px) and (max-width: 509px) {
@@ -869,7 +885,7 @@ html[xmlns] .clearfix {
 
   #public-nav-bar-name {
     font-size: 28px;
-    line-height: 28px; 
+    line-height: 28px;
   }
 
   .public-nav-bar-name-wrap {
@@ -899,7 +915,7 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-6px, -8px);
     transform: rotate(45deg) translate(-6px, -8px);
-  }    
+  }
 }
 
 @media (min-width: 510px) {
@@ -911,7 +927,7 @@ html[xmlns] .clearfix {
 
   #public-nav-bar-name {
     font-size: 35px;
-    line-height: 50px; 
+    line-height: 50px;
   }
   .public-nav-bar-menu-icon-bar.change.bar-1 {
     -webkit-transform: rotate(-45deg) translate(-9px, 6px);
@@ -920,7 +936,7 @@ html[xmlns] .clearfix {
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-8px, -8px);
     transform: rotate(45deg) translate(-8px, -8px);
-  }      
+  }
 }
 
 #public-nav-bar-name {
@@ -989,5 +1005,3 @@ html[xmlns] .clearfix {
 #public-nav-bar-wrap-name {
   transition: margin-top 0s !important;
 }
-
-
