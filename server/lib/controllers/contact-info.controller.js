@@ -48,7 +48,7 @@ exports.updateContactInfo = (req, res) => {
   });
 }
 
-exports getContactInfo = (req, res) => {
+exports.getContactInfo = (req, res) => {
   ContactInfo.find((err, contactInfo) => {
     if (err) {
       res.send(err);
