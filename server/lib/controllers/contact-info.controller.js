@@ -34,7 +34,12 @@ exports.updateContactInfo = (req, res) => {
         if (err) {
           res.send(err);
         } else {
-          contactInfo = req.body;
+          contactInfo.alias = req.body.alias;
+          contactInfo.email = req.body.email;
+          contactInfo.soundcloudUrl = req.body.soundcloudUrl;
+          contactInfo.facebookUrl = req.body.facebookUrl;
+          contactInfo.instagramUrl = req.body.instagramUrl;
+          contactInfo.twitterUrl = req.body.twitterUrl;
           contactInfo.save((err) => {
             if (err) {
               res.send(err);
