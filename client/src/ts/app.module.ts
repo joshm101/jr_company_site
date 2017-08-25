@@ -24,6 +24,8 @@ import { AboutService } from './components/interface/about/about.index';
 import { InterfaceAboutContentComponent } from './components/interface/about/interface-about-content';
 import { InterfaceAboutFormComponent } from './components/interface/about/form/interface-about-form.component';
 import { InterfaceAboutFormImagePreviewComponent } from './components/interface/about/form/image-preview/interface-about-form-image-preview.component';
+import { ContactInfoService } from './components/interface/contact-info/contact-info.index';
+import { InterfaceContactInfoContentComponent } from './components/interface/contact-info/interface-contact-info-content.component';
 import { SettingsRootComponent } from './components/settings/settings-root.component';
 import { SettingsContentComponent } from './components/settings/content/settings-content.component';
 import { PublicHomeComponent } from './components/public/home/public-home.component';
@@ -63,7 +65,8 @@ const appRoutes: Routes = [
       { path: 'field-recordings', component: InterfacePostContentComponent },
       { path: 'film', component: InterfacePostContentComponent },
       { path: 'other', component: InterfacePostContentComponent },
-      { path: 'about', component: InterfaceAboutContentComponent }
+      { path: 'about', component: InterfaceAboutContentComponent },
+      { path: 'contact-info', component: InterfaceContactInfoContentComponent },
     ],
     canActivate: [AuthGuard]
   },
@@ -72,7 +75,7 @@ const appRoutes: Routes = [
     component: SettingsRootComponent,
     canActivate: [AuthGuard]
   },
-  { path: '', 
+  { path: '',
     component: PublicContainerComponent,
     children: [
       { path: 'audio', component: PublicAudioComponent },
@@ -110,6 +113,7 @@ const appRoutes: Routes = [
     InterfaceAboutContentComponent,
     InterfaceAboutFormComponent,
     InterfaceAboutFormImagePreviewComponent,
+    InterfaceContactInfoContentComponent,
     JDialogComponent,
     AuthLoginComponent,
     AuthLoginFormComponent,
@@ -145,6 +149,7 @@ const appRoutes: Routes = [
     AuthService,
     AuthGuard,
     AuthHttp,
+    ContactInfoService,
   ],
   bootstrap: [AppRoot]
 })
