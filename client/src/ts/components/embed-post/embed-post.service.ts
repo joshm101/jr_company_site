@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable, Subject } from 'rxjs/rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { EmbedPost } from './embed-post.model';
 import { AppService } from '../app.service';

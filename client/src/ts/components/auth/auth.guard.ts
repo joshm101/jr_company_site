@@ -13,10 +13,10 @@ export class AuthGuard implements CanActivate {
 
   canActivate() {
     let headers = new Headers({ 'Authorization': this._authService.token });
-    let options = new RequestOptions({ headers: headers });  
-    return Observable.if(() => 
+    let options = new RequestOptions({ headers: headers });
+    return Observable.if(() =>
         localStorage.getItem('jr_jwt') !== null,
-        
+
         // token exists locally, verify validity with server
         this._http.post('api/auth/tokenvalid', {}, options)
         .map(res => {
@@ -29,8 +29,8 @@ export class AuthGuard implements CanActivate {
         }),
 
         // token does not exist locally, no need for server validation call
-        Observable.of(false).do(() => { 
-          this._router.navigate(['/login']) 
+        Observable.of(false).do(() => {
+          this._router.navigate(['/login'])
         })
     )
   }

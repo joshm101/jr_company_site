@@ -2,7 +2,7 @@ import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListe
 import { ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs/rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { EmbedPost, EmbedPostService } from '../../../embed-post/embed-post.index';
 import { InterfacePostFormComponent } from '../form/interface-post-form.component';
@@ -44,8 +44,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           this.contentType = parseInt(params['contentType']);
           this.embedPostService.contentType = parseInt(params['contentType']);
         }
-      ), 
-      
+      ),
+
       this.embedPostService.editErrorOccurred$.subscribe(
         (result) => {
           if (result === true) {
@@ -68,7 +68,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       Observable.combineLatest(
         this.route.params,
         this.embedPostService.getAll()
-      ).filter(([params, posts]) =>  
+      ).filter(([params, posts]) =>
           params !== undefined && posts !== undefined
       ).subscribe(
         ([params, posts]) => {
@@ -87,7 +87,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           this.embedPosts = posts;
           this.numPosts = posts.length;
         }
-      )      
+      )
     );
   }
   dialogRef: MdDialogRef<InterfacePostFormDialogComponent>;
@@ -215,7 +215,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
   applyToolbarShadow: boolean;
 
   /**
-   * Ensures that service is 'reset' to 
+   * Ensures that service is 'reset' to
    * a fresh state. ngOnDestroy would
    * occur when navigating away
    * from the current route, so we
