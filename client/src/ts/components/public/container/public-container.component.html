@@ -1,10 +1,10 @@
 <div class="public-container" style="height: 100%;">
   <div class="nav-section">
-    <div class="nav-bar-wrap" 
-         [class.fade-nav]="fadeNavBar" 
+    <div class="nav-bar-wrap"
+         [class.fade-nav]="fadeNavBar"
          [style.margin-top]="marginTopStyleString">
-      <public-nav-bar 
-        [shouldCollapseLogo]="shouldCollapseNavLogo" 
+      <public-nav-bar
+        [shouldCollapseLogo]="shouldCollapseNavLogo"
         [linksOpacity]="navBarLinksOpacity"
         [menuIsOpen]="_menuIsOpen"
         (onNavBarMouseEnter)="navBarMouseEnter()"
@@ -13,7 +13,7 @@
       ></public-nav-bar>
     </div>
   </div>
-  <div style="background-color: grey;">
+  <div style="background-color: grey; min-height: 2500px;">
     <router-outlet></router-outlet>
-  </div>   
+  </div>
 </div>
