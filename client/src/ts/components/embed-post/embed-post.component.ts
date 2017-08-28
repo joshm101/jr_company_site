@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs/rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { EmbedPost } from './embed-post.model';
 import { EmbedPostService } from './embed-post.service';

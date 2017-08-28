@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs/rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { EmbedPost } from '../embed-post/embed-post.model';
 import { EmbedPostService } from '../embed-post/embed-post.service';
