@@ -12,6 +12,7 @@ var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
+const compression = require('compression');
 const DEBUG = 'DEBUG';
 const PROD = 'PROD';
 var environment = process.env.DEBUG_ENV ? DEBUG : PROD;
@@ -32,6 +33,9 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 
 app.use(cookieParser());
+app.use(compression({
+  level: 9,
+}));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 app.use(express.static(path.join(__dirname, './lib/images/')));
 app.use('/images', express.static('./lib/images/'));
