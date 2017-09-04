@@ -1,0 +1,81 @@
+<form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)" *ngIf="addPostForm">
+  <md-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
+    <div class="form-wrap">
+      <div class="add-post-input-wrap">
+        <app-interface-post-form-input fillerText="Title"
+                         [inputMode]="inputMode.SingleLine"
+                         [biggerInput]="true"
+                         formControlName="title">
+        </app-interface-post-form-input>
+      </div>
+
+      <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
+        <div *ngFor="let embedItemInput of addPostForm.controls['embedContent']['controls']; let i=index;">
+          <div [formGroupName]="i" class="add-post-input-inner-wrap">
+            <app-interface-post-form-input fillerText="Embed Code"
+                             [inputMode]="inputMode.MultiLine"
+                             [biggerInput]="false"
+                             formControlName="embedItem">
+            </app-interface-post-form-input>
+          </div>
+          <button mdTooltip="Remove embeddable content"
+                  type="button"
+                  (click)="removeEmbedContent(index, $event)"
+                  [hidden]="!focused" md-icon-button>
+            <md-icon>remove</md-icon>
+          </button>
+        </div>
+      </div>
+      <button mdTooltip="Add embeddable content"
+              class="add-embed-input-button"
+              type="button"
+              (click)="addEmbedContent()"
+              [hidden]="!focused" md-icon-button>
+        <md-icon>add</md-icon>
+      </button>
+
+      <div [hidden]="!focused" class="add-post-input-wrap">
+        <app-interface-post-form-input fillerText="Description"
+                         [inputMode]="inputMode.MultiLine"
+                         [biggerInput]="false"
+                         formControlName="description">
+        </app-interface-post-form-input>
+      </div>
+
+      <input hidden #fileInput type="file"
+             ng2FileSelect
+             #input
+             (change)="handleFileSelection(input)"
+             [uploader]="embedPostService.uploader" />
+
+
+      <div [hidden]="!focused" class="col-12 col-md-6 col-xl-4"
+           *ngFor="let image of images;trackBy:i; let i = index;">
+        <app-interface-post-form-image-preview [imgData]="image"
+                                 [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
+                                 (setAsThumbnail)="setThumbnail(i)"
+                                 (removeImage)="removeImage(i)">
+        </app-interface-post-form-image-preview>
+
+      </div>
+
+
+      <div [hidden]="!focused" class="add-post-action-bar-wrap">
+        <md-toolbar class="add-post-action-bar">
+          <button class="add-image-button"
+                  mdTooltip="Add image"
+                  md-icon-button
+                  type="button"
+                  (click)="selectFileInput()">
+            <md-icon class="add-image-icon">image</md-icon>
+          </button>
+          <span flex style="flex: 1 1 auto;"></span>
+          <button (click)="doneClicked($event)"
+                  tabindex="0"
+                  md-button type="submit"
+                  class="add-post-done-button">Done</button>
+        </md-toolbar>
+      </div>
+    </div>
+  </md-card>
+</form>

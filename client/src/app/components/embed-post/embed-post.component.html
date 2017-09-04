@@ -1,0 +1,14 @@
+<md-card class="embed-card">
+  <md-card-title>
+    {{ post.title }}
+  </md-card-title>
+  <md-card-content>
+    <img class="post-thumbnail-img" *ngIf="post.images[post.thumbnailIndex]" (error)="handlePostLoadError()" (load)="finishedLoadingPost()" [src]="post.images[post.thumbnailIndex]">
+    <div class="desc-wrap">
+      {{ post.description }}
+    </div>
+    <div class="embed-card-actions">
+      <ng-content></ng-content>
+    </div>
+  </md-card-content>
+</md-card>

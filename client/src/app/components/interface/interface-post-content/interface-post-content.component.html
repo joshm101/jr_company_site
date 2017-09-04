@@ -1,0 +1,52 @@
+<div (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
+  <div class="loading-wrap-interface" *ngIf="doneLoadingContent === false" >
+    <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
+  </div>
+  <div class="interface-content-wrap" [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
+    <app-interface-post-form (focused)="focusEvent($event)"
+               (startLoad)="handleSubmission()"
+               (doneLoad)="submissionFinished()"
+               (doneLoadError)="submissionFinishedWithError()"
+               (doneClick)="formDone()"
+               [focused]="focusForm"
+               tabindex="0"
+               class="add-post col-sm-10
+                          offset-sm-1
+                          col-md-8
+                          offset-md-2
+                          col-lg-8
+                          offset-lg-2
+                          col-xl-6
+                          offset-xl-3
+                          col-12 clearfix">
+    </app-interface-post-form>
+    <div class="grid-list-wrap">
+
+      <md-grid-list  [cols]="cols" rowHeight="450px">
+        <md-grid-tile *ngFor="let post of embedPosts;">
+          <app-embed-post [post]="post">
+            <div class="text-right">
+                <button type="button"
+                  md-mini-fab
+                  md-tooltip="Delete"
+                  color="warn"
+                  (click)="removePost(post._id)"
+                >
+                  <md-icon class="md-24" aria-label="Delete">delete_forever</md-icon>
+                </button>
+              <button type="button"
+                      md-mini-fab
+                      md-tooltip="Edit"
+                      color="primary"
+                      style="float: right; margin-left: 20px;"
+                      (click)="editPost(post)"
+              >
+                <md-icon class="md-24" aria-label="Edit">edit</md-icon>
+              </button>              
+            </div>
+          </app-embed-post>
+        </md-grid-tile>
+      </md-grid-list>
+    </div>
+  </div>
+</div>

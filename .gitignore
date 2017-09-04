@@ -20,6 +20,9 @@
 /client/static/stylesheets/bootstrap.css
 /client/static/stylesheets/theme.css
 /client/src/*.map
+/server/lib/images/
+/server/node_modules
+/client/node_modules
 
 # IDEs and editors
 /.idea

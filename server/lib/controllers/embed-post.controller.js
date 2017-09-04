@@ -7,6 +7,7 @@ var bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 const JRSECRET = process.env.JRSECRET;
+const path = require('path');
 
 var EmbedPost = require('../models/embed-post.model');
 
@@ -18,7 +19,7 @@ var storage = multer.diskStorage({
 
     imagesId = req.body.imagesid;
     if (imagesId !== undefined) {
-      cb(null, "./client/static/images/posts/" + imagesId);
+      cb(null, path.resolve(__dirname, "../images/posts/" + imagesId));
     } else {
       cb(new Error("The upload handshake failed."));
     }
@@ -100,9 +101,9 @@ exports.createPost = function(req, res) {
       var embedPost = new EmbedPost(req.body);
       embedPost.edited = embedPost.created;
       embedPost.imagesId = randomstring.generate(12);
-      fs.mkdir('./client/static/images/posts/' + embedPost.imagesId, function(err) {
+      fs.mkdir('lib/images/posts/' + embedPost.imagesId, function(err) {
         if (err) {
-          res.status(500).send();
+          res.status(500).send(err);
         } else {
           // save the newly created
           // embedPost object to the DB
@@ -124,6 +125,7 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
+  console.log('getPosts');
   EmbedPost.find(function(err, posts) {
     if (err) {
       res.send(err);
@@ -174,7 +176,7 @@ exports.updatePost = function(req, res) {
           });
           post.images.forEach(function(image, index) {
             if (!hashObject.hasOwnProperty(image)) {
-              fs.unlink('./static/images/posts/' + image, function(err) {
+              fs.unlink('lib/images/posts/' + image, function(err) {
                 if (err) {
                   console.error(err);
                   //res.end(400);
@@ -210,7 +212,7 @@ exports.deletePost = function(req, res) {
           console.error(err);
           res.end(404);
         } else {
-          fs.remove('./client/static/images/posts/' + post.imagesId, function(err) {
+          fs.remove('lib/images/posts/' + post.imagesId, function(err) {
             if (err) {
               console.error(err);
             }

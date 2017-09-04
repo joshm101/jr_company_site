@@ -27,15 +27,16 @@ exports.login = function(req, res) {
               if (res) {
                 // res is true, correct password, successful login.
                 // sign a JWT and send as response to client.
-                _res.json(jwt.sign(
-                  {
-                    admin: user.admin,
-                    iat: Math.floor(Date.now() / 1000) - 30,
-                    iss: 'jrsite',
-                    uid: user._id,
-                  }, JRSECRET, { expiresIn: '2h' }
-                  )
-                ).send();
+                _res.json({
+                  token: jwt.sign(
+                    {
+                      admin: user.admin,
+                      iat: Math.floor(Date.now() / 1000) - 30,
+                      iss: 'jrsite',
+                      uid: user._id,
+                    }, JRSECRET, { expiresIn: '2h' }
+                  ),
+                }).send();
               } else {
                 // incorrect password
                 _res.status(401).send();

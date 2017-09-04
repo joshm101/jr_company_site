@@ -1,8 +1,0 @@
-<div>
-  <div class="loading-wrap-interface" *ngIf="doneLoadingContent === false" >
-    <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
-  </div>
-  <div [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
-    <int-about-form></int-about-form>
-  </div>
-</div>

@@ -7,12 +7,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var MONGODB_CONNECTION_URL = process.env.MONGODB_CONNECTION_URL || 'mongodb://127.0.0.1:27017';
 
-var index = require('./lib/routes/index');
 var api = require('./lib/routes/api');
 var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
+const DEBUG = 'DEBUG';
+const PROD = 'PROD';
+var environment = process.env.DEBUG_ENV ? DEBUG : PROD;
 
 mongoose.connect(MONGODB_CONNECTION_URL);
 
@@ -30,17 +32,19 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client/static/')));
-app.use('/', index);
-app.use('/interface', index);
-app.use('/interface/*', index);
-app.use('/settings', index);
-app.use('/auth/login', index);
+app.use(express.static(path.join(__dirname, '../client/dist/')));
+app.use(express.static(path.join(__dirname, './lib/images/')));
+app.use('/images', express.static('./lib/images/'));
 app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);
 app.use('/api/about', aboutPageRoutes);
 app.use('/api/contactInfo', contactInfoRoutes);
 app.use('/api/auth', authRoutes);
+app.get('*', (req, res) => {
+  console.log("req: ", req);
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

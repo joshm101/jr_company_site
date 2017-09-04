@@ -1,0 +1,29 @@
+<form autocomplete="off" class="auth-login-form"
+      [formGroup]="loginForm" (submit)="loginFormSubmit($event)">
+  <div>
+    <md-form-field class="full-width auth-input-container">
+      <input mdInput
+             required
+             formControlName="username"
+             type="text"
+             placeholder="Username">
+    </md-form-field>
+  </div>
+  <div>
+    <md-form-field class="full-width auth-input-container">
+      <input mdInput
+             required
+             formControlName="password"
+             type="password"
+             minlength="6"
+             placeholder="Password">
+    </md-form-field>
+  </div>
+  <div class="text-xs-right">
+    <button type="submit"
+            md-raised-button
+            [disabled]="loginForm.invalid"
+            color="primary">Sign in</button>
+  </div>
+
+</form>
