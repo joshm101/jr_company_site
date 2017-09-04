@@ -1,0 +1,22 @@
+<div md-dialog-title>
+  Confirm Delete
+</div>
+<div md-dialog-content>
+  <div>
+    <p>Are you sure you want to delete this post? This action cannot be undone.</p>      
+  </div>
+</div>
+<div md-dialog-actions style="display: inline;">
+  <div class="text-right">
+      <button tabindex="0"
+      #close
+      md-button type="button"
+      (click)="cancelDelete($event)">
+      Cancel
+    </button>
+    <button (click)="confirmDelete($event)"
+        tabindex="0"
+        md-button type="button">Confirm
+    </button>     
+  </div>
+</div>

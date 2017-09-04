@@ -59,6 +59,7 @@ import { InterfaceContactInfoContentComponent } from './components/interface/int
 import { InterfaceContactInfoFormComponent } from './components/interface/interface-contact-info-form/interface-contact-info-form.component';
 import { SettingsContentComponent } from './components/settings/settings-content/settings-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { InterfacePostDeleteConfirmDialogComponent } from './components/interface/interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -93,6 +94,27 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule,
+    FormsModule,
+    MdCardModule,
+    MdSnackBarModule,
+    MdInputModule,
+    MdButtonModule,
+    MdMenuModule,
+    MdToolbarModule,
+    MdTabsModule,
+    MdIconModule,
+    MdTooltipModule,
+    MdGridListModule,
+    MdProgressSpinnerModule,
+    FileUploadModule,
+    MdDialogModule,
+  ],  
   declarations: [
     AppComponent,
     PublicAudioComponent,
@@ -122,28 +144,8 @@ const appRoutes: Routes = [
     InterfaceContactInfoContentComponent,
     InterfaceContactInfoFormComponent,
     SettingsContentComponent,
-    SettingsComponent
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule,
-    FormsModule,
-    MdCardModule,
-    MdSnackBarModule,
-    MdInputModule,
-    MdButtonModule,
-    MdMenuModule,
-    MdToolbarModule,
-    MdTabsModule,
-    MdIconModule,
-    MdTooltipModule,
-    MdGridListModule,
-    MdProgressSpinnerModule,
-    FileUploadModule,
-    MdDialogModule,
+    SettingsComponent,
+    InterfacePostDeleteConfirmDialogComponent
   ],
   providers: [
     WindowRefService,
@@ -158,6 +160,7 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
     InterfacePostFormDialogComponent,
+    InterfacePostDeleteConfirmDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

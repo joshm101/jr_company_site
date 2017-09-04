@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
 import { InterfacePostFormComponent } from '../interface-post-form/interface-post-form.component';
 import { InterfacePostFormDialogComponent } from '../interface-post-form/interface-post-form-dialog/interface-post-form-dialog.component';
+import { InterfacePostDeleteConfirmDialogComponent } from '../interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
 import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
 
 @Component({
@@ -97,6 +98,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       );
     }
     dialogRef: MdDialogRef<InterfacePostFormDialogComponent>;
+    dialogRefDelete: MdDialogRef<InterfacePostDeleteConfirmDialogComponent>;
 
     ngOnInit() {
       this.calculateColumns();
@@ -111,6 +113,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           this.numPostsLoaded--;
           this.isLoading = false;
           this.animationState = "active";
+          this.snackBar.open("The post was successfully deleted.", "Dismiss", { duration: 5000 });          
         },
         (error) => {
           console.error(error);
@@ -127,7 +130,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
         disableClose: true,
       });
       this.dialogRef.componentInstance.postToEdit = post;
-      this.dialogRef.afterClosed().subscribe(result => {
+      this.dialogRef.afterClosed().take(1).subscribe(result => {
         this.dialogRef = null;
 
         // We don't want to hide content when cancel button
@@ -138,6 +141,18 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           this.doneLoadingContent = true;
         }
       });
+    }
+
+    showDeleteConfirmDialog(postId: string) {
+      this.dialogRefDelete = this.dialog.open(InterfacePostDeleteConfirmDialogComponent, {
+        width: this.screenWidth < 760 ? "95%" : "65%",
+        disableClose: true,
+      });
+      this.dialogRefDelete.afterClosed().take(1).subscribe(result => {
+        if (result) { 
+          this.removePost(postId);
+        }
+      })
     }
 
     focusEvent(event: boolean) {

@@ -120,6 +120,14 @@ mat-sidenav {
   padding-bottom: 0 !important;
 }
 
+.interface-post-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 240px;
+  display: block;
+  overflow: hidden
+}
+
 .mat-dialog-container {
   max-width: 95vw !important;
 }
