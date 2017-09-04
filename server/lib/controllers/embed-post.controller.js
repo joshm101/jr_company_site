@@ -101,7 +101,7 @@ exports.createPost = function(req, res) {
       var embedPost = new EmbedPost(req.body);
       embedPost.edited = embedPost.created;
       embedPost.imagesId = randomstring.generate(12);
-      fs.mkdir('lib/images/posts/' + embedPost.imagesId, function(err) {
+      fs.mkdir(path.resolve(__dirname, '../images/posts/' + embedPost.imagesId), function(err) {
         if (err) {
           res.status(500).send(err);
         } else {
@@ -176,7 +176,7 @@ exports.updatePost = function(req, res) {
           });
           post.images.forEach(function(image, index) {
             if (!hashObject.hasOwnProperty(image)) {
-              fs.unlink('lib/images/posts/' + image, function(err) {
+              fs.unlink(path.resolve(__dirname, '../images/posts/' + image), function(err) {
                 if (err) {
                   console.error(err);
                   //res.end(400);
@@ -212,7 +212,7 @@ exports.deletePost = function(req, res) {
           console.error(err);
           res.end(404);
         } else {
-          fs.remove('lib/images/posts/' + post.imagesId, function(err) {
+          fs.remove(path.resolve(__dirname, '../images/posts/' + post.imagesId), function(err) {
             if (err) {
               console.error(err);
             }

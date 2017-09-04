@@ -88,7 +88,7 @@ exports.createAboutPage = function(req, res) {
     } else {
       var about = new About(req.body);
       about.imageId = randomstring.generate(12);
-      fs.mkdir('../images/about/' + about.imageId);
+      fs.mkdir(path.resolve(__dirname, '../images/about/' + about.imageId));
       about.save(function(err) {
         if (err) {
           res.send(err);
@@ -115,7 +115,7 @@ exports.updateAboutPage = function(req, res) {
           about.description = req.body.description;
           if (req.body.image !== about.image) {
             // image has been replaced/removed, purge about images directory
-            fs.remove('lib/' + about.image, function(err) {
+            fs.remove(path.resolve(__dirname, '../' + about.image), function(err) {
               if (err) {
                 res.send(err);
               } else {
