@@ -14,7 +14,6 @@
 /client/src/stylesheets/bootstrap.css
 /client/src/stylesheets/theme.css
 /client/src/*.js
-/client/src/*.ts
 /client/static/images
 /client/static/scripts
 /client/static/stylesheets/bootstrap.css
