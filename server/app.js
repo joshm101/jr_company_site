@@ -44,6 +44,7 @@ app.use('/api/embedPosts', embedPostsRoutes);
 app.use('/api/about', aboutPageRoutes);
 app.use('/api/contactInfo', contactInfoRoutes);
 app.use('/api/auth/', authRoutes);
+app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {
   console.log("req: ", req);
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
