@@ -159,8 +159,8 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     this.embedPostService.requestInFlight = true;
     this.close._getHostElement().click();
     // Includes image uploading
-    this.subscriptions.push(
-      this.embedPostService.update(this.embedPostEdit).subscribe(
+    //this.subscriptions.push(
+      this.embedPostService.update(this.embedPostEdit).filter(res => !!res).take(1).subscribe(
         (item: EmbedPost) => {
           this.contentLoadService.contentNeedsLoading(item);
         },
@@ -175,7 +175,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
           this.embedPostService.requestInFlight = false;
         }
       )
-    );
+    //);
 
   }
 
