@@ -127,7 +127,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     let options = { headers: headers };
     this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
-    return this.http.post('/api/embedPosts/upload', formData, options)
+    return this.http.post('/api/embedPosts/upload', formData, options).filter(res => !!res)
       .map((res: EmbedPost) => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
