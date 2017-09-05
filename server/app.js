@@ -38,12 +38,12 @@ app.use(compression({
 }));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 app.use(express.static(path.join(__dirname, './lib/images/')));
-app.use('/images', express.static('./lib/images/'));
+app.use('/images', express.static(path.resolve(__dirname, './lib/images/')));
 app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);
 app.use('/api/about', aboutPageRoutes);
 app.use('/api/contactInfo', contactInfoRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth/', authRoutes);
 app.get('*', (req, res) => {
   console.log("req: ", req);
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));

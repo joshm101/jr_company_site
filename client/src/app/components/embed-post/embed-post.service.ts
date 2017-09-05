@@ -22,7 +22,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
   ) {
     super(http, injector);
     this.uploader = new FileUploader({
-      url: "api/embed-post/upload"
+      url: "/api/embed-post/upload"
     });
     this._requestInFlight = false;
     this.editErrorArbiter = new Subject<boolean>();

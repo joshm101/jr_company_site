@@ -176,7 +176,7 @@ exports.updatePost = function(req, res) {
           });
           post.images.forEach(function(image, index) {
             if (!hashObject.hasOwnProperty(image)) {
-              fs.unlink(path.resolve(__dirname, '../images/posts/' + image), function(err) {
+              fs.unlink(path.resolve(__dirname, '../' + image), function(err) {
                 if (err) {
                   console.error(err);
                   //res.end(400);
