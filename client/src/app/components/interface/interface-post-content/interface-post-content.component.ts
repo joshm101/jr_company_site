@@ -56,7 +56,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           }
         ),
 
-        this.contentLoadService.doneLoading$.debounce(() => Observable.timer(5)).subscribe(
+        this.contentLoadService.doneLoading$.subscribe(
           (result) => {
             this.doneLoadingContent = result;
             console.log("this.doneLoadingContent: ", this.doneLoadingContent);
@@ -191,6 +191,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     // setting the number of columns in our grid list as appropriate
     onResize(event: Event) {
       this.calculateColumns();
+    }
+
+    get requestInFlight() {
+      return this.embedPostService.requestInFlight;
     }
 
     calculateColumns() {

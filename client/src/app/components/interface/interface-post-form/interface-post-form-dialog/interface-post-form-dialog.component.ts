@@ -141,9 +141,14 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     event.preventDefault();
     if (this.images.length === 1) this.addPostForm.value.thumbnailIndex = 0;
 
+    let thumbnailIndexChanged = false;
+
     // extract information from our form model
     this.embedPostEdit.title = this.addPostForm.value.title;
     this.embedPostEdit.description = this.addPostForm.value.description;
+    // if (this.embedPostEdit.thumbnailIndex !== this.addPostForm.value.thumbnailIndex) {
+    //   thumbnailIndexChanged = true;
+    // }
     this.embedPostEdit.thumbnailIndex = this.addPostForm.value.thumbnailIndex;
     if (!this.images[this.embedPostEdit.thumbnailIndex]) {
       this.embedPostEdit.thumbnailIndex = 0;
@@ -160,9 +165,14 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     this.close._getHostElement().click();
     // Includes image uploading
     //this.subscriptions.push(
-      this.embedPostService.update(this.embedPostEdit).filter(res => !!res).take(1).subscribe(
+      //this.contentLoadService.removeAllTrackedContent();
+      this.embedPostService.update(this.embedPostEdit).subscribe(
         (item: EmbedPost) => {
-          this.contentLoadService.contentNeedsLoading(item);
+          if (thumbnailIndexChanged) {
+            console.log("thumbnailIndexChanged: ", thumbnailIndexChanged);
+            this.contentLoadService.contentNeedsLoading(item);            
+          }
+          this.embedPostService.requestInFlight = false;
         },
         (error) => {
           this.snackBar.open("Error. Check your connection & try again.", "", { duration: 5000 });

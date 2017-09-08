@@ -1,8 +1,8 @@
 <div (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
-  <div class="loading-wrap-interface" *ngIf="doneLoadingContent === false" >
+  <div class="loading-wrap-interface" *ngIf="(doneLoadingContent === false) || requestInFlight" >
     <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
   </div>
-  <div class="interface-content-wrap" [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
+  <div class="interface-content-wrap" [hidden]="(doneLoadingContent === false) || requestInFlight" [@interfaceState]="animationState">
     <app-interface-post-form (focused)="focusEvent($event)"
                (startLoad)="handleSubmission()"
                (doneLoad)="submissionFinished()"
