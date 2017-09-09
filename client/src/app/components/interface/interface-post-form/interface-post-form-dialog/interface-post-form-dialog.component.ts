@@ -172,6 +172,9 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
             console.log("thumbnailIndexChanged: ", thumbnailIndexChanged);
             this.contentLoadService.contentNeedsLoading(item);            
           }
+          if (!this.thumbnailCached(item)) {
+            this.contentLoadService.contentNeedsLoading(item);
+          }
           this.embedPostService.requestInFlight = false;
         },
         (error) => {
@@ -187,6 +190,19 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
       )
     //);
 
+  }
+
+  thumbnailCached(post: EmbedPost) {
+    if (this.postHasImages(post)) {
+      const thumbnail = new Image();
+      thumbnail.src = post.images[post.thumbnailIndex];
+      return thumbnail.complete;
+    }
+    return true;
+  }
+
+  postHasImages(post: EmbedPost) {
+    return post.images && post.images.length > 0;
   }
 
   // embedContent is an array of iframes

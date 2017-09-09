@@ -194,7 +194,11 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
 
     get requestInFlight() {
-      if (!this.embedPostService.requestInFlight && !this.embedPostService.uploadRequestInFlight) {
+      if (
+        !this.embedPostService.requestInFlight && 
+        !this.embedPostService.uploadRequestInFlight &&
+        this.doneLoadingContent
+      ) {
         this.animationState = 'active';
       }
       return this.embedPostService.requestInFlight || this.embedPostService.uploadRequestInFlight;
