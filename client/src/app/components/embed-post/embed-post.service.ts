@@ -28,7 +28,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
     this.editErrorArbiter = new Subject<boolean>();
     this.editErrorOccurred$ = this.editErrorArbiter.asObservable();
     this.editErrorArbiter.next(false);
-
+    this._uploadRequestInFlight = false;
   }
 
   public new(data?: any) {
@@ -54,15 +54,17 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   update(body: EmbedPost): Observable<EmbedPost> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.update(body).switchMap((post: EmbedPost) => {
       // Mark all of the iframes as safe html
       this.createSafeHtml(post);
-      this.contentLoadService.contentNeedsLoading(post);
+      //this.contentLoadService.contentNeedsLoading(post);
       if (this.uploader.queue.length > 0) {
+        this.uploadRequestInFlight = true;
         return this.uploadImages(post.imagesId)
           .map(returnedPost => {
-            this._requestInFlight = false;
+            this.requestInFlight = false;
+            this.uploadRequestInFlight = false;
             return Object.assign(
                 post,
                 {
@@ -125,11 +127,9 @@ export class EmbedPostService extends AppService<EmbedPost> {
     formData.append('imagesid', imagesId);
     let headers = new HttpHeaders({ 'Authorization': this._authService.token });
     let options = { headers: headers };
-    this._uploadRequestInFlight = true;
     this.uploader.queue.forEach(queueItem => formData.append('fileUpload', queueItem._file));
     return this.http.post('/api/embedPosts/upload', formData, options).filter(res => !!res).take(1)
       .map((res: EmbedPost) => {
-        this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
         return res;
       });

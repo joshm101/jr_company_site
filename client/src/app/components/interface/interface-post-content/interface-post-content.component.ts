@@ -194,7 +194,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
 
     get requestInFlight() {
-      return this.embedPostService.requestInFlight;
+      if (!this.embedPostService.requestInFlight && !this.embedPostService.uploadRequestInFlight) {
+        this.animationState = 'active';
+      }
+      return this.embedPostService.requestInFlight || this.embedPostService.uploadRequestInFlight;
     }
 
     calculateColumns() {
