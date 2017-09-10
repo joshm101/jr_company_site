@@ -5,6 +5,7 @@ import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 
 import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
+import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
 import { InputModeEnum } from '../../../enums/input-mode.enum';
 
 /**
@@ -23,7 +24,8 @@ export class InterfacePostFormComponent implements OnInit {
     protected elementRef: ElementRef,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _contentLoadService: ContentLoadService
   ) {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
@@ -162,6 +164,11 @@ export class InterfacePostFormComponent implements OnInit {
       (items: EmbedPost[]) => {
         this.initializeForm();
         this.embedPostService.initializeUploaderInstance();
+        const newPost = items[0];
+        if (!this.thumbnailCached(newPost)) {
+          console.log("Content needs loading: ", newPost);
+          this._contentLoadService.contentNeedsLoading(newPost);
+        }
       },
       (error) => {
         console.error(error);
@@ -177,6 +184,19 @@ export class InterfacePostFormComponent implements OnInit {
       }
     );
 
+  }
+
+  thumbnailCached(post: EmbedPost) {
+    if (this.postHasImages(post)) {
+      const thumbnail = new Image();
+      thumbnail.src = post.images[post.thumbnailIndex];
+      return thumbnail.complete;
+    }
+    return true;
+  }
+
+  postHasImages(post: EmbedPost) {
+    return post.images && post.images.length > 0;
   }
 
   // embedContent is an array of iframes

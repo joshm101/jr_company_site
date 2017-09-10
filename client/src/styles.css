@@ -132,6 +132,11 @@ mat-sidenav {
   max-width: 95vw !important;
 }
 
+.img-fit-container {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .settings-toolbar {
   position: fixed;
   top: 0;
@@ -359,7 +364,6 @@ int-about-form-image-preview {
 }
 
 .post-form-image-preview-comp-wrap {
-  margin: 5px;
   text-align: center;
 }
 

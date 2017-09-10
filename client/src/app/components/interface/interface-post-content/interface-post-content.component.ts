@@ -104,8 +104,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.calculateColumns();
     }
 
-    removePost(id: string) {
-      this.embedPostService.delete(id).subscribe(
+    removePost(post: EmbedPost) {
+      this.embedPostService.delete(post._id).take(1).subscribe(
         () => {
 
           // One less post loaded
@@ -113,6 +113,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           this.numPostsLoaded--;
           this.isLoading = false;
           this.animationState = "active";
+          this.contentLoadService.removeContentToTrack(post);
           this.snackBar.open("The post was successfully deleted.", "Dismiss", { duration: 5000 });          
         },
         (error) => {
@@ -143,14 +144,14 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       });
     }
 
-    showDeleteConfirmDialog(postId: string) {
+    showDeleteConfirmDialog(post: EmbedPost) {
       this.dialogRefDelete = this.dialog.open(InterfacePostDeleteConfirmDialogComponent, {
         width: this.screenWidth < 760 ? "95%" : "65%",
         disableClose: true,
       });
       this.dialogRefDelete.afterClosed().take(1).subscribe(result => {
         if (result) { 
-          this.removePost(postId);
+          this.removePost(post);
         }
       })
     }

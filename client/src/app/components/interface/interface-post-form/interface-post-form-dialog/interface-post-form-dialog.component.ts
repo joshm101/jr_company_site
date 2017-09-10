@@ -166,7 +166,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     // Includes image uploading
     //this.subscriptions.push(
       //this.contentLoadService.removeAllTrackedContent();
-      this.embedPostService.update(this.embedPostEdit).subscribe(
+      this.embedPostService.update(this.embedPostEdit).take(1).subscribe(
         (item: EmbedPost) => {
           if (thumbnailIndexChanged) {
             console.log("thumbnailIndexChanged: ", thumbnailIndexChanged);

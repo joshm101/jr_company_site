@@ -81,7 +81,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   create(post: EmbedPost): Observable<EmbedPost[]> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     // our service super class handles almost all of the
     // creation logic, but EmbedPosts in particular have
     // the field embedContent which is an array of iframes.
@@ -101,6 +101,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
       // a reference to the post in case the uploading
       // fails.
       if (this.uploader.queue.length > 0) {
+        this.uploadRequestInFlight = true;
         return this.uploadImages(this.newlyCreatedItem.imagesId)
           .map((returnedPost: EmbedPost): EmbedPost[] => {
             posts.forEach(post => {
@@ -112,10 +113,12 @@ export class EmbedPostService extends AppService<EmbedPost> {
                 post.images = returnedPost.images;
               }
             });
+            this.uploadRequestInFlight = false;
+            this.requestInFlight = false;
             return posts;
           });
       } else {
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         // no images uploaded.
         return Observable.of(posts);
       }

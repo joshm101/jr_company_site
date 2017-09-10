@@ -92,19 +92,20 @@ export abstract class AppService<Model extends AppModel> {
   delete(id: string): Observable<Model> {
     let headers = new HttpHeaders({ 'Authorization': this._authService.token });
     let options = { headers: headers };
+    this.requestInFlight = true;
     return this.http.delete('api/' + this.getResource() + '/' + id, options)
       .map((res: HttpResponse<any>) => {
         console.log("DELETE RES: ", res);
         // on successful backend deletion,
         // remove the item from our cache
         this.dataStore.items = this.dataStore.items.filter((item: Model) => { return item._id != id; });
-
         // set the next item to emit in the BehaviorSubject
         this._items.next(
           Object.assign(
             {},
             this.dataStore
           ).items);
+        this.requestInFlight = false;          
       })
       .catch(this.handleError);
   }

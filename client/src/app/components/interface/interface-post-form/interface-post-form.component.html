@@ -48,16 +48,17 @@
              (change)="handleFileSelection(input)"
              [uploader]="embedPostService.uploader" />
 
-
-      <div [hidden]="!focused" class="col-12 col-md-6 col-xl-4"
-           *ngFor="let image of images;trackBy:i; let i = index;">
-        <app-interface-post-form-image-preview [imgData]="image"
-                                 [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
-                                 (setAsThumbnail)="setThumbnail(i)"
-                                 (removeImage)="removeImage(i)">
-        </app-interface-post-form-image-preview>
-
+      <div class="row">
+        <div [hidden]="!focused" class="col-12 col-md-6 col-xl-4"
+          *ngFor="let image of images;trackBy:i; let i = index;">
+            <app-interface-post-form-image-preview [imgData]="image"
+                              [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
+                              (setAsThumbnail)="setThumbnail(i)"
+                              (removeImage)="removeImage(i)">
+            </app-interface-post-form-image-preview>
+        </div>
       </div>
+
 
 
       <div [hidden]="!focused" class="add-post-action-bar-wrap">
