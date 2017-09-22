@@ -1,22 +1,18 @@
 <div [formGroup]="addPostForm" md-dialog-title class="int-form-dialog-title-wrap">
         <div class="add-post-input-wrap">
-          <app-interface-post-form-input fillerText="Title"
-                               [fillerInputDisplay]="false"
-                               [inputMode]="inputMode.SingleLine"
-                               [biggerInput]="true"
-                               formControlName="title">
-          </app-interface-post-form-input>
+          <input type="text" class="title-input" formControlName="title" placeholder="Title" />
         </div>
       </div>
 <div [formGroup]="addPostForm" md-dialog-content class="int-form-dialog-content-wrap">
   <div class="add-post-input-wrap" formArrayName="embedContent" *ngIf="addPostForm && addPostForm.controls">
     <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
       <div class="add-post-input-inner-wrap">
-        <app-interface-post-form-input fillerText="Embed Code"
-                             [inputMode]="inputMode.MultiLine"
-                             [biggerInput]="false"
-                             [formControlName]="i">
-        </app-interface-post-form-input>
+        <textarea 
+          [formControlName]="i" 
+          class="description-input" 
+          placeholder="Embed Code"
+          appAutoResizeTextarea>
+        </textarea>
       </div>
       <button md-tooltip="Remove embeddable content"
               type="button"
@@ -34,13 +30,13 @@
     <md-icon>add</md-icon>
   </button>
 
-  <div  class="add-post-input-wrap">
-    <app-interface-post-form-input fillerText="Description"
-                         [inputMode]="inputMode.MultiLine"
-                         [fillerInputDisplay]="!postToEdit.description"
-                         [biggerInput]="false"
-                         formControlName="description">
-    </app-interface-post-form-input>
+  <div class="add-post-input-wrap">
+    <textarea 
+      formControlName="description" 
+      class="description-input" 
+      placeholder="Description"
+      appAutoResizeTextarea>
+    </textarea>
   </div>
 
   <input hidden #fileInput type="file"

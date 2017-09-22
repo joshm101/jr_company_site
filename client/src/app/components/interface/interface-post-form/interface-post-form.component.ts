@@ -25,7 +25,7 @@ export class InterfacePostFormComponent implements OnInit {
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private _fb: FormBuilder,
-    private _contentLoadService: ContentLoadService
+    private _contentLoadService: ContentLoadService,
   ) {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
@@ -118,7 +118,6 @@ export class InterfacePostFormComponent implements OnInit {
   // the form.
   focusCard() {
     this.formHidden = false;
-
   }
 
   unfocusCard() {

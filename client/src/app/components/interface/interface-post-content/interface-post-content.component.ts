@@ -1,4 +1,20 @@
-import { Component, DoCheck, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, trigger, transition, style, state, animate, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { 
+  Component, 
+  DoCheck, 
+  OnInit, 
+  OnDestroy, 
+  ViewChild, 
+  ElementRef, 
+  HostListener, 
+  trigger, 
+  transition, 
+  style, 
+  state, 
+  animate, 
+  AfterViewInit, 
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -34,7 +50,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       public dialog: MdDialog,
       private route: ActivatedRoute,
       private contentLoadService: ContentLoadService,
-      private snackBar: MdSnackBar
+      private snackBar: MdSnackBar,
+      private changeDetectorRef: ChangeDetectorRef,
     ) {
       this.isLoading = true;
       this.animationState = "inactive";
@@ -158,6 +175,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
 
     focusEvent(event: boolean) {
       this.focusForm = event;
+      this.changeDetectorRef.detectChanges();
     }
 
     formDone() {

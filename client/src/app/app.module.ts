@@ -47,7 +47,6 @@ import { LoginFormComponent } from './components/auth/login/login-form/login-for
 import { EmbedPostComponent } from './components/embed-post/embed-post.component';
 import { InterfaceComponent } from './components/interface/interface.component';
 import { InterfacePostFormComponent } from './components/interface/interface-post-form/interface-post-form.component';
-import { InterfacePostFormInputComponent } from './components/interface/interface-post-form/interface-post-form-input/interface-post-form-input.component';
 import { InterfacePostFormImagePreviewComponent } from './components/interface/interface-post-form/interface-post-form-image-preview/interface-post-form-image-preview.component';
 import { InterfacePostFormDialogComponent } from './components/interface/interface-post-form/interface-post-form-dialog/interface-post-form-dialog.component';
 import { InterfacePostContentComponent } from './components/interface/interface-post-content/interface-post-content.component';
@@ -60,6 +59,7 @@ import { InterfaceContactInfoFormComponent } from './components/interface/interf
 import { SettingsContentComponent } from './components/settings/settings-content/settings-content.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { InterfacePostDeleteConfirmDialogComponent } from './components/interface/interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
+import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.directive';
 
 const appRoutes: Routes = [
   { path: '',
@@ -133,7 +133,6 @@ const appRoutes: Routes = [
     EmbedPostComponent,
     InterfaceComponent,
     InterfacePostFormComponent,
-    InterfacePostFormInputComponent,
     InterfacePostFormImagePreviewComponent,
     InterfacePostFormDialogComponent,
     InterfacePostContentComponent,
@@ -145,7 +144,8 @@ const appRoutes: Routes = [
     InterfaceContactInfoFormComponent,
     SettingsContentComponent,
     SettingsComponent,
-    InterfacePostDeleteConfirmDialogComponent
+    InterfacePostDeleteConfirmDialogComponent,
+    AutoResizeTextareaDirective
   ],
   providers: [
     WindowRefService,

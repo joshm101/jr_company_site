@@ -2,21 +2,18 @@
   <md-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
     <div class="form-wrap">
       <div class="add-post-input-wrap">
-        <app-interface-post-form-input fillerText="Title"
-                         [inputMode]="inputMode.SingleLine"
-                         [biggerInput]="true"
-                         formControlName="title">
-        </app-interface-post-form-input>
+        <input type="text" class="title-input" formControlName="title" placeholder="Title" />
       </div>
 
       <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
         <div *ngFor="let embedItemInput of addPostForm.controls['embedContent']['controls']; let i=index;">
           <div [formGroupName]="i" class="add-post-input-inner-wrap">
-            <app-interface-post-form-input fillerText="Embed Code"
-                             [inputMode]="inputMode.MultiLine"
-                             [biggerInput]="false"
-                             formControlName="embedItem">
-            </app-interface-post-form-input>
+            <textarea 
+              formControlName="embedItem" 
+              class="description-input" 
+              placeholder="Embed Code"
+              appAutoResizeTextarea>
+            </textarea>
           </div>
           <button mdTooltip="Remove embeddable content"
                   type="button"
@@ -35,11 +32,12 @@
       </button>
 
       <div [hidden]="!focused" class="add-post-input-wrap">
-        <app-interface-post-form-input fillerText="Description"
-                         [inputMode]="inputMode.MultiLine"
-                         [biggerInput]="false"
-                         formControlName="description">
-        </app-interface-post-form-input>
+        <textarea 
+          formControlName="description" 
+          class="description-input" 
+          placeholder="Description"
+          appAutoResizeTextarea>
+        </textarea>
       </div>
 
       <input hidden #fileInput type="file"

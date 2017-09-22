@@ -341,6 +341,10 @@ int-about-form-image-preview {
   padding-top: 14px;
   padding-bottom: 12px;
   min-height: 22px !important;
+  width: 100%;
+  background-color: #fafafa;
+  outline: none;
+  border: none;
 }
 
 .post-thumbnail-img {
@@ -397,6 +401,11 @@ int-about-form-image-preview {
   outline: none;
   white-space: pre-wrap;
   word-wrap: break-word;
+  background-color: #fafafa;
+  outline: none;
+  border: none;
+  resize: none;
+  width: 100%;
 }
 
 .add-post-input-wrap {
