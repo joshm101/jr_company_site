@@ -24,6 +24,7 @@ import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
 import { InterfacePostFormComponent } from '../interface-post-form/interface-post-form.component';
 import { InterfacePostFormDialogComponent } from '../interface-post-form/interface-post-form-dialog/interface-post-form-dialog.component';
 import { InterfacePostDeleteConfirmDialogComponent } from '../interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
+import { InterfaceViewPostComponent } from '../interface-view-post/interface-view-post.component';
 import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
 
 @Component({
@@ -116,6 +117,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
     dialogRef: MdDialogRef<InterfacePostFormDialogComponent>;
     dialogRefDelete: MdDialogRef<InterfacePostDeleteConfirmDialogComponent>;
+    dialogRefViewPost: MdDialogRef<InterfaceViewPostComponent>;
 
     ngOnInit() {
       this.calculateColumns();
@@ -176,6 +178,17 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     focusEvent(event: boolean) {
       this.focusForm = event;
       this.changeDetectorRef.detectChanges();
+    }
+
+    viewPost(post: EmbedPost) {
+      console.log("post to view: ", post);
+      this.dialogRefViewPost = this.dialog.open(InterfaceViewPostComponent, {
+        width: this.screenWidth < 760 ? "95%" : "65%",
+        data: {post}
+      });
+      this.dialogRefViewPost.afterClosed().take(1).subscribe((result?) => {
+        console.log("done viewing post");
+      });
     }
 
     formDone() {

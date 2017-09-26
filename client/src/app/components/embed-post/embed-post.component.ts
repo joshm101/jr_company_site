@@ -16,7 +16,7 @@ export class EmbedPostComponent implements OnInit {
     protected embedPostService: EmbedPostService,
     private contentLoadService: ContentLoadService
   ) {
-
+    this.thumbnailClick = new EventEmitter<boolean>();
   }
 
   ngOnInit() {
@@ -34,6 +34,11 @@ export class EmbedPostComponent implements OnInit {
 
   finishedLoadingPost() {
     this.contentLoadService.contentLoadingDone(this.post);
+  }
+
+  handleThumbnailClick() {
+    this.thumbnailClick.emit(true);
+    console.log("thumbail click");
   }
 
   handlePostLoadError() {
@@ -57,4 +62,5 @@ export class EmbedPostComponent implements OnInit {
     }
   }
   @Input() post: EmbedPost;
+  @Output() thumbnailClick: EventEmitter<boolean>;
 }

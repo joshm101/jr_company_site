@@ -60,6 +60,7 @@ import { SettingsContentComponent } from './components/settings/settings-content
 import { SettingsComponent } from './components/settings/settings.component';
 import { InterfacePostDeleteConfirmDialogComponent } from './components/interface/interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
 import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.directive';
+import { InterfaceViewPostComponent } from './components/interface/interface-view-post/interface-view-post.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -145,7 +146,8 @@ const appRoutes: Routes = [
     SettingsContentComponent,
     SettingsComponent,
     InterfacePostDeleteConfirmDialogComponent,
-    AutoResizeTextareaDirective
+    AutoResizeTextareaDirective,
+    InterfaceViewPostComponent
   ],
   providers: [
     WindowRefService,
@@ -161,6 +163,7 @@ const appRoutes: Routes = [
   entryComponents: [
     InterfacePostFormDialogComponent,
     InterfacePostDeleteConfirmDialogComponent,
+    InterfaceViewPostComponent,
   ],
   bootstrap: [AppComponent]
 })

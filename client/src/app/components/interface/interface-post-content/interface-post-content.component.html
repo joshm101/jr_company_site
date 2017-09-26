@@ -24,7 +24,7 @@
 
       <md-grid-list  [cols]="cols" rowHeight="450px">
         <md-grid-tile *ngFor="let post of embedPosts;">
-          <app-embed-post [post]="post">
+          <app-embed-post [post]="post" (thumbnailClick)="viewPost(post)">
             <div class="text-right">
                 <button type="button"
                   md-mini-fab

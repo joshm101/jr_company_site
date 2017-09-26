@@ -4,7 +4,14 @@
   </md-card-title>
   <md-card-content class="text-center">
     <div>
-        <img class="post-thumbnail-img" *ngIf="post.images[post.thumbnailIndex]" (error)="handlePostLoadError()" (load)="finishedLoadingPost()" [src]="post.images[post.thumbnailIndex]">        
+        <img 
+          class="post-thumbnail-img" 
+          *ngIf="post.images[post.thumbnailIndex]" 
+          (error)="handlePostLoadError()" 
+          (load)="finishedLoadingPost()" 
+          (click)="handleThumbnailClick()"
+          [src]="post.images[post.thumbnailIndex]"
+        >        
     </div>
     <div class="desc-wrap text-left">
       <p class="interface-post-description">{{ post.description }}</p>
