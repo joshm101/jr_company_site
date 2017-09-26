@@ -210,6 +210,10 @@ mat-tab-body {
   color: rgba(255, 255, 255, 0.87) !important;
 }
 
+.mat-tab-links {
+  white-space: nowrap;
+}
+
 textarea {
   resize: none !important;
   height: auto;
