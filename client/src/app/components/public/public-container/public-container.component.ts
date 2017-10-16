@@ -652,7 +652,6 @@ export class PublicContainerComponent implements OnInit {
       */
       if (scrollTop > this._expandedScrollTopValue) {
         this._expandNavByAmount(change);
-        this._disableNavBarFade();
         this._expandDone();
       }
     }
