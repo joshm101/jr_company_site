@@ -9,12 +9,13 @@ import { ContentLoadService } from '../../../external-services/content-load/cont
 
 @Injectable()
 export class AboutService extends AppService<About> {
+  private http: HttpClient;
   constructor(
-    http: HttpClient,
     private contentLoadService: ContentLoadService,
     injector: Injector
   ) {
-    super(http, injector);
+    super(injector);
+    this.http = injector.get(HttpClient);
     this.uploader = new FileUploader({
       url: "/api/about/upload"
     });

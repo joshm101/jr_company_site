@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { EmbedPost } from './embed-post.model';
@@ -11,19 +11,19 @@ import { ContentLoadService } from '../../external-services/content-load/content
 
 @Injectable()
 export class EmbedPostService extends AppService<EmbedPost> {
-
+  private http: HttpClient;
   public uploader: FileUploader;
   constructor(
-    protected http: HttpClient,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private contentLoadService: ContentLoadService,
     injector: Injector
   ) {
-    super(http, injector);
+    super(injector);
     this.uploader = new FileUploader({
       url: "/api/embed-post/upload"
     });
+    this.http = injector.get(HttpClient);
     this._requestInFlight = false;
     this.editErrorArbiter = new Subject<boolean>();
     this.editErrorOccurred$ = this.editErrorArbiter.asObservable();
@@ -35,9 +35,9 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return new EmbedPost(data);
   }
 
-  getAll(): Observable<EmbedPost[]> {
+  getAll(options?: any): Observable<EmbedPost[]> {
     this._requestInFlight = true;
-    return super.getAll().map((posts: EmbedPost[]) => {
+    return super.getAll(options).map((posts: EmbedPost[]) => {
       if (this.contentType || this.contentType === 0) {
         return posts.filter(post => post.contentType === this.contentType);
       } else {

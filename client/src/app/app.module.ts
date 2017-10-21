@@ -29,6 +29,9 @@ import { AboutService } from './components/interface/interface-about-content/abo
 import { ContactInfoService } from './components/interface/interface-contact-info-content/contact-info.service';
 import { AuthGuardService } from './components/auth/auth-guard.service';
 import { authOptionsProvider } from './components/auth/auth-options.service';
+import { PublicInstagramFeedService } from './components/public/public-instagram-feed/public-instagram-feed.service';
+import { ApiService } from './api.service';
+import { LatestContentService } from './external-services/latest-content/latest-content.service';
 
 import { AppComponent } from './app.component';
 import { PublicAudioComponent } from './components/public/public-audio/public-audio.component';
@@ -61,11 +64,15 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { InterfacePostDeleteConfirmDialogComponent } from './components/interface/interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
 import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.directive';
 import { InterfaceViewPostComponent } from './components/interface/interface-view-post/interface-view-post.component';
+import { PublicInstagramFeedComponent } from './components/public/public-instagram-feed/public-instagram-feed.component';
+import { PublicLatestPostsComponent } from './components/public/public-latest-posts/public-latest-posts.component';
+import { PublicLatestPostsPostComponent } from './components/public/public-latest-posts/public-latest-posts-post/public-latest-posts-post.component';
 
 const appRoutes: Routes = [
   { path: '',
     component: PublicContainerComponent,
     children: [
+      { path: '', component: PublicHomeComponent },
       { path: 'audio', component: PublicAudioComponent },
       { path: 'video', component: PublicVideoComponent },
       { path: 'bio', component: PublicBioComponent },
@@ -147,7 +154,10 @@ const appRoutes: Routes = [
     SettingsComponent,
     InterfacePostDeleteConfirmDialogComponent,
     AutoResizeTextareaDirective,
-    InterfaceViewPostComponent
+    InterfaceViewPostComponent,
+    PublicInstagramFeedComponent,
+    PublicLatestPostsComponent,
+    PublicLatestPostsPostComponent
   ],
   providers: [
     WindowRefService,
@@ -159,6 +169,9 @@ const appRoutes: Routes = [
     AboutService,
     ContactInfoService,
     ContentLoadService,
+    PublicInstagramFeedService,
+    ApiService,
+    LatestContentService,
   ],
   entryComponents: [
     InterfacePostFormDialogComponent,
