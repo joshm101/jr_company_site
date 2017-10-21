@@ -1,0 +1,81 @@
+.home-content-container {
+    padding: 100px 35px;
+}
+
+.home-content-block {
+    padding-top: 17px;
+    padding-bottom: 75px;
+}
+
+.home-section-text {
+    color: white;
+}
+
+.small-header {
+    font-weight: 900;
+    color: #B2A464;
+    font-size: 17px;
+    text-rendering: optimizeLegibility;
+}
+
+.big-header {
+    font-size: 2.5rem;
+    margin-top: 14px;
+    font-family: inherit !important;
+}
+
+@media screen and (min-width: 1200px) {
+    .home-content-left-column {
+        padding-right: 150px;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .home-content-left-column {
+        padding-right: 0px;
+    }
+
+
+}
+
+/* @media screen and (min-width: 992px) {
+    .home-content-block iframe {
+        height: 650px !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .home-content-block iframe {
+        height: 515px !important;
+    }
+} */
+
+@media screen and (max-width: 960px) {
+    .home-content-container {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .home-content-container {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .home-content-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.fb_iframe_widget, 
+.fb_iframe_widget span, 
+.fb_iframe_widget iframe,
+div[class^="uiScaledImageContainer"] {
+    width: 100% !important;
+}

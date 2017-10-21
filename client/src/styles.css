@@ -1084,3 +1084,41 @@ html[xmlns] .clearfix {
 #public-nav-bar-wrap-name {
   transition: margin-top 0s !important;
 }
+
+.small-header {
+  font-family: headersFont !important;  
+}
+/* 
+.home-content-block iframe {
+  height: 415px !important;
+}
+
+@media screen and (min-width: 768px) {
+  .home-content-block .twitter-timeline {
+    height: 750px !important;
+  }
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+} */
+
+/* @media screen and (min-width: 992px) {
+  .home-content-block iframe {
+      height: 650px !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .home-content-block iframe {
+      height: 515px !important;
+  }
+} */
+
+.home-content-block iframe {
+  height: 650px !important;
+}
