@@ -1,0 +1,15 @@
+<div>
+  <img 
+    [src]="post.images[post.thumbnailIndex]" 
+    class="latest-posts-post-image"
+  >
+</div>
+<div class="latest-posts-post-info">
+  <div>
+    <span class="latest-posts-post-title">{{ post.title }}</span>  
+  </div>
+  <div>
+    <span class="latest-posts-post-text">{{ post.created | date:'longDate' }}</span>
+  </div>
+</div>
+

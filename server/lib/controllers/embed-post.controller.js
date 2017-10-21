@@ -125,8 +125,20 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
-  console.log('getPosts');
-  EmbedPost.find(function(err, posts) {
+  let findOptions, sortCreated, limit = undefined;
+  if (req.query) {
+    sortCreated = parseInt(req.query.created);
+    limit = parseInt(req.query.limit)
+  }
+  EmbedPost.find(
+    findOptions
+  ).sort(
+    {
+      created: sortCreated
+    }
+  ).limit(
+    limit
+  ).exec(function(err, posts) {
     if (err) {
       res.send(err);
     } else {

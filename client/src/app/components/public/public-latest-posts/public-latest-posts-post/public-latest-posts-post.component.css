@@ -1,0 +1,17 @@
+.latest-posts-post-image {
+  max-width: 100%;
+}
+
+.latest-posts-post-title {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.latest-posts-post-text {
+  color: rgba(255, 255, 255, 0.60);
+}
+
+.latest-posts-post-info {
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
