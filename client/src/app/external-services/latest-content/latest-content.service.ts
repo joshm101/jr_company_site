@@ -21,7 +21,7 @@ export class LatestContentService {
       params: [
         {
           key: 'limit',
-          value: 6
+          value: 4
         },
         {
           key: 'created',
