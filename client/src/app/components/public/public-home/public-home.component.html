@@ -18,8 +18,12 @@
             <div class="home-content-block-header">
               <h1 class="home-section-text small-header">STREAM</h1>
             </div>
-            <div class="home-content-block">
-              <iframe width="100%" height="515" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/6938164&amp;color=%231d1d1d&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+            <div 
+              class="home-content-block"
+              scrollInView
+              (onPartiallyInView)="triggerSoundcloudWidgetLoad()"
+            >
+              <iframe *ngIf="shouldLoadSoundcloudWidget" width="100%" height="515" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/6938164&amp;color=%231d1d1d&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
             </div>
         </div>    
       </div>
@@ -29,7 +33,11 @@
               <div class="home-content-block-header">
                 <h1 class="home-section-text small-header">FOLLOW</h1>
               </div>
-              <div class="home-content-block">
+              <div 
+                class="home-content-block"
+                scrollInView
+                (onPartiallyInView)="triggerTwitterFeedLoad()"
+              >
                 <a 
                   data-height="515"
                   class="twitter-timeline" 

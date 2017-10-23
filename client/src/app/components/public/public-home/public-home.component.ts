@@ -12,7 +12,9 @@ import { EmbedPost } from '../../embed-post/embed-post.index';
 })
 export class PublicHomeComponent implements OnInit, AfterViewInit {
   public latestPosts$: Observable<EmbedPost[]>;
-  public shouldLoadInstagramFeed: boolean;
+  public shouldLoadInstagramFeed: boolean = false;
+  public shouldLoadTwitterFeed: boolean = false;  
+  public shouldLoadSoundcloudWidget: boolean = false;
   constructor(
     private _screenSizeService: ScreenSizeService,
     private latestContentService: LatestContentService
@@ -23,18 +25,6 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    !function(d,s,id){
-      var js: any,
-          fjs=d.getElementsByTagName(s)[0],
-          p='https';
-      if(!d.getElementById(id)){
-          js=d.createElement(s);
-          js.id=id;
-          js.src=p+"://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js,fjs);
-      }
-    } 
-    (document,"script","twitter-wjs");    
   }
 
   get screenWidth() {
@@ -50,6 +40,28 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
 
   triggerInstagramFeedLoad() {
     this.shouldLoadInstagramFeed = true;
+  }
+
+  triggerTwitterFeedLoad() {
+    if (!this.shouldLoadTwitterFeed) {
+      !function(d,s,id){
+        var js: any,
+            fjs=d.getElementsByTagName(s)[0],
+            p='https';
+        if(!d.getElementById(id)){
+            js=d.createElement(s);
+            js.id=id;
+            js.src=p+"://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js,fjs);
+        }
+      } 
+      (document,"script","twitter-wjs");   
+    }
+    this.shouldLoadTwitterFeed = true;
+  }
+
+  triggerSoundcloudWidgetLoad() {
+    this.shouldLoadSoundcloudWidget = true;
   }
 
 }
