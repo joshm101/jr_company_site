@@ -1119,6 +1119,15 @@ html[xmlns] .clearfix {
   }
 } */
 
+@media screen and (min-width: 1500px) {
+  .col-xxl-3 {
+    max-width: 25% !important;
+    flex: 0 0 50%;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+  }
+}
+
 .home-content-block iframe {
   height: 650px !important;
 }
