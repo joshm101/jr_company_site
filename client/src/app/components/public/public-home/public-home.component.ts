@@ -12,6 +12,7 @@ import { EmbedPost } from '../../embed-post/embed-post.index';
 })
 export class PublicHomeComponent implements OnInit, AfterViewInit {
   public latestPosts$: Observable<EmbedPost[]>;
+  public shouldLoadInstagramFeed: boolean;
   constructor(
     private _screenSizeService: ScreenSizeService,
     private latestContentService: LatestContentService
@@ -45,6 +46,10 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
       return 3;
     }
     return 2;
+  }
+
+  triggerInstagramFeedLoad() {
+    this.shouldLoadInstagramFeed = true;
   }
 
 }

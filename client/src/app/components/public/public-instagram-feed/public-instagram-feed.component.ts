@@ -11,6 +11,7 @@ import { PublicInstagramFeedService } from './public-instagram-feed.service';
 export class PublicInstagramFeedComponent implements OnInit {
   public images$: Observable<string[]>;
   @Input() public cols: number = 3;
+  @Input() public shouldLoadImages: boolean = false;
   constructor(
     private publicInstagramFeedService: PublicInstagramFeedService
   ) {

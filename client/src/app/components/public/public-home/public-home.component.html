@@ -60,8 +60,16 @@
                 <div class="home-content-block-header">
                   <h1 class="home-section-text small-header">IMAGES</h1>
                 </div>
-                <div class="home-content-block">
-                  <app-public-instagram-feed [cols]="instagramFeedCols"></app-public-instagram-feed>
+                <div 
+                  class="home-content-block" 
+                  scrollInView
+                  (onPartiallyInView)="triggerInstagramFeedLoad()"
+                >
+                  <app-public-instagram-feed 
+                    [cols]="instagramFeedCols"
+                    [shouldLoadImages]="shouldLoadInstagramFeed"
+                  >
+                  </app-public-instagram-feed>
                 </div>
             </div>              
           </div>      

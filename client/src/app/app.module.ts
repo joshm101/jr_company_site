@@ -67,6 +67,7 @@ import { InterfaceViewPostComponent } from './components/interface/interface-vie
 import { PublicInstagramFeedComponent } from './components/public/public-instagram-feed/public-instagram-feed.component';
 import { PublicLatestPostsComponent } from './components/public/public-latest-posts/public-latest-posts.component';
 import { PublicLatestPostsPostComponent } from './components/public/public-latest-posts/public-latest-posts-post/public-latest-posts-post.component';
+import { ScrollInViewDirective } from './directives/scroll-in-view.directive';
 
 const appRoutes: Routes = [
   { path: '',
@@ -157,7 +158,8 @@ const appRoutes: Routes = [
     InterfaceViewPostComponent,
     PublicInstagramFeedComponent,
     PublicLatestPostsComponent,
-    PublicLatestPostsPostComponent
+    PublicLatestPostsPostComponent,
+    ScrollInViewDirective,
   ],
   providers: [
     WindowRefService,
