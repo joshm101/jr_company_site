@@ -41,7 +41,7 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
   }
 
   get instagramFeedCols() {
-    if (this.screenWidth > 767) {
+    if (this.screenWidth > 991) {
       return 3;
     }
     return 2;
