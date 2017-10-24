@@ -3,13 +3,16 @@ import {
   Output, 
   EventEmitter, 
   HostListener, 
-  ElementRef 
+  ElementRef,
+  OnInit,
 } from '@angular/core';
+
+import { WindowRefService } from '../external-services/window/window.service';
 
 @Directive({
   selector: '[scrollInView]'
 })
-export class ScrollInViewDirective {
+export class ScrollInViewDirective implements OnInit {
   @Output()
   public onPartiallyInView: EventEmitter<boolean>;
   @Output()
@@ -17,9 +20,16 @@ export class ScrollInViewDirective {
   
   constructor(
     private hostElementReference: ElementRef,
+    private windowRefService: WindowRefService
   ) {
     this.onPartiallyInView = new EventEmitter<boolean>();
     this.onFullyInView = new EventEmitter<boolean>();
+  }
+
+  ngOnInit() {
+    const scrollTop = this.windowRefService.nativeWindow.scrollY;
+    const clientHeight = this.windowRefService.nativeWindow.innerHeight;
+    this.onWindowScrollEvent(scrollTop, clientHeight);
   }
 
   @HostListener(
