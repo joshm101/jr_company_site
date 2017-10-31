@@ -35,7 +35,7 @@ export class LoginFormComponent {
     this._authService.login(credentials).subscribe(
       (success) => {
         console.log("success: ", success);
-        this._router.navigate(['interface/music', { contentType: 0 }]);
+        this._router.navigate(['interface/audio', { contentType: 0 }]);
       },
       (error) => {
         this._snackbar.open('Incorrect credentials.', '', { duration: 3000 });

@@ -86,10 +86,8 @@ const appRoutes: Routes = [
     path: 'interface',
     component: InterfaceComponent,
     children: [
-      { path: 'music', component: InterfacePostContentComponent },
-      { path: 'field-recordings', component: InterfacePostContentComponent },
-      { path: 'film', component: InterfacePostContentComponent },
-      { path: 'other', component: InterfacePostContentComponent },
+      { path: 'audio', component: InterfacePostContentComponent },
+      { path: 'video', component: InterfacePostContentComponent },
       { path: 'additional-content', component: InterfaceAdditionalContentComponent },
     ],
     canActivate: [AuthGuardService],

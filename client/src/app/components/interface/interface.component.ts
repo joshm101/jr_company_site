@@ -22,24 +22,14 @@ export class InterfaceComponent implements AfterViewInit {
     this.activeLinkIndex = parseInt(window.location.href[window.location.href.length - 1]) || 0;
     this.tabLinks = [
       {
-        label: 'Music',
-        path: 'music',
-        contentType: ContentTypeEnum.Music
+        label: 'Audio',
+        path: 'audio',
+        contentType: ContentTypeEnum.Audio
       },
       {
-        label: 'Field Rec.',
-        path: 'field-recordings',
-        contentType: ContentTypeEnum.FieldRecordings
-      },
-      {
-        label: 'Film',
-        path: 'film',
-        contentType: ContentTypeEnum.Film
-      },
-      {
-        label: 'Other',
-        path: 'other',
-        contentType: ContentTypeEnum.Eng
+        label: 'Video',
+        path: 'video',
+        contentType: ContentTypeEnum.Video
       },
       {
         label: 'Add\'l Content',
