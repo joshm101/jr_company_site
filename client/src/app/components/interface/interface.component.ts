@@ -42,14 +42,9 @@ export class InterfaceComponent implements AfterViewInit {
         contentType: ContentTypeEnum.Eng
       },
       {
-        label: 'About',
-        path: 'about',
-        contentType: ContentTypeEnum.About
-      },
-      {
-        label: 'Contact Info',
-        path: 'contact-info',
-        contentType: ContentTypeEnum.ContactInfo
+        label: 'Add\'l Content',
+        path: 'additional-content',
+        contentType: ContentTypeEnum.Additional
       }
     ];
     this.currentWidth = this._screenSizeService.screenWidth;

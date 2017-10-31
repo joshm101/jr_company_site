@@ -5,4 +5,5 @@ export enum ContentTypeEnum {
   Eng = 3,
   About = 4,
   ContactInfo = 5,
+  Additional = 6,
 }

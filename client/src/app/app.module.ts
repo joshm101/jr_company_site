@@ -68,6 +68,7 @@ import { PublicInstagramFeedComponent } from './components/public/public-instagr
 import { PublicLatestPostsComponent } from './components/public/public-latest-posts/public-latest-posts.component';
 import { PublicLatestPostsPostComponent } from './components/public/public-latest-posts/public-latest-posts-post/public-latest-posts-post.component';
 import { ScrollInViewDirective } from './directives/scroll-in-view.directive';
+import { InterfaceAdditionalContentComponent } from './components/interface/interface-additional-content/interface-additional-content.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -89,8 +90,7 @@ const appRoutes: Routes = [
       { path: 'field-recordings', component: InterfacePostContentComponent },
       { path: 'film', component: InterfacePostContentComponent },
       { path: 'other', component: InterfacePostContentComponent },
-      { path: 'about', component: InterfaceAboutContentComponent },
-      { path: 'contact-info', component: InterfaceContactInfoContentComponent },
+      { path: 'additional-content', component: InterfaceAdditionalContentComponent },
     ],
     canActivate: [AuthGuardService],
   },
@@ -160,6 +160,7 @@ const appRoutes: Routes = [
     PublicLatestPostsComponent,
     PublicLatestPostsPostComponent,
     ScrollInViewDirective,
+    InterfaceAdditionalContentComponent,
   ],
   providers: [
     WindowRefService,
