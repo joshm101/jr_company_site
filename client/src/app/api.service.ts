@@ -28,7 +28,6 @@ export class ApiService {
     options?: OptionsType
   ) {
     const params = this.constructSearchParams(options);
-    console.log("params: ", params);
     const requestOptions = {
       params,
     }
