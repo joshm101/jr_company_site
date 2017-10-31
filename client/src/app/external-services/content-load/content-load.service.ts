@@ -25,6 +25,8 @@ export class ContentLoadService {
       setTimeout(() => {
         this.doneLoadingArbiter.next(true);
       }, 100)
+    } else {
+      this.doneLoadingArbiter.next(false);
     }
   }
 
