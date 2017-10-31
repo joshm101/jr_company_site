@@ -125,17 +125,20 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
-  let findOptions, sortCreated, limit = undefined;
-  if (req.query) {
-    sortCreated = parseInt(req.query.created);
-    limit = parseInt(req.query.limit)
-  }
+  let findOptions, sortCreated, limit, page, offset = undefined;
+  sortCreated = parseInt(req.query.created) || -1;
+  limit = parseInt(req.query.limit) || 6;
+  page = parseInt(req.query.page) || 1;
+  offset = (page - 1) * limit || 0;
+  
   EmbedPost.find(
     findOptions
   ).sort(
     {
       created: sortCreated
     }
+  ).skip(
+    offset || 0
   ).limit(
     limit
   ).exec(function(err, posts) {
