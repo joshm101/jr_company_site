@@ -11,6 +11,7 @@ var api = require('./lib/routes/api');
 var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
+const bannerImageRoutes = require('./lib/routes/api/banner-image.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
 const compression = require('compression');
 const DEBUG = 'DEBUG';
@@ -43,6 +44,7 @@ app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);
 app.use('/api/about', aboutPageRoutes);
 app.use('/api/contactInfo', contactInfoRoutes);
+app.use('/api/bannerImage', bannerImageRoutes);
 app.use('/api/auth/', authRoutes);
 app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {

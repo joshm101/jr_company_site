@@ -1,5 +1,5 @@
 import { Component, ViewChild, Inject } from '@angular/core';
-import { MdButton, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatButton, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-interface-post-delete-confirm-dialog',
@@ -8,7 +8,7 @@ import { MdButton, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 })
 export class InterfacePostDeleteConfirmDialogComponent {
   constructor(
-    private dialogRef: MdDialogRef<InterfacePostDeleteConfirmDialogComponent>
+    private dialogRef: MatDialogRef<InterfacePostDeleteConfirmDialogComponent>
   ) { }
 
   confirmDelete(event: Event) {

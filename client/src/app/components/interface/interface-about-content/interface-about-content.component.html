@@ -1,6 +1,6 @@
 <div>
   <div class="loading-wrap-interface" *ngIf="doneLoadingContent === false" >
-    <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
+    <mat-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></mat-progress-spinner>
   </div>
   <div [hidden]="doneLoadingContent === false" [@interfaceState]="animationState">
     <app-interface-about-form></app-interface-about-form>

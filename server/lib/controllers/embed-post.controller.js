@@ -153,7 +153,7 @@ exports.getPosts = function(req, res) {
 exports.getPostById = function(req, res) {
   EmbedPost.findById(req.params.post_id, function (err, post) {
     if (err) {
-      res.send(err);
+      res.status(404).send();
     } else {
       res.json(post);
     }

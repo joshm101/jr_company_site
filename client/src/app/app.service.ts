@@ -88,7 +88,7 @@ export abstract class AppService<Model extends AppModel> {
       ).items);
       return Observable.of(this._items.value[idx]);
     })
-    .catch(this.api.handleError);
+    .catch(this.api.handleError.bind(ApiService));
   }
 
   // DELETE resource specified by id

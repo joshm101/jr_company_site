@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 import { EmbedPost } from '../../embed-post/embed-post.index';
 
@@ -16,7 +16,7 @@ export class InterfaceViewPostComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     // post data supplied by component which triggers
     // this dialog component
-    @Inject(MD_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { 
 
   }

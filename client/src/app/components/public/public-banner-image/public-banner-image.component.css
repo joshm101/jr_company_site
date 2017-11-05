@@ -1,0 +1,57 @@
+.public-banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.public-banner-image-wrapper-div {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}
+
+@media screen and (max-width: 640px) {
+  .public-banner-image-wrapper-div {
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .public-banner-image-wrapper-div {
+    margin-top: 55px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .public-banner-image-wrapper-div {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .public-banner-image-wrapper-div {
+    margin-top: 47px;
+  }
+}
+
+.public-banner-image-wrapper-div:before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;
+}
+
+.loading-indicator-wrap {
+  display: inline-block;
+}
+
+.loading-indicator {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

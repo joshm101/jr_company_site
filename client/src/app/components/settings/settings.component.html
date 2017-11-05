@@ -1,32 +1,32 @@
 <div class="settings-wrap" (window:resize)="onResize()">
   <div class="settings-toolbar-wrap">
-    <md-toolbar class="settings-toolbar"  color="primary">
+    <mat-toolbar class="settings-toolbar"  color="primary">
       <span>Settings</span>
       <span class="toolbar-spacer"></span>
       <span *ngIf="currentWidth > 559">
-        <button md-button (click)="goToInterface()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
-          <md-icon class="navbar-button-icon">home</md-icon>
+        <button mat-button (click)="goToInterface()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+          <mat-icon class="navbar-button-icon">home</mat-icon>
           <span>Interface</span>
         </button>
-        <button md-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
-          <md-icon class="navbar-button-icon">power_settings_new</md-icon>
+        <button mat-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+          <mat-icon class="navbar-button-icon">power_settings_new</mat-icon>
           <span>Log Out</span>
         </button>
       </span>
       <span *ngIf="currentWidth < 560">
-        <button md-icon-button [mdMenuTriggerFor]="navbarMenu"><md-icon>more_vert</md-icon></button>
-        <md-menu #navbarMenu="mdMenu">
-          <button md-menu-item (click)="goToInterface()">
-            <md-icon>home</md-icon>
+        <button mat-icon-button [matMenuTriggerFor]="navbarMenu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #navbarMenu="matMenu">
+          <button mat-menu-item (click)="goToInterface()">
+            <mat-icon>home</mat-icon>
             <span>Interface</span>
           </button>
-          <button md-menu-item (click)="logout()">
-            <md-icon>power_settings_new</md-icon>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
             <span>Log Out</span>
           </button>
-        </md-menu>
+        </mat-menu>
       </span>
-    </md-toolbar>
+    </mat-toolbar>
   </div>
   <div class="settings-content-wrap" style="margin-top: 64px;">
     <app-settings-content></app-settings-content>

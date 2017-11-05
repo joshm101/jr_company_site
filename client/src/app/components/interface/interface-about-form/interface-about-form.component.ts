@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { About, AboutService } from '../interface-about-content/about.index';
 import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
@@ -18,7 +18,7 @@ export class InterfaceAboutFormComponent implements OnInit {
     protected aboutService: AboutService,
     protected sanitizer: DomSanitizer,
     protected contentLoadService: ContentLoadService,
-    private snackBar: MdSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.aboutService.getAll().filter(aboutArr => !!aboutArr).subscribe(
       (aboutArray) => {

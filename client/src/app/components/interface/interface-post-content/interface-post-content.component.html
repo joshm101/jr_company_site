@@ -1,8 +1,8 @@
 <div (window:resize)="onResize($event)" focusedForm (focused)="focusEvent($event)">
-  <div class="loading-wrap-interface" *ngIf="!doneLoadingContent || requestInFlight" >
-    <md-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></md-progress-spinner>
+  <div class="loading-wrap-interface" *ngIf="!doneLoadingContent || requestInFlight || changingPages" >
+    <mat-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></mat-progress-spinner>
   </div>
-  <div class="interface-content-wrap" [hidden]="!doneLoadingContent || requestInFlight" [@interfaceState]="animationState">
+  <div class="interface-content-wrap" [hidden]="!doneLoadingContent || requestInFlight || changingPages" [@interfaceState]="animationState">
     <app-interface-post-form (focused)="focusEvent($event)"
                (startLoad)="handleSubmission()"
                (doneLoad)="submissionFinished()"
@@ -21,32 +21,37 @@
                           col-12 clearfix">
     </app-interface-post-form>
     <div class="grid-list-wrap">
-
-      <md-grid-list  [cols]="cols" rowHeight="450px">
-        <md-grid-tile *ngFor="let post of embedPosts;">
+      <button type="button" mat-button (click)="handlePreviousPageClick()">
+        Previous Page
+      </button>
+      <button type="button" mat-button (click)="handleNextPageClick()">
+        Next Page
+      </button>
+      <mat-grid-list  [cols]="cols" rowHeight="450px">
+        <mat-grid-tile *ngFor="let post of embedPosts;">
           <app-embed-post [post]="post" (thumbnailClick)="viewPost(post)">
             <div class="text-right">
                 <button type="button"
-                  md-mini-fab
-                  md-tooltip="Delete"
+                  mat-mini-fab
+                  mat-tooltip="Delete"
                   color="warn"
                   (click)="showDeleteConfirmDialog(post)"
                 >
-                  <md-icon class="md-24" aria-label="Delete">delete_forever</md-icon>
+                  <mat-icon class="md-24" aria-label="Delete">delete_forever</mat-icon>
                 </button>
               <button type="button"
-                      md-mini-fab
-                      md-tooltip="Edit"
+                      mat-mini-fab
+                      mat-tooltip="Edit"
                       color="primary"
                       style="float: right; margin-left: 20px;"
                       (click)="editPost(post)"
               >
-                <md-icon class="md-24" aria-label="Edit">edit</md-icon>
+                <mat-icon class="md-24" aria-label="Edit">edit</mat-icon>
               </button>              
             </div>
           </app-embed-post>
-        </md-grid-tile>
-      </md-grid-list>
+        </mat-grid-tile>
+      </mat-grid-list>
     </div>
   </div>
 </div>

@@ -607,6 +607,7 @@ export class PublicContainerComponent implements OnInit {
   }
 
   private _handleScrollUpEvent(scrollTop: number, change: number) {
+    let startingMarginTop = this.navBarMarginTop;
     if (isNaN(change)) {
       if (scrollTop < 125) {
         this._expandNavByAmount(scrollTop);
@@ -652,7 +653,10 @@ export class PublicContainerComponent implements OnInit {
       */
       if (scrollTop > this._expandedScrollTopValue) {
         this._expandNavByAmount(change);
-        this._expandDone();
+        if (startingMarginTop !== this.navBarExpandedMargin) {
+          // wasn't already expanded, so an actual expansion occurred.
+          this._expandDone();          
+        }
       }
     }
 

@@ -1,5 +1,5 @@
 <form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)" *ngIf="addPostForm">
-  <md-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
+  <mat-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
     <div class="form-wrap">
       <div class="add-post-input-wrap">
         <input type="text" class="title-input" formControlName="title" placeholder="Title" />
@@ -15,20 +15,20 @@
               appAutoResizeTextarea>
             </textarea>
           </div>
-          <button mdTooltip="Remove embeddable content"
+          <button matTooltip="Remove embeddable content"
                   type="button"
                   (click)="removeEmbedContent(index, $event)"
-                  [hidden]="!focused" md-icon-button>
-            <md-icon>remove</md-icon>
+                  [hidden]="!focused" mat-icon-button>
+            <mat-icon>remove</mat-icon>
           </button>
         </div>
       </div>
-      <button mdTooltip="Add embeddable content"
+      <button matTooltip="Add embeddable content"
               class="add-embed-input-button"
               type="button"
               (click)="addEmbedContent()"
-              [hidden]="!focused" md-icon-button>
-        <md-icon>add</md-icon>
+              [hidden]="!focused" mat-icon-button>
+        <mat-icon>add</mat-icon>
       </button>
 
       <div [hidden]="!focused" class="add-post-input-wrap">
@@ -60,21 +60,21 @@
 
 
       <div [hidden]="!focused" class="add-post-action-bar-wrap">
-        <md-toolbar class="add-post-action-bar">
+        <mat-toolbar class="add-post-action-bar">
           <button class="add-image-button"
-                  mdTooltip="Add image"
-                  md-icon-button
+                  matTooltip="Add image"
+                  mat-icon-button
                   type="button"
                   (click)="selectFileInput()">
-            <md-icon class="add-image-icon">image</md-icon>
+            <mat-icon class="add-image-icon">image</mat-icon>
           </button>
           <span flex style="flex: 1 1 auto;"></span>
           <button (click)="doneClicked($event)"
                   tabindex="0"
-                  md-button type="submit"
+                  mat-button type="submit"
                   class="add-post-done-button">Done</button>
-        </md-toolbar>
+        </mat-toolbar>
       </div>
     </div>
-  </md-card>
+  </mat-card>
 </form>

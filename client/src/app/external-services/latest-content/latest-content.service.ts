@@ -13,7 +13,7 @@ export class LatestContentService {
     private apiService: ApiService,
     private embedPostService: EmbedPostService,
   ) {
-
+    embedPostService.itemsPerPage = 4;
   }
 
   public getLatestPosts() {

@@ -1,5 +1,5 @@
-<md-grid-list [cols]="cols" rowHeight="1:1">
-  <md-grid-tile *ngFor="let imageSrc of images$ | async">
+<mat-grid-list [cols]="cols" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let imageSrc of images$ | async">
     <img [src]="imageSrc" style="height: 100%;" *ngIf="shouldLoadImages">
-  </md-grid-tile>
-</md-grid-list>
+  </mat-grid-tile>
+</mat-grid-list>

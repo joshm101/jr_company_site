@@ -1,36 +1,36 @@
 <div class="interface-wrap" (window:resize)="onResize($event)">
 
-  <md-toolbar class="interface-toolbar"  color="primary">
+  <mat-toolbar class="interface-toolbar"  color="primary">
     <span>Manage Site Content</span>
     <span class="toolbar-spacer"></span>
     <span *ngIf="currentWidth > 559">
-      <button md-button (click)="goToSettings()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
-        <md-icon class="navbar-button-icon">settings</md-icon>
+      <button mat-button (click)="goToSettings()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+        <mat-icon class="navbar-button-icon">settings</mat-icon>
         <span>Settings</span>
       </button>
-      <button md-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
-        <md-icon class="navbar-button-icon">power_settings_new</md-icon>
+      <button mat-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+        <mat-icon class="navbar-button-icon">power_settings_new</mat-icon>
         <span>Log Out</span>
       </button>
     </span>
     <span *ngIf="currentWidth < 560">
-      <button md-icon-button [mdMenuTriggerFor]="navbarMenu"><md-icon>more_vert</md-icon></button>
-      <md-menu #navbarMenu="mdMenu">
-        <button md-menu-item (click)="goToSettings()">
-          <md-icon>settings</md-icon>
+      <button mat-icon-button [matMenuTriggerFor]="navbarMenu"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #navbarMenu="matMenu">
+        <button mat-menu-item (click)="goToSettings()">
+          <mat-icon>settings</mat-icon>
           <span>Settings</span>
         </button>
-        <button md-menu-item (click)="logout()">
-          <md-icon>power_settings_new</md-icon>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
           <span>Log Out</span>
         </button>
-      </md-menu>
+      </mat-menu>
     </span>
-  </md-toolbar>
+  </mat-toolbar>
 
 
-    <nav md-tab-nav-bar color="primary">
-      <a md-tab-link
+    <nav mat-tab-nav-bar color="primary">
+      <a mat-tab-link
          *ngFor="let link of tabLinks; let i = index"
          [active]="activeLinkIndex === i"
          [routerLink]="[link.path, { contentType: link.contentType }]"
@@ -40,7 +40,7 @@
         {{ link.label }}
       </a>
       <!--
-      <a md-tab-link
+      <a mat-tab-link
          #aboutTab label="About">
         <interface-content></interface-content>
       </a>-->

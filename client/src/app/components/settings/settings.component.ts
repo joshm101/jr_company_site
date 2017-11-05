@@ -38,7 +38,7 @@ export class SettingsComponent {
   }
 
   public goToInterface() {
-    this._router.navigate(['/interface/music', { contentType: 0 }]);
+    this._router.navigate(['/interface/audio', { contentType: 0 }]);
   }
 
 }

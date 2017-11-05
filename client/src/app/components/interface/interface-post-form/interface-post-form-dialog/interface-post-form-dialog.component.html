@@ -1,9 +1,9 @@
-<div [formGroup]="addPostForm" md-dialog-title class="int-form-dialog-title-wrap">
+<div [formGroup]="addPostForm" mat-dialog-title class="int-form-dialog-title-wrap">
         <div class="add-post-input-wrap">
           <input type="text" class="title-input" formControlName="title" placeholder="Title" />
         </div>
       </div>
-<div [formGroup]="addPostForm" md-dialog-content class="int-form-dialog-content-wrap">
+<div [formGroup]="addPostForm" mat-dialog-content class="int-form-dialog-content-wrap">
   <div class="add-post-input-wrap" formArrayName="embedContent" *ngIf="addPostForm && addPostForm.controls">
     <div *ngFor="let embedItemInput of addPostForm.controls.embedContent.controls; let i = index">
       <div class="add-post-input-inner-wrap">
@@ -14,20 +14,20 @@
           appAutoResizeTextarea>
         </textarea>
       </div>
-      <button md-tooltip="Remove embeddable content"
+      <button mat-tooltip="Remove embeddable content"
               type="button"
               (click)="removeEmbedContent(i, $event)"
-              md-icon-button>
-        <md-icon>remove</md-icon>
+              mat-icon-button>
+        <mat-icon>remove</mat-icon>
       </button>
     </div>
   </div>
-  <button md-tooltip="Add embeddable content"
+  <button mat-tooltip="Add embeddable content"
           class="add-embed-input-button"
           type="button"
           (click)="addEmbedContent()"
-          md-icon-button>
-    <md-icon>add</md-icon>
+          mat-icon-button>
+    <mat-icon>add</mat-icon>
   </button>
 
   <div class="add-post-input-wrap">
@@ -58,28 +58,28 @@
   </div>
 
 </div>
-<div md-dialog-actions class="int-form-dialog-actions-wrap">
+<div mat-dialog-actions class="int-form-dialog-actions-wrap">
   <div class="add-post-action-bar-wrap">
-    <md-toolbar class="add-post-action-bar">
+    <mat-toolbar class="add-post-action-bar">
       <button class="add-image-button"
-              md-tooltip="Add image"
-              md-icon-button
+              matTooltip="Add image"
+              mat-icon-button
               type="button"
               (click)="selectFileInput()">
-        <md-icon class="add-image-icon">image</md-icon>
+        <mat-icon class="add-image-icon">image</mat-icon>
       </button>
       <span flex style="flex: 1 1 auto;"></span>
       <button tabindex="0"
               #close
-              md-button type="button"
-              md-dialog-close>
+              mat-button type="button"
+              mat-dialog-close>
         Cancel
       </button>
       <button (click)="updatePostSubmit($event)"
               tabindex="0"
-              md-button type="button"
-              md-dialog-close
+              mat-button type="button"
+              mat-dialog-close
               class="add-post-done-button">Done</button>
-    </md-toolbar>
+    </mat-toolbar>
   </div>
 </div>

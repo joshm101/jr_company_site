@@ -16,7 +16,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/Rx';
 
@@ -48,10 +48,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       protected elementRef: ElementRef,
       protected embedPostService: EmbedPostService,
       protected sanitizer: DomSanitizer,
-      public dialog: MdDialog,
+      public dialog: MatDialog,
       private route: ActivatedRoute,
       private contentLoadService: ContentLoadService,
-      private snackBar: MdSnackBar,
+      private snackBar: MatSnackBar,
       private changeDetectorRef: ChangeDetectorRef,
     ) {
       this.isLoading = true;
@@ -92,7 +92,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
             params !== undefined && posts !== undefined
         ).subscribe(
           ([params, posts]) => {
-
+            if (this.changingPages) {
+              this.contentLoadService.removeAllTrackedContent();
+              this.contentLoadService.setPostMap(posts);              
+            }
             // check if the service has not yet
             // had posts set (first getAll()) and
             // set if posts haven't been set.
@@ -104,6 +107,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
             // loading all of the thumbnail
             // images, so show loading spinner
             this.isLoading = true;
+            this.changingPages = false;            
             this.embedPosts = posts;
             this.numPosts = posts.length;
           },
@@ -115,9 +119,9 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
         )
       );
     }
-    dialogRef: MdDialogRef<InterfacePostFormDialogComponent>;
-    dialogRefDelete: MdDialogRef<InterfacePostDeleteConfirmDialogComponent>;
-    dialogRefViewPost: MdDialogRef<InterfaceViewPostComponent>;
+    dialogRef: MatDialogRef<InterfacePostFormDialogComponent>;
+    dialogRefDelete: MatDialogRef<InterfacePostDeleteConfirmDialogComponent>;
+    dialogRefViewPost: MatDialogRef<InterfaceViewPostComponent>;
 
     ngOnInit() {
       this.calculateColumns();
@@ -262,6 +266,16 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.cols = 2;
     }
 
+    handleNextPageClick() {
+      this.changingPages = true;
+      this.embedPostService.incrementPage();
+    }
+
+    handlePreviousPageClick() {
+      this.changingPages = true;
+      this.embedPostService.decrementPage();
+    }
+
     focusForm: boolean = false;
     embedPosts$: Observable<EmbedPost[]>;
     embedPosts: EmbedPost[];
@@ -277,6 +291,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     doneLoadingContent$: Observable<boolean>;
     doneLoadingContent: boolean;
     applyToolbarShadow: boolean;
+    changingPages: boolean;
 
     /**
      * Ensures that service is 'reset' to

@@ -1,0 +1,22 @@
+<div class="row" id="banner-image-form-img-preview-component-wrap" *ngIf="imgSrc">
+  <div class="row banner-image-remove-img-button-wrap">
+    <button mat-button
+            mat-icon-button
+            type="button"
+            mat-tooltip="Remove image"
+            class="banner-image-remove-img-button"
+            (click)="handleImageRemoval($event)">
+      <mat-icon>
+        close
+      </mat-icon>
+    </button>
+  </div>
+  <div class="banner-image-form-img-wrap col-12">
+    <img 
+      (error)="imageLoaded.emit(false)" 
+      (load)="imageLoaded.emit(true)" 
+      [src]="imgSrc"
+    >
+  </div>
+  </div>
+  

@@ -4,18 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 import {
-  MdCardModule,
-  MdInputModule,
-  MdSnackBarModule,
-  MdButtonModule,
-  MdMenuModule,
-  MdToolbarModule,
-  MdTabsModule,
-  MdIconModule,
-  MdTooltipModule,
-  MdGridListModule,
-  MdProgressSpinnerModule,
-  MdDialogModule,
+  MatCardModule,
+  MatInputModule,
+  MatSnackBarModule,
+  MatButtonModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatTabsModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatGridListModule,
+  MatProgressSpinnerModule,
+  MatDialogModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -32,6 +32,7 @@ import { authOptionsProvider } from './components/auth/auth-options.service';
 import { PublicInstagramFeedService } from './components/public/public-instagram-feed/public-instagram-feed.service';
 import { ApiService } from './api.service';
 import { LatestContentService } from './external-services/latest-content/latest-content.service';
+import { BannerImageService } from './components/interface/interface-banner-image-content/banner-image.service';
 
 import { AppComponent } from './app.component';
 import { PublicAudioComponent } from './components/public/public-audio/public-audio.component';
@@ -69,6 +70,11 @@ import { PublicLatestPostsComponent } from './components/public/public-latest-po
 import { PublicLatestPostsPostComponent } from './components/public/public-latest-posts/public-latest-posts-post/public-latest-posts-post.component';
 import { ScrollInViewDirective } from './directives/scroll-in-view.directive';
 import { InterfaceAdditionalContentComponent } from './components/interface/interface-additional-content/interface-additional-content.component';
+import { InterfaceBannerImageContentComponent } from './components/interface/interface-banner-image-content/interface-banner-image-content.component';
+import { InterfaceBannerImageFormComponent } from './components/interface/interface-banner-image-form/interface-banner-image-form.component';
+import { InterfaceBannerImageFormImagePreviewComponent } from './components/interface/interface-banner-image-form/interface-banner-image-form-image-preview/interface-banner-image-form-image-preview.component';
+import { PublicBannerImageComponent } from './components/public/public-banner-image/public-banner-image.component';
+import { PublicViewPostComponent } from './components/public/public-view-post/public-view-post.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -79,6 +85,7 @@ const appRoutes: Routes = [
       { path: 'video', component: PublicVideoComponent },
       { path: 'bio', component: PublicBioComponent },
       { path: 'contact', component: PublicContactComponent },
+      { path: 'view', component: PublicViewPostComponent },
     ],
   },
   { path: 'login', component: LoginComponent },
@@ -108,19 +115,19 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule,
     FormsModule,
-    MdCardModule,
-    MdSnackBarModule,
-    MdInputModule,
-    MdButtonModule,
-    MdMenuModule,
-    MdToolbarModule,
-    MdTabsModule,
-    MdIconModule,
-    MdTooltipModule,
-    MdGridListModule,
-    MdProgressSpinnerModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTabsModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatGridListModule,
+    MatProgressSpinnerModule,
     FileUploadModule,
-    MdDialogModule,
+    MatDialogModule,
   ],  
   declarations: [
     AppComponent,
@@ -159,6 +166,11 @@ const appRoutes: Routes = [
     PublicLatestPostsPostComponent,
     ScrollInViewDirective,
     InterfaceAdditionalContentComponent,
+    InterfaceBannerImageContentComponent,
+    InterfaceBannerImageFormComponent,
+    InterfaceBannerImageFormImagePreviewComponent,
+    PublicBannerImageComponent,
+    PublicViewPostComponent,
   ],
   providers: [
     WindowRefService,
@@ -173,6 +185,7 @@ const appRoutes: Routes = [
     PublicInstagramFeedService,
     ApiService,
     LatestContentService,
+    BannerImageService,
   ],
   entryComponents: [
     InterfacePostFormDialogComponent,

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
-import { MdButton, MdSnackBar } from '@angular/material';
+import { MatButton, MatSnackBar } from '@angular/material';
 import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { Observable, Subscription } from 'rxjs/Rx';
@@ -21,7 +21,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     protected sanitizer: DomSanitizer,
     private _fb: FormBuilder,
     private contentLoadService: ContentLoadService,
-    private snackBar: MdSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.formHidden = true;
     this.subscriptions = [];
@@ -33,7 +33,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
   @Input() focused: boolean;
   @Output() doneClick: EventEmitter<boolean>;
   @ViewChild('fileInput') fileInput: ElementRef;
-  @ViewChild('close') close: MdButton;
+  @ViewChild('close') close: MatButton;
   uploader: FileUploader;
   safeImages: any[];
   images: any[];

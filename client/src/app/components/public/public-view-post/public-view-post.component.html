@@ -1,0 +1,5 @@
+<div>
+  <div *ngIf="(post$ | async) && ((post$ | async) !== null)">
+    <h2 class="view-post-title">{{ (post$ | async).title }}</h2>      
+  </div>
+</div>

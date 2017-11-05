@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpHeaders, HttpResponse, HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 import { EmbedPost } from './embed-post.model';
 import { AppService } from '../../app.service';
@@ -12,6 +12,9 @@ import { ContentLoadService } from '../../external-services/content-load/content
 @Injectable()
 export class EmbedPostService extends AppService<EmbedPost> {
   private http: HttpClient;
+  public currentPageArbiter: BehaviorSubject<number>;
+  public currentPage$: Observable<number>;
+  private _itemsPerPage: number = 4;
   public uploader: FileUploader;
   constructor(
     protected sanitizer: DomSanitizer,
@@ -26,7 +29,9 @@ export class EmbedPostService extends AppService<EmbedPost> {
     this.http = injector.get(HttpClient);
     this._requestInFlight = false;
     this.editErrorArbiter = new Subject<boolean>();
+    this.currentPageArbiter = new BehaviorSubject<number>(1);
     this.editErrorOccurred$ = this.editErrorArbiter.asObservable();
+    this.currentPage$ = this.currentPageArbiter.asObservable();
     this.editErrorArbiter.next(false);
     this._uploadRequestInFlight = false;
   }
@@ -35,22 +40,36 @@ export class EmbedPostService extends AppService<EmbedPost> {
     return new EmbedPost(data);
   }
 
-  getAll(options?: any): Observable<EmbedPost[]> {
+  getAll(options: any = {}): Observable<EmbedPost[]> {
     this._requestInFlight = true;
-    return super.getAll(options).map((posts: EmbedPost[]) => {
-      if (this.contentType || this.contentType === 0) {
-        return posts.filter(post => post.contentType === this.contentType);
-      } else {
+    return this.currentPage$.switchMap(currentPage => {
+      const requestOptions = {
+        params: [
+          {
+            key: 'page',
+            value: currentPage
+          },
+          {
+            key: 'limit',
+            value: this.itemsPerPage,
+          }
+        ].concat(options.params || [])
+      };
+      return super.getAll(requestOptions).map((posts: EmbedPost[]) => {
+        if (this.contentType || this.contentType === 0) {
+          return posts.filter(post => post.contentType === this.contentType);
+        } else {
+          return posts;
+        }
+      }).map(posts => {
+        this._requestInFlight = false;
+        posts.forEach((post) => {
+          post.embedContentSafe = [];
+        });
+        posts.forEach(post => this.createSafeHtml(post));
         return posts;
-      }
-    }).map(posts => {
-      this._requestInFlight = false;
-      posts.forEach((post) => {
-        post.embedContentSafe = [];
-      });
-      posts.forEach(post => this.createSafeHtml(post));
-      return posts;
-    })
+      })      
+    });
   }
 
   update(body: EmbedPost): Observable<EmbedPost> {
@@ -136,6 +155,24 @@ export class EmbedPostService extends AppService<EmbedPost> {
         this.initializeUploaderInstance();
         return res;
       });
+  }
+
+  incrementPage() {
+    let currentPage = this.currentPageArbiter.value;
+    this.currentPageArbiter.next(++currentPage);
+  }
+
+  decrementPage() {
+    let currentPage = this.currentPageArbiter.value;
+    this.currentPageArbiter.next(--currentPage || 1);
+  }
+
+  get itemsPerPage() {
+    return this._itemsPerPage;
+  }
+  
+  set itemsPerPage(numItems: number) {
+    this._itemsPerPage = numItems || 4;
   }
 
   getUploaderInstance() {

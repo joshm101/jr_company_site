@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { AuthService } from '../../auth.service';
 
@@ -18,7 +18,7 @@ export class LoginFormComponent {
     private _fb: FormBuilder,
     private _authService: AuthService,
     private _router: Router,
-    private _snackbar: MdSnackBar,
+    private _snackbar: MatSnackBar,
   ) {
     this.loginForm = _fb.group({
       username: ['', [Validators.required]],

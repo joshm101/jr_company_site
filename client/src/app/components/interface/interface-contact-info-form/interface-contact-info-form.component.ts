@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { ContactInfo, ContactInfoService } from '../interface-contact-info-content/contact-info.index';
 
@@ -19,7 +19,7 @@ export class InterfaceContactInfoFormComponent {
   constructor(
     private _fb: FormBuilder,
     protected contactInfoService: ContactInfoService,
-    private snackBar: MdSnackBar,
+    private snackBar: MatSnackBar,
   ) {
     this.contactInfoService.getAll().filter(contactInfoArr => !!contactInfoArr).subscribe(
       (contactInfoArr) => {

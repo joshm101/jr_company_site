@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { AuthService } from '../auth.service';
 import { JwtHelper } from 'angular2-jwt';
@@ -21,7 +21,7 @@ export class ChangePasswordComponent {
 
   constructor(
     private _authService: AuthService,
-    private _snackBar: MdSnackBar
+    private _snackBar: MatSnackBar
   ) {
     this._initForm();
   }

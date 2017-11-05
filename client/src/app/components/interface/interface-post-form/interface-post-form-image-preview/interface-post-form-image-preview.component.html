@@ -1,13 +1,13 @@
 <div class="post-form-image-preview-comp-wrap">
   <div class="text-right remove-img-button-wrap">
-    <button md-button
-            md-icon-button
+    <button mat-button
+            mat-icon-button
             type="button"
-            md-tooltip="Remove image"
+            mat-tooltip="Remove image"
             (click)="removeThisImage($event)">
-      <md-icon>
+      <mat-icon>
         close
-      </md-icon>
+      </mat-icon>
     </button>
   </div>
 
@@ -16,7 +16,7 @@
       <img class="img-fit-container" [src]="imgData">
     </div>
   </div>
-  <button md-button
+  <button mat-button
           (click)="setThisImageAsThumbnail($event)"
           type="button">Set as thumbnail</button>
 </div>

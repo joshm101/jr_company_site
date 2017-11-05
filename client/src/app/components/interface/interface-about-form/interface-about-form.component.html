@@ -1,7 +1,7 @@
 <form [formGroup]="aboutForm" (submit)="aboutFormSubmit()" *ngIf="aboutObj" autocomplete="off">
   <div class="about-form-wrap">
-    <md-card>
-      <md-card-header class="about-form-card-header">
+    <mat-card>
+      <mat-card-header class="about-form-card-header">
         <h2>About</h2>
         <div class="row">
           <div class="col-lg-6 col-xl-6">
@@ -11,40 +11,40 @@
             </app-interface-about-form-image-preview>
           </div>
           <div class="col-lg-6 col-xl-6">
-            <md-form-field dividerColor="primary" class="about-header-input-wrap full-width">
-              <input formControlName="header" mdInput placeholder="Header">
-            </md-form-field>
+            <mat-form-field dividerColor="primary" class="about-header-input-wrap full-width">
+              <input formControlName="header" matInput placeholder="Header">
+            </mat-form-field>
           </div>
         </div>
-      </md-card-header>
-      <md-card-content class="about-form-card-content">
-        <md-form-field dividerColor="primary" class="about-description-input-container full-width col-12">
-          <textarea rows="15" formControlName="description" mdInput class="about-description-input" placeholder="About me"></textarea>
-        </md-form-field>
+      </mat-card-header>
+      <mat-card-content class="about-form-card-content">
+        <mat-form-field dividerColor="primary" class="about-description-input-container full-width col-12">
+          <textarea rows="15" formControlName="description" matInput class="about-description-input" placeholder="About me"></textarea>
+        </mat-form-field>
         <input hidden #fileInput type="file"
                ng2FileSelect
                #input
                (change)="handleFileSelection(input)"
                [uploader]="aboutService.uploader">
-      </md-card-content>
-      <md-card-actions>
-        <md-toolbar class="add-post-action-bar">
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-toolbar class="add-post-action-bar">
           <button class="add-image-button"
-                  [md-tooltip]="aboutObj.image ? 'Replace image' : 'Add image'"
-                  md-icon-button
+                  [matTooltip]="aboutObj.image ? 'Replace image' : 'Add image'"
+                  mat-icon-button
                   type="button"
                   (click)="selectFileInput()">
-            <md-icon class="add-image-icon">image</md-icon>
+            <mat-icon class="add-image-icon">image</mat-icon>
           </button>
           <span flex style="flex: 1 1 auto;"></span>
           <button tabindex="0"
                   (click)="cancelChanges()"
-                  md-button type="button">Cancel Changes</button>
+                  mat-button type="button">Cancel Changes</button>
           <button tabindex="0"
-                  md-button type="submit"
+                  mat-button type="submit"
                   class="add-post-done-button">Done</button>
-        </md-toolbar>
-      </md-card-actions>
-    </md-card>
+        </mat-toolbar>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </form>
