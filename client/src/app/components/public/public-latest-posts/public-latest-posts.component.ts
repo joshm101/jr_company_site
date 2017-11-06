@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { EmbedPost } from '../../embed-post/embed-post.index';
@@ -11,6 +11,8 @@ import { LatestContentService } from '../../../external-services/latest-content/
 })
 export class PublicLatestPostsComponent implements OnInit {
   public latestPosts$: Observable<EmbedPost[]>;
+  @Input()
+  public shouldLoadPosts: boolean;
   constructor(
     private latestContentService: LatestContentService,
   ) {

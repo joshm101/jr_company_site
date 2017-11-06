@@ -15,6 +15,7 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
   public shouldLoadInstagramFeed: boolean = false;
   public shouldLoadTwitterFeed: boolean = false;  
   public shouldLoadSoundcloudWidget: boolean = false;
+  public shouldLoadLatestPosts: boolean = false;
   constructor(
     private _screenSizeService: ScreenSizeService,
     private latestContentService: LatestContentService
@@ -40,6 +41,10 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
 
   triggerInstagramFeedLoad() {
     this.shouldLoadInstagramFeed = true;
+  }
+
+  triggerLatestPostsLoad() {
+    this.shouldLoadLatestPosts = true;
   }
 
   triggerTwitterFeedLoad() {

@@ -2,6 +2,10 @@
     padding: 50px 35px;
 }
 
+.home-content-container-alt {
+    padding: 90px 35px;
+}
+
 .home-content-block {
     padding-bottom: 25px;
 }
@@ -105,4 +109,16 @@
 .fb_iframe_widget iframe,
 div[class^="uiScaledImageContainer"] {
     width: 100% !important;
+}
+
+.public-home-background-logo {
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 15px;
+    right: 0;
+    text-align: center;
+    margin: auto;
+    z-index: 5;
+    text-shadow: 1px 0 black, 0 1px black, 1px 0 black, 0 0.5px black;
 }

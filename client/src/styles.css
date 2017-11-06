@@ -894,7 +894,7 @@ html[xmlns] .clearfix {
   }
 
   .public-nav-bar-name-wrap.not-scrolling-in {
-    margin-top: 16px !important;
+    margin-top: 15px !important;
   }
 
   .public-nav-bar-name-wrap {
@@ -1148,7 +1148,38 @@ html[xmlns] .clearfix {
   }
 }
 
-.loading-indicator.mat-progress-spinner.mat-accent path,
-.loading-indicator.mat-spinner.mat-accent path {
+.loading-indicator-post.mat-progress-spinner circle,
+.loading-indicator.mat-progress-spinner.mat-accent circle,
+.loading-indicator.mat-spinner.mat-accent circle{
   stroke: #5f5f7e !important;
+}
+
+.loading-indicator {
+  width: 15% !important;
+}
+
+@media screen and (max-width: 768px) {
+  .loading-indicator {
+    width: 30% !important;
+  }
+}
+
+.loading-indicator .mat-progress-bar-fill:after {
+  background-color: #5f5f7e !important;
+}
+
+app-public-container {
+  display: block;
+  background-color: #16161d;
+  height: 100%;
+}
+
+app-public-home {
+  background-color: #16161d;
+  display: block;
+}
+
+.non-home-route-wrap {
+  padding-top: 125px;
+  background-color: #16161d;
 }

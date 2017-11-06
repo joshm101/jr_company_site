@@ -1,15 +1,32 @@
-<div>
-  <img 
-    [src]="post.images[post.thumbnailIndex]" 
-    class="latest-posts-post-image"
-  >
-</div>
-<div class="latest-posts-post-info">
-  <div>
-    <span class="latest-posts-post-title">{{ post.title }}</span>  
+<div class="latest-post-wrapper-div">
+  <div class="latest-post-wrapper-child">
+    <div class="latest-posts-post-img-wrapper-div">
+      <img 
+        [src]="post.images[post.thumbnailIndex]" 
+        class="latest-posts-post-image"
+        *ngIf="shouldLoad"
+        (load)="handleImageLoadDoneEvent()"
+        [class.hidden-img]="!imageLoaded" 
+        [class.visible-img]="imageLoaded"
+      >
+      <div class="loading-indicator-wrap">
+        <mat-progress-spinner 
+          [class.visible-loading-indicator]="!imageLoaded" 
+          [class.hidden-loading-indicator]="imageLoaded" 
+          class="loading-indicator-post" 
+          mode="indeterminate"
+        ></mat-progress-spinner>    
+      </div>      
+    </div>
+    <div class="latest-posts-post-info">
+      <div>
+        <span class="latest-posts-post-title">{{ post.title }}</span>  
+      </div>
+      <div>
+        <span class="latest-posts-post-text">{{ post.created | date:'longDate' }}</span>
+      </div>
+    </div>
   </div>
-  <div>
-    <span class="latest-posts-post-text">{{ post.created | date:'longDate' }}</span>
-  </div>
 </div>
+
 

@@ -3,6 +3,6 @@
     class="col-xxl-3 col-sm-6 col-12 home-content-block-col"
     *ngFor="let post of latestPosts$ | async"
   >
-    <app-public-latest-posts-post [post]="post"></app-public-latest-posts-post>
+    <app-public-latest-posts-post [shouldLoad]="shouldLoadPosts" [post]="post"></app-public-latest-posts-post>
   </div>
 </div>
