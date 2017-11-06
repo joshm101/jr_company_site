@@ -1,3 +1,16 @@
 .view-post-title {
   color: white;
+  font-family: headersFont !important;
+}
+
+.view-post-description {
+  color: white;
+  white-space: pre-line;
+  font-size: 22px;
+}
+
+.view-post-date {
+  color: rgba(189,189,189,.64);
+  font-size: 11px;
+  font-family: headersFont !important;
 }

@@ -1,5 +1,16 @@
-<div>
-  <div *ngIf="(post$ | async) && ((post$ | async) !== null)">
-    <h2 class="view-post-title">{{ (post$ | async).title }}</h2>      
+<div class="non-home-route-wrap">
+  <div class="container" *ngIf="post">
+    <div class="text-center">
+      <span class="view-post-date">{{ post.created | date:'longDate' }}</span>
+    </div>
+    <div>
+      <h2 class="view-post-title text-center">{{ post.title }}</h2>      
+    </div>
+    <div>
+      <div *ngFor="let embedItem of embedContent" [innerHtml]="embedItem">
+      </div>
+    </div>
+    <div class="view-post-description">
+      {{ post.description }}
   </div>
 </div>
