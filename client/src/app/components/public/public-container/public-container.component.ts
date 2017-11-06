@@ -178,6 +178,7 @@ export class PublicContainerComponent implements OnInit {
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
           }
+          this.determineAndSetMobileOverride();
           this.currentUrl = event.url;
         }
       ),
@@ -439,6 +440,8 @@ export class PublicContainerComponent implements OnInit {
         // body scrolling.
         body.classList.add('prevent-body-scroll');
         this.navBarLinksOpacity = 1;
+      } else {
+        body.classList.remove('prevent-body-scroll');        
       }
     } else {
       // non-mobile display
