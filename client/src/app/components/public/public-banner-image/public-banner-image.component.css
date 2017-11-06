@@ -11,6 +11,13 @@
   display: inline-block;
   width: 100%;
   position: relative;
+  background-color: #16161d;
+}
+
+.public-banner-image-wrapper-div:before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;
 }
 
 @media screen and (max-width: 640px) {
@@ -37,12 +44,6 @@
   }
 }
 
-.public-banner-image-wrapper-div:before {
-  content: "";
-  display: block;
-  padding-top: 56.25%;
-}
-
 .loading-indicator-wrap {
   display: inline-block;
 }
@@ -54,4 +55,22 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.hidden-img {
+  opacity: 0;
+}
+
+.visible-img {
+  opacity: 1;
+  transition: opacity 125ms linear;
+}
+
+.hidden-loading-indicator {
+  opacity: 0;
+  transition: opacity 125ms ease-in;
+}
+
+.visible-loading-indicator {
+  opacity: 1;
 }

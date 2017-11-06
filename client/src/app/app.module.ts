@@ -16,6 +16,7 @@ import {
   MatGridListModule,
   MatProgressSpinnerModule,
   MatDialogModule,
+  MatProgressBarModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -128,6 +129,7 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     FileUploadModule,
     MatDialogModule,
+    MatProgressBarModule,
   ],  
   declarations: [
     AppComponent,

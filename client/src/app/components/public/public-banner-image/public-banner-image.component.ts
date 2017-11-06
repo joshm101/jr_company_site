@@ -11,6 +11,7 @@ import { BannerImage, BannerImageService } from '../../interface/interface-banne
 export class PublicBannerImageComponent implements OnInit {
   @Input()
   public bannerImageSrc$: Observable<string>;
+  public imageLoaded: boolean = false;
   constructor(
     private bannerImageService: BannerImageService
   ) {
@@ -20,6 +21,10 @@ export class PublicBannerImageComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  handleBannerImageLoadedEvent() {
+    this.imageLoaded = true;
   }
 
 }

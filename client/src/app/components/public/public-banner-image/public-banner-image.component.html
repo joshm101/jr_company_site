@@ -1,15 +1,17 @@
 <div class="public-banner-image-wrapper-div">
-  <img [src]="bannerImageSrc$ | async" class="public-banner-image">
+  <img 
+    [src]="bannerImageSrc$ | async" 
+    class="public-banner-image" 
+    [class.hidden-img]="!imageLoaded" 
+    [class.visible-img]="imageLoaded"
+    (load)="handleBannerImageLoadedEvent()"
+  >
   <div class="loading-indicator-wrap">
-    <mat-progress-spinner 
-      mode="indeterminate" 
+    <mat-progress-bar 
+      [class.visible-loading-indicator]="!imageLoaded" 
+      [class.hidden-loading-indicator]="imageLoaded" 
       class="loading-indicator" 
-      color="accent"
-    >
-    <mat-progress-bar
       mode="indeterminate"
-      color="accent"
-    ></mat-progress-bar>
-    </mat-progress-spinner>
+    ></mat-progress-bar>    
   </div>
 </div>
