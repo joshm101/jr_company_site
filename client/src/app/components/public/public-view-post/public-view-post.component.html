@@ -7,7 +7,11 @@
       <h2 class="view-post-title text-center">{{ post.title }}</h2>      
     </div>
     <div>
-      <div *ngFor="let embedItem of embedContent" [innerHtml]="embedItem">
+      <div 
+        *ngFor="let embedItem of embedContent" 
+        [innerHtml]="embedItem"
+        class="embeddable-content-wrapper"
+      >
       </div>
     </div>
     <div class="view-post-description">
