@@ -1184,6 +1184,12 @@ app-public-home {
   background-color: #16161d;
 }
 
+@media screen and (max-width: 640px) {
+  .non-home-route-wrap {
+    padding-top: 55px;
+  }
+}
+
 
 .embeddable-content-wrapper {
   width: 100%;

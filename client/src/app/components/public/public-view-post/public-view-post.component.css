@@ -1,16 +1,24 @@
-.view-post-title {
-  color: white;
-  font-family: headersFont !important;
+app-public-view-post-header {
+  display: block;
+  padding: 20px;
 }
 
-.view-post-description {
-  color: white;
-  white-space: pre-line;
-  font-size: 22px;
+.view-post-content-wrap {
+  padding: 15px;
 }
 
-.view-post-date {
-  color: rgba(189,189,189,.64);
-  font-size: 11px;
-  font-family: headersFont !important;
+@media screen and (max-width: 420px) {
+  .view-post-content-wrap {
+    padding: 15px;
+  }
+}
+
+.view-post {
+  padding-top: 40px;
+}
+
+@media screen and (max-width: 640px) {
+  .view-post {
+    padding-top: 20px;
+  }
 }

@@ -26,7 +26,7 @@
 
 @media screen and (max-width: 1125px) {
   .latest-post-wrapper-div:before {
-    padding-top: 135%;    
+    padding-top: 140%;    
   }
 }
 
@@ -44,19 +44,19 @@
 
 @media screen and (max-width: 576px) {
   .latest-post-wrapper-div:before {
-    padding-top: 128%;    
+    padding-top: 140%;    
   }
 }
 
 @media screen and (max-width: 545px) {
   .latest-post-wrapper-div:before {
-    padding-top: 130%;    
+    padding-top: 145%;    
   }
 }
 
 @media screen and (max-width: 380px) {
   .latest-post-wrapper-div:before {
-    padding-top: 135%;    
+    padding-top: 160%;    
   }
 }
 
@@ -81,6 +81,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 10;
 }
 
 .latest-posts-post-img-wrapper-div:before {

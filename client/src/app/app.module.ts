@@ -76,6 +76,11 @@ import { InterfaceBannerImageFormComponent } from './components/interface/interf
 import { InterfaceBannerImageFormImagePreviewComponent } from './components/interface/interface-banner-image-form/interface-banner-image-form-image-preview/interface-banner-image-form-image-preview.component';
 import { PublicBannerImageComponent } from './components/public/public-banner-image/public-banner-image.component';
 import { PublicViewPostComponent } from './components/public/public-view-post/public-view-post.component';
+import { PublicViewPostHeaderComponent } from './components/public/public-view-post/public-view-post-header/public-view-post-header.component';
+import { PublicViewPostTitleComponent } from './components/public/public-view-post/public-view-post-title/public-view-post-title.component';
+import { PublicViewPostDateComponent } from './components/public/public-view-post/public-view-post-date/public-view-post-date.component';
+import { PublicViewPostEmbedContentComponent } from './components/public/public-view-post/public-view-post-embed-content/public-view-post-embed-content.component';
+import { PublicViewPostDescriptionComponent } from './components/public/public-view-post/public-view-post-description/public-view-post-description.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -173,6 +178,11 @@ const appRoutes: Routes = [
     InterfaceBannerImageFormImagePreviewComponent,
     PublicBannerImageComponent,
     PublicViewPostComponent,
+    PublicViewPostHeaderComponent,
+    PublicViewPostTitleComponent,
+    PublicViewPostDateComponent,
+    PublicViewPostEmbedContentComponent,
+    PublicViewPostDescriptionComponent,
   ],
   providers: [
     WindowRefService,

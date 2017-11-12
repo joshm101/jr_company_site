@@ -1,0 +1,10 @@
+.view-post-title {
+  color: white;
+  font-family: headersFont !important;
+}
+
+@media screen and (max-width: 420px) {
+  .view-post-title {
+    font-size: 1.5rem;
+  }
+}

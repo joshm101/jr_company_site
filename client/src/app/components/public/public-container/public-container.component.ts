@@ -41,6 +41,7 @@ export class PublicContainerComponent implements OnInit {
   private _animationFrameId: number = undefined;
   private _fadeNavBar: boolean;
   private _hideLinks: boolean;
+  private _viewingPost: boolean;
 
   public set navBarMarginTop(val: number) {
     requestAnimationFrame((_) => {
@@ -175,10 +176,22 @@ export class PublicContainerComponent implements OnInit {
     this._subscriptions.push(
       this._router.events.subscribe(
         (event: any) => {
+          console.log('event: ', event);
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
           }
           this.determineAndSetMobileOverride();
+          
+          if (event.url.startsWith('/view')) {
+            // viewing a post
+            console.log("starts with /view");
+            this._viewingPost = true;
+            this.fixNavBarForViewPost();
+          }
+          if (!event.url.startsWith('/view')) {
+            this._viewingPost = false;
+            this._initializeNavBar();
+          }
           this.currentUrl = event.url;
         }
       ),
@@ -186,7 +199,19 @@ export class PublicContainerComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("this._viewingPost: ", this._viewingPost);
     this.determineAndSetMobileOverride();
+    if (this._viewingPost) {
+      this.fixNavBarForViewPost();
+      console.log("this.navBarLinksOpacity: ", this.navBarLinksOpacity);
+      console.log("this.shouldCollapseNavLogo: ", this.shouldCollapseNavLogo);
+    }    
+  }
+
+  fixNavBarForViewPost() {
+    this.navBarMarginTop = this.navBarExpandedMargin;
+    this.shouldCollapseNavLogo = false;
+    this.navBarLinksOpacity = 1;
   }
 
   /**
@@ -490,6 +515,7 @@ export class PublicContainerComponent implements OnInit {
     '$event.target.scrollingElement.scrollHeight',
   ])
   public _handleScrollEvent(scrollTop: number, scrollHeight: number) {
+    console.log("scrollTop: ", scrollTop);
     this._calculateScrollTopChange(scrollTop);
     if (!this._hoverOverride && !this._mobileOverride) {
       if (this._navBarInitialized) {
@@ -515,32 +541,48 @@ export class PublicContainerComponent implements OnInit {
 
   /**
    * Handles initialization of navbar based off of starting
-   * scrollTop value
+   * scrollY value
    */
   private _initializeNavBar() {
-    if (window.scrollY <= 625) {
-      // any scroll distance amount less than 625 should cause the nav
-      // bar to be fully expanded on initialization
-      let amount = Math.min(window.scrollY, Math.abs(this.navBarCollapsedMargin));
-      if (this._navBarMarginTop + amount >= this.navBarThresholdMargin) {
-        // calculated amount to expand by results in navBarMarginTop value
-        // greater than or equal to threshold, fix the logo's position
-        this.shouldCollapseNavLogo = false;
+    if (window.pageYOffset <= 625) {
+      if (window.pageYOffset < 125) {
+        this.navBarMarginTop = this.navBarCollapsedMargin + window.pageYOffset;
+        if (this.navBarMarginTop >= this.NAVBAR_MOSTLY_EXPANDED) {
+          this.navBarLinksOpacity = 0.5;
+          this.shouldCollapseNavLogo = false;
+        } else {
+          this.navBarLinksOpacity = 0;
+          if (this.navBarMarginTop <= this.navBarThresholdMargin) {
+            this.shouldCollapseNavLogo = true;
+          } else {
+            this.shouldCollapseNavLogo = false;
+          }
+        }
+      } else {
+        // any scroll distance amount less than 625 and greater
+        // than 125 should cause the nav bar to be fully expanded
+        // on intialization
+        let amount = Math.min(window.pageYOffset, Math.abs(this.navBarCollapsedMargin));
+        if (this._navBarMarginTop + amount >= this.navBarThresholdMargin) {
+          // calculated amount to expand by results in navBarMarginTop value
+          // greater than or equal to threshold, fix the logo's position
+          this.shouldCollapseNavLogo = false;
+        }
+        if (this._navBarMarginTop + amount >= this.NAVBAR_MOSTLY_EXPANDED) {
+          // calculated amount to expand by results in navBarMarginTop value
+          // being greater than or equal to point where nav bar links should
+          // start appearing. Increase opacity.
+          this.navBarLinksOpacity += 0.25;
+        }
+        if (this._navBarMarginTop + amount >= this.navBarExpandedMargin) {
+          // calculated amount to expand by results in navBarMarginTop value
+          // being greater than or equal to fully expanded value, links should
+          // be fully visible. Set max opacity.
+          this.navBarLinksOpacity = 1;
+        }
+        this._expandNavByAmount(amount);
+        this._expandDone();
       }
-      if (this._navBarMarginTop + amount >= this.NAVBAR_MOSTLY_EXPANDED) {
-        // calculated amount to expand by results in navBarMarginTop value
-        // being greater than or equal to point where nav bar links should
-        // start appearing. Increase opacity.
-        this.navBarLinksOpacity += 0.25;
-      }
-      if (this._navBarMarginTop + amount >= this.navBarExpandedMargin) {
-        // calculated amount to expand by results in navBarMarginTop value
-        // being greater than or equal to fully expanded value, links should
-        // be fully visible. Set max opacity.
-        this.navBarLinksOpacity = 1;
-      }
-      this._expandNavByAmount(amount);
-      this._expandDone();
     } else {
       // scroll distance amount > 625, expand to threshold & fade navbar.
       let difference = Math.abs(this.navBarMarginTop - this.navBarThresholdMargin);
@@ -623,7 +665,7 @@ export class PublicContainerComponent implements OnInit {
        * Nav bar should collapse in this region while
        * scrolling up
        */
-      if (scrollTop < this._expandedScrollTopValue) {
+      if (scrollTop < this._expandedScrollTopValue && !this._viewingPost) {
         requestAnimationFrame(ts => {
           this.navBarLinksOpacity -= 0.25;
         });

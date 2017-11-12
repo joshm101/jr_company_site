@@ -1,14 +1,16 @@
 <div class="latest-post-wrapper-div">
   <div class="latest-post-wrapper-child">
     <div class="latest-posts-post-img-wrapper-div">
-      <img 
-        [src]="post.images[post.thumbnailIndex]" 
-        class="latest-posts-post-image"
-        *ngIf="shouldLoad"
-        (load)="handleImageLoadDoneEvent()"
-        [class.hidden-img]="!imageLoaded" 
-        [class.visible-img]="imageLoaded"
-      >
+      <a routerLink="view" [queryParams]="{id: post._id}">
+        <img 
+          [src]="post.images[post.thumbnailIndex]" 
+          class="latest-posts-post-image"
+          *ngIf="shouldLoad"
+          (load)="handleImageLoadDoneEvent()"
+          [class.hidden-img]="!imageLoaded" 
+          [class.visible-img]="imageLoaded"
+        >      
+      </a>
       <div class="loading-indicator-wrap">
         <mat-progress-spinner 
           [class.visible-loading-indicator]="!imageLoaded" 

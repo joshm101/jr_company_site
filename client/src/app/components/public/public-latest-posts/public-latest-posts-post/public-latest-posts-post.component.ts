@@ -22,5 +22,4 @@ export class PublicLatestPostsPostComponent implements OnInit {
   handleImageLoadDoneEvent() {
     this.imageLoaded = true;
   }
-
 }
