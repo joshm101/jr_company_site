@@ -32,6 +32,11 @@ export class InterfaceComponent implements AfterViewInit {
         contentType: ContentTypeEnum.Video
       },
       {
+        label: 'Games',
+        path: 'games',
+        contentType: ContentTypeEnum.Games
+      },
+      {
         label: 'Add\'l Content',
         path: 'additional-content',
         contentType: ContentTypeEnum.Additional
