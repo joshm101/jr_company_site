@@ -83,6 +83,7 @@ import { PublicViewPostEmbedContentComponent } from './components/public/public-
 import { PublicViewPostDescriptionComponent } from './components/public/public-view-post/public-view-post-description/public-view-post-description.component';
 import { PublicGamesComponent } from './components/public/public-games/public-games.component';
 import { PublicAboutComponent } from './components/public/public-about/public-about.component';
+import { InterfacePostContentPageControlsComponent } from './components/interface/interface-post-content/interface-post-content-page-controls/interface-post-content-page-controls.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -188,6 +189,7 @@ const appRoutes: Routes = [
     PublicViewPostDescriptionComponent,
     PublicGamesComponent,
     PublicAboutComponent,
+    InterfacePostContentPageControlsComponent,
   ],
   providers: [
     WindowRefService,

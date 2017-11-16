@@ -21,37 +21,43 @@
                           col-12 clearfix">
     </app-interface-post-form>
     <div class="grid-list-wrap">
-      <button type="button" mat-button (click)="handlePreviousPageClick()">
-        Previous Page
-      </button>
-      <button type="button" mat-button (click)="handleNextPageClick()">
-        Next Page
-      </button>
-      <mat-grid-list  [cols]="cols" rowHeight="450px">
-        <mat-grid-tile *ngFor="let post of embedPosts;">
-          <app-embed-post [post]="post" (thumbnailClick)="viewPost(post)">
-            <div class="text-right">
+      <div class="container page-controls-wrap top">
+        <app-interface-post-content-page-controls
+          (nextPageClick)="handleNextPageClick()"
+          (previousPageClick)="handlePreviousPageClick()"
+        ></app-interface-post-content-page-controls>
+      </div>
+        <mat-grid-list  [cols]="cols" rowHeight="450px">
+          <mat-grid-tile *ngFor="let post of embedPosts;">
+            <app-embed-post [post]="post" (thumbnailClick)="viewPost(post)">
+              <div class="text-right">
+                  <button type="button"
+                    mat-mini-fab
+                    mat-tooltip="Delete"
+                    color="warn"
+                    (click)="showDeleteConfirmDialog(post)"
+                  >
+                    <mat-icon class="md-24" aria-label="Delete">delete_forever</mat-icon>
+                  </button>
                 <button type="button"
-                  mat-mini-fab
-                  mat-tooltip="Delete"
-                  color="warn"
-                  (click)="showDeleteConfirmDialog(post)"
+                        mat-mini-fab
+                        mat-tooltip="Edit"
+                        color="primary"
+                        style="float: right; margin-left: 20px;"
+                        (click)="editPost(post)"
                 >
-                  <mat-icon class="md-24" aria-label="Delete">delete_forever</mat-icon>
-                </button>
-              <button type="button"
-                      mat-mini-fab
-                      mat-tooltip="Edit"
-                      color="primary"
-                      style="float: right; margin-left: 20px;"
-                      (click)="editPost(post)"
-              >
-                <mat-icon class="md-24" aria-label="Edit">edit</mat-icon>
-              </button>              
-            </div>
-          </app-embed-post>
-        </mat-grid-tile>
-      </mat-grid-list>
+                  <mat-icon class="md-24" aria-label="Edit">edit</mat-icon>
+                </button>              
+              </div>
+            </app-embed-post>
+          </mat-grid-tile>
+        </mat-grid-list>
+      <div class="container page-controls-wrap bottom">
+        <app-interface-post-content-page-controls
+          (nextPageClick)="handleNextPageClick()"
+          (previousPageClick)="handlePreviousPageClick()"
+        ></app-interface-post-content-page-controls>
+      </div>      
     </div>
   </div>
 </div>

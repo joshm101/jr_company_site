@@ -64,6 +64,10 @@ a {
   background-color: #eee;
 }
 
+.interface-content-wrap {
+  padding: 5px;
+}
+
 @media (min-width: 660px) {
   .interface-content-outlet-wrap {
     padding-top: 160px;
