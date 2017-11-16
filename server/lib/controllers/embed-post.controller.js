@@ -125,12 +125,16 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
-  let findOptions, sortCreated, limit, page, offset = undefined;
+  let findOptions, sortCreated, limit, page, offset, contentType = undefined;
   sortCreated = parseInt(req.query.created) || -1;
   limit = parseInt(req.query.limit) || 6;
   page = parseInt(req.query.page) || 1;
   offset = (page - 1) * limit || 0;
-  
+  contentType = req.query.content_type != undefined ? parseInt(req.query.content_type) : undefined;
+  findOptions = Object.assign(
+    {},
+    contentType != undefined ? { contentType } : null
+  );
   EmbedPost.find(
     findOptions
   ).sort(
@@ -251,3 +255,7 @@ exports.deletePost = function(req, res) {
     }
   });
 }
+
+// const cleanEmptyObjectProperties = (obj) => {
+//   Object.keys(obj).forEach((key) => (obj[key] == null) && delete obj[key]);
+// }

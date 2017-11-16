@@ -31,6 +31,16 @@ export abstract class AppService<Model extends AppModel> {
 
   protected abstract getResource(): string;
 
+  public removeItemFromStore(id: string) {
+    this.dataStore.items = this.dataStore.items.filter(
+      item => item._id !== id
+    );
+  } 
+
+  public removeLastItemFromStore() {
+    this.dataStore.items.pop();
+  }
+
   /*
     factory function to instantiate
     object of class extending AppModel
@@ -105,7 +115,7 @@ export abstract class AppService<Model extends AppModel> {
     ).map((res: HttpResponse<any>) => {
       // on successful backend deletion,
       // remove the item from our cache
-      this.dataStore.items = this.dataStore.items.filter((item: Model) => { return item._id != id; });
+      this.removeItemFromStore(id);
       // set the next item to emit in the BehaviorSubject
       this._items.next(
         Object.assign(
@@ -173,7 +183,8 @@ export abstract class AppService<Model extends AppModel> {
       let body = res['data'];
       this.newlyCreatedItem = this.new(body);
       // insert our newly created item into the cache
-      this.dataStore.items.push(this.newlyCreatedItem);
+      //this.dataStore.items.pop();
+      this.dataStore.items.unshift(this.newlyCreatedItem);
 
       this._items.next(
         Object.assign(

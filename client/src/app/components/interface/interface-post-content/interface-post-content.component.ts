@@ -59,9 +59,9 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.doneLoadingContent = false;
       this.subscriptions = [];
       this.subscriptions.push(
-        this.route.params.filter(Boolean).subscribe(
+        this.route.paramMap.subscribe(
           (params) => {
-            this.contentType = parseInt(params['contentType']);
+            this.contentType = parseInt(params.get('contentType'));
             this.embedPostService.contentType = parseInt(params['contentType']);
           }
         ),
@@ -83,15 +83,19 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
             }
           }
         ),
-
-        /* Posts displayed depend on route params */
-        Observable.combineLatest(
-          this.route.params,
-          this.embedPostService.getAll()
-        ).filter(([params, posts]) =>
-            params !== undefined && posts !== undefined
-        ).subscribe(
-          ([params, posts]) => {
+        this.route.paramMap.switchMap((params) => {
+          console.log("params: ", params);
+          this.currentContentType = parseInt(params.get('contentType'));
+          return this.embedPostService.getAll({
+            params: [
+              { 
+                key: 'content_type', 
+                value: parseInt(params.get('contentType')) 
+              }
+            ]
+          })
+        }).subscribe(
+          (posts) => {
             if (this.changingPages) {
               this.contentLoadService.removeAllTrackedContent();
               this.contentLoadService.setPostMap(posts);              
@@ -128,7 +132,24 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
 
     removePost(post: EmbedPost) {
-      this.embedPostService.delete(post._id).take(1).subscribe(
+      this.embedPostService.delete(
+        post._id
+      ).switchMap((_) => 
+        // retrieve new data for current page
+        // since a post has been removed.
+        this.embedPostService.getAll(
+          {
+            params: [
+              { 
+                key: 'content_type', 
+                value: this.currentContentType, 
+              }
+            ]
+          }
+        )
+      ).take(
+        1
+      ).subscribe(
         () => {
 
           // One less post loaded
@@ -292,6 +313,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     doneLoadingContent: boolean;
     applyToolbarShadow: boolean;
     changingPages: boolean;
+    currentContentType: number;
 
     /**
      * Ensures that service is 'reset' to

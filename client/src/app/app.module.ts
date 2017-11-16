@@ -81,6 +81,8 @@ import { PublicViewPostTitleComponent } from './components/public/public-view-po
 import { PublicViewPostDateComponent } from './components/public/public-view-post/public-view-post-date/public-view-post-date.component';
 import { PublicViewPostEmbedContentComponent } from './components/public/public-view-post/public-view-post-embed-content/public-view-post-embed-content.component';
 import { PublicViewPostDescriptionComponent } from './components/public/public-view-post/public-view-post-description/public-view-post-description.component';
+import { PublicGamesComponent } from './components/public/public-games/public-games.component';
+import { PublicAboutComponent } from './components/public/public-about/public-about.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -89,8 +91,8 @@ const appRoutes: Routes = [
       { path: '', component: PublicHomeComponent },
       { path: 'audio', component: PublicAudioComponent },
       { path: 'video', component: PublicVideoComponent },
-      { path: 'bio', component: PublicBioComponent },
-      { path: 'contact', component: PublicContactComponent },
+      { path: 'games', component: PublicGamesComponent },
+      { path: 'about', component: PublicAboutComponent },
       { path: 'view', component: PublicViewPostComponent },
     ],
   },
@@ -184,6 +186,8 @@ const appRoutes: Routes = [
     PublicViewPostDateComponent,
     PublicViewPostEmbedContentComponent,
     PublicViewPostDescriptionComponent,
+    PublicGamesComponent,
+    PublicAboutComponent,
   ],
   providers: [
     WindowRefService,

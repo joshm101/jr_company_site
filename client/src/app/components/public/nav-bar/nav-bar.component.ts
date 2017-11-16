@@ -65,12 +65,12 @@ export class NavBarComponent {
         url: '/video',
       },
       {
-        label: 'Bio',
-        url: '/bio',
+        label: 'Games',
+        url: '/games',
       },
       {
-        label: 'Contact',
-        url: '/contact'
+        label: 'about',
+        url: '/about'
       }
     ];
 

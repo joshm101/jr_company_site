@@ -144,6 +144,12 @@ export class EmbedPostService extends AppService<EmbedPost> {
     });
   }
 
+  delete(id: string): Observable<EmbedPost> {
+    return super.delete(id).map(result =>{
+      return result;
+    });
+  }
+
   uploadImages(imagesId: string): Observable<EmbedPost> {
     let formData = new FormData();
     formData.append('imagesid', imagesId);

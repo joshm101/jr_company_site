@@ -159,10 +159,19 @@ export class InterfacePostFormComponent implements OnInit {
     }
 
     // Includes image uploading
-    this.embedPostService.create(this.newEmbedPost).take(1).subscribe(
+    this.embedPostService.create(this.newEmbedPost).map(
+      post => {
+        this._contentLoadService.removeAllTrackedContent();
+        return post;
+      }
+    ).take(1).subscribe(
       (items: EmbedPost[]) => {
         this.initializeForm();
         this.embedPostService.initializeUploaderInstance();
+        //this.embedPostService.removeLastItemFromStore();
+        if (items.length > this.embedPostService.itemsPerPage) {
+          this.embedPostService.removeLastItemFromStore();
+        }
         const newPost = items[0];
         if (!this.thumbnailCached(newPost)) {
           console.log("Content needs loading: ", newPost);
