@@ -1,7 +1,7 @@
 <div mat-dialog-title class="interface-view-post-title-wrap">
   <h2 style="margin-bottom: 5px;">{{ post.title }}</h2>        
 </div>
-<div mat-dialog-content class="interface-view-post-content-wrap">
+<div mat-dialog-content class="interface-view-post-content-wrap container-fluid">
   <div class="row">
     <div 
       class="col-md-6 col-12 interface-view-post-content-section" 
@@ -32,8 +32,8 @@
     </div>
   </div>
   <div *ngIf="embedContentNotEmpty" class="interface-view-post-content-section interface-view-post-embed-content">
-    <div *ngFor="let embedItem of embedContent" [innerHtml]="embedItem">
-    </div>
+    <app-public-view-post-embed-content [embedContent]="embedContent">
+    </app-public-view-post-embed-content>
   </div>  
   <div *ngIf="nonThumbnailImages" class="interface-view-post-content-section interface-view-post-images">
     <div class="row">

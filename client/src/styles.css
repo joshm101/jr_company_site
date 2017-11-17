@@ -480,10 +480,6 @@ mat-dialog-container {
 }
 
 
-[mat-dialog-content] {
-  padding: 0 !important;
-}
-
 .cdk-overlay-dark-backdrop {
   background-color: #e5e5e5 !important;
 }
