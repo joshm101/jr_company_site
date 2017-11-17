@@ -1,0 +1,14 @@
+<mat-form-field>
+  <mat-select 
+    placeholder="Items per page" 
+    [value]="itemsPerPageValue" 
+    (change)="handleItemsPerPageChange($event)"
+  >
+    <mat-option 
+      *ngFor="let option of itemsPerPageOptions" 
+      [value]="option"
+    >
+      {{ option }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

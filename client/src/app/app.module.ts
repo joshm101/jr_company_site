@@ -17,6 +17,7 @@ import {
   MatProgressSpinnerModule,
   MatDialogModule,
   MatProgressBarModule,
+  MatSelectModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -84,6 +85,7 @@ import { PublicViewPostDescriptionComponent } from './components/public/public-v
 import { PublicGamesComponent } from './components/public/public-games/public-games.component';
 import { PublicAboutComponent } from './components/public/public-about/public-about.component';
 import { InterfacePostContentPageControlsComponent } from './components/interface/interface-post-content/interface-post-content-page-controls/interface-post-content-page-controls.component';
+import { InterfacePostContentItemsPerPageSelectorComponent } from './components/interface/interface-post-content/interface-post-content-items-per-page-selector/interface-post-content-items-per-page-selector.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -139,6 +141,7 @@ const appRoutes: Routes = [
     FileUploadModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatSelectModule,
   ],  
   declarations: [
     AppComponent,
@@ -190,6 +193,7 @@ const appRoutes: Routes = [
     PublicGamesComponent,
     PublicAboutComponent,
     InterfacePostContentPageControlsComponent,
+    InterfacePostContentItemsPerPageSelectorComponent,
   ],
   providers: [
     WindowRefService,

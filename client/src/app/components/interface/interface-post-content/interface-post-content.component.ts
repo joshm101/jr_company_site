@@ -18,7 +18,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs/Rx';
 
 import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
 import { InterfacePostFormComponent } from '../interface-post-form/interface-post-form.component';
@@ -57,6 +57,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.animationState = "inactive";
       this.doneLoadingContent = false;
+      this.itemsPerPageArbiter = new BehaviorSubject<number>(4);
+      this.itemsPerPage$ = this.itemsPerPageArbiter.asObservable();
       this.subscriptions = [];
       this.subscriptions.push(
         this.route.paramMap.subscribe(
@@ -83,8 +85,11 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
             }
           }
         ),
-        this.route.paramMap.switchMap((params) => {
-          console.log("params: ", params);
+        Observable.combineLatest(
+          this.itemsPerPage$,
+          this.route.paramMap
+        ).switchMap(([itemsPerPage, params]) =>{
+          this.embedPostService.itemsPerPage = itemsPerPage;
           this.currentContentType = parseInt(params.get('contentType'));
           return this.embedPostService.getAll({
             params: [
@@ -93,7 +98,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
                 value: parseInt(params.get('contentType')) 
               }
             ]
-          })
+          });
         }).subscribe(
           (posts) => {
             if (this.changingPages) {
@@ -297,6 +302,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.embedPostService.decrementPage();
     }
 
+    handleItemsPerPageChange(value: number) {
+      this.itemsPerPageArbiter.next(value);
+    }
+
     focusForm: boolean = false;
     embedPosts$: Observable<EmbedPost[]>;
     embedPosts: EmbedPost[];
@@ -314,6 +323,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     applyToolbarShadow: boolean;
     changingPages: boolean;
     currentContentType: number;
+    itemsPerPageArbiter: BehaviorSubject<number>;
+    itemsPerPage$: Observable<number>;
 
     /**
      * Ensures that service is 'reset' to
