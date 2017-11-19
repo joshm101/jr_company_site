@@ -170,7 +170,7 @@ export class InterfacePostFormComponent implements OnInit {
         this.embedPostService.initializeUploaderInstance();
         //this.embedPostService.removeLastItemFromStore();
         if (items.length > this.embedPostService.itemsPerPage) {
-          this.embedPostService.removeLastItemFromStore();
+          this.embedPostService.removeLastItemFromCache();
         }
         const newPost = items[0];
         if (!this.thumbnailCached(newPost)) {

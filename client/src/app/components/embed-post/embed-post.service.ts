@@ -121,21 +121,22 @@ export class EmbedPostService extends AppService<EmbedPost> {
       // fails.
       if (this.uploader.queue.length > 0) {
         this.uploadRequestInFlight = true;
-        return this.uploadImages(this.newlyCreatedItem.imagesId)
-          .map((returnedPost: EmbedPost): EmbedPost[] => {
-            posts.forEach(post => {
-              this._requestInFlight = false;
-              if (post.imagesId === returnedPost.imagesId) {
-                // update the recently created post's images
-                // array to contain the paths of images uploaded
-                // for the post
-                post.images = returnedPost.images;
-              }
-            });
-            this.uploadRequestInFlight = false;
-            this.requestInFlight = false;
-            return posts;
+        return this.uploadImages(
+          this.newlyCreatedItem.imagesId
+        ).map((returnedPost: EmbedPost): EmbedPost[] => {
+          posts.forEach(post => {
+            this._requestInFlight = false;
+            if (post.imagesId === returnedPost.imagesId) {
+              // update the recently created post's images
+              // array to contain the paths of images uploaded
+              // for the post
+              post.images = returnedPost.images;
+            }
           });
+          this.uploadRequestInFlight = false;
+          this.requestInFlight = false;
+          return posts;
+        });
       } else {
         this.requestInFlight = false;
         // no images uploaded.

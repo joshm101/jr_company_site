@@ -5,40 +5,27 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { AppModel } from './app.model';
 import { AuthService } from './components/auth/auth.service';
 import { ApiService } from './api.service';
+import { CacheService } from './cache.service';
 
 @Injectable()
 export abstract class AppService<Model extends AppModel> {
   protected _authService: AuthService;
   private api: ApiService;
+  private cacheService: CacheService<Model>;
   constructor(
     private injector: Injector
   ) {
    // this._authService = Inject(AuthService);
     this._authService = this.injector.get(AuthService);
     this.api = this.injector.get(ApiService);
-    console.log("this.authService: ", this._authService);
-    console.log("this.authService.token: ", this._authService.token);
-    this.dataStore = { items: [] };
-    this._items = <BehaviorSubject<Model[]>>new BehaviorSubject([]);
+    this.cacheService = new CacheService<Model>();
 
   }
 
-  private dataStore: {
-    items: Model[]
-  };
-
-  private _items: BehaviorSubject<Model[]>;
-
   protected abstract getResource(): string;
 
-  public removeItemFromStore(id: string) {
-    this.dataStore.items = this.dataStore.items.filter(
-      item => item._id !== id
-    );
-  } 
-
-  public removeLastItemFromStore() {
-    this.dataStore.items.pop();
+  public removeLastItemFromCache() {
+    this.cacheService.popFromCache();
   }
 
   /*
@@ -54,22 +41,11 @@ export abstract class AppService<Model extends AppModel> {
       options
     ).switchMap((res: Model[]) => {
       let body = res;
-      console.log("BODY: ", body);
       let temp: Model[] = [];
-      body.forEach((item: Model) => { temp.push(this.new(item))});
-      // set all the items
-      // retrieved from the backend
-      // as our cached set
-      this.dataStore.items = temp;
-
-      console.log("TEMP: ", temp);
-
-      // set the next item to emit in the BehaviorSubject
-      this._items.next(Object.assign(
-        {},
-        this.dataStore
-      ).items);
-      return this._items.asObservable();
+      temp = body.map(item => this.new(item));
+      this.cacheService.clearCache();
+      this.cacheService.setCache(temp);
+      return this.cacheService.items$;
     }).catch(this.api.handleError);
   }
 
@@ -82,23 +58,9 @@ export abstract class AppService<Model extends AppModel> {
       let body = res;
       let idx;
       let temp: Model = this.new(body);
-      this.dataStore.items.forEach((item, index) => {
-        if (item._id === temp._id) {
-          this.dataStore.items[index] = temp;
-          idx = index;
-        }
-      });
-      if (!idx) {
-        this.dataStore.items.push(temp);
-        idx = this.dataStore.items.length - 1;
-      }
-      this._items.next(Object.assign(
-        {},
-        this.dataStore
-      ).items);
-      return Observable.of(this._items.value[idx]);
-    })
-    .catch(this.api.handleError.bind(ApiService));
+      this.cacheService.updateCacheItem(temp);
+      return this.cacheService.retrieveCacheItemById(temp._id);
+    }).catch(this.api.handleError);
   }
 
   // DELETE resource specified by id
@@ -113,15 +75,7 @@ export abstract class AppService<Model extends AppModel> {
       url, 
       options
     ).map((res: HttpResponse<any>) => {
-      // on successful backend deletion,
-      // remove the item from our cache
-      this.removeItemFromStore(id);
-      // set the next item to emit in the BehaviorSubject
-      this._items.next(
-        Object.assign(
-          {},
-          this.dataStore
-        ).items);
+      this.cacheService.removeFromCache(id);
       this.requestInFlight = false;          
     }).catch(this.api.handleError);
   }
@@ -140,32 +94,9 @@ export abstract class AppService<Model extends AppModel> {
     ).map((res: Object) => {
       let body = res['data'];
       this.editedItem = this.new(body);
-      this.dataStore.items.forEach((item, index) => {
-        if (item._id === this.editedItem._id) {
-          this.dataStore.items[index] = this.editedItem;
-        }
-      });
-      this._items.next(
-        Object.assign(
-          {},
-          this.dataStore
-        ).items);
-      return this.editedItem;
+      this.cacheService.updateCacheItem(this.editedItem);
+      return this.cacheService.retrieveCacheItemById(this.editedItem._id);
     }).catch(this.api.handleError);
-  }
-
-  protected updateDataStore(body: AppModel) {
-    this.editedItem = this.new(body);
-    this.dataStore.items.forEach((item, index) => {
-      if (item._id === this.editedItem._id) {
-        this.dataStore.items[index] = this.editedItem;
-      }
-    });
-    this._items.next(
-      Object.assign(
-        {},
-        this.dataStore
-      ).items);
   }
 
   // POST newly created item
@@ -182,16 +113,8 @@ export abstract class AppService<Model extends AppModel> {
     ).switchMap((res: Object) => {
       let body = res['data'];
       this.newlyCreatedItem = this.new(body);
-      // insert our newly created item into the cache
-      //this.dataStore.items.pop();
-      this.dataStore.items.unshift(this.newlyCreatedItem);
-
-      this._items.next(
-        Object.assign(
-          {},
-          this.dataStore
-        ).items);
-      return this._items.asObservable();
+      this.cacheService.prependToCache(this.newlyCreatedItem);
+      return this.cacheService.items$;
     }).catch(this.api.handleError);
   }
 
