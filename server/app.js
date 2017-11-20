@@ -11,6 +11,8 @@ var api = require('./lib/routes/api');
 var embedPostsRoutes = require('./lib/routes/api/embed-post.api.routes');
 var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
+var EmbedPost = require('./lib/models/embed-post.model');
+var About = require('./lib/models/about.model');
 const bannerImageRoutes = require('./lib/routes/api/banner-image.routes');
 var authRoutes = require('./lib/routes/api/auth.api.routes');
 const compression = require('compression');
@@ -26,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
+app.engine('html', require('jade').renderFile);
 app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /src
@@ -37,8 +39,12 @@ app.use(cookieParser());
 app.use(compression({
   level: 9,
 }));
-app.use(express.static(path.join(__dirname, '../client/dist/')));
 app.use(express.static(path.join(__dirname, './lib/images/')));
+app.get('*.bundle.js', express.static(path.join(__dirname, '../client/dist/')));
+app.get('*.bundle.css', express.static(path.join(__dirname, '../client/dist/')));
+app.get('*.ico', express.static(path.join(__dirname, '../client/dist/')));
+app.get('*.ttf', express.static(path.join(__dirname, '../client/dist/')));
+
 app.use('/images', express.static(path.resolve(__dirname, './lib/images/')));
 app.use('/api', api);
 app.use('/api/embedPosts', embedPostsRoutes);
@@ -48,9 +54,45 @@ app.use('/api/bannerImage', bannerImageRoutes);
 app.use('/api/auth/', authRoutes);
 app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {
-  console.log("req: ", req);
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  console.log("req.query.id: ", req.query.id);
+  let title, description, imageUrl = undefined;
+  if (req.query.id) {
+    // viewing a post, get specific post's information
+    // to populate index.jade template's meta og tags
+    EmbedPost.findOne({_id: req.query.id}, (err, post) => {
+      if (!err) {
+        title = post.title;
+        description = post.description;
+        imageUrl = post.images[post.thumbnailIndex];
+        if (!imageUrl) {
+          // no thumbnail image for the current EmbedPost,
+          // use About info
+          About.findOne({}, (err, about) => {
+            if (!err) {
+              imageUrl = about.image;
+            }
+          })
+        }        
+      }
+      res.render(path.join(__dirname, './lib/views/index.jade'), {
+        title, description, imageUrl
+      });      
+    });
+  } else {
+    // not viewing a post, use About image for index.jade
+    // template's meta og tags
+    About.findOne({}, (err, about) => {
+      if (!err) {
+        imageUrl = about.image;
+      }
+      res.render(path.join(__dirname, './lib/views/index.jade'), {
+        title, description, imageUrl
+      });         
+    }); 
+  }
+  //res.status(200).sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
 
 
 // catch 404 and forward to error handler
