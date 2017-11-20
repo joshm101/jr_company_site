@@ -56,6 +56,8 @@ app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/'))
 app.get('*', (req, res) => {
   console.log("req.query.id: ", req.query.id);
   let postTitle, description, imageUrl = undefined;
+  const basePath = 'http://jruttenberg.io'  
+  const url = `${basePath}${req.originalUrl}`;
   if (req.query.id) {
     // viewing a post, get specific post's information
     // to populate index.jade template's meta og tags
@@ -63,19 +65,19 @@ app.get('*', (req, res) => {
       if (!err) {
         postTitle = post.title;
         description = post.description;
-        imageUrl = post.images[post.thumbnailIndex];
+        imageUrl = `${basePath}/${post.images[post.thumbnailIndex]}`;
         if (!imageUrl) {
           // no thumbnail image for the current EmbedPost,
           // use About info
           About.findOne({}, (err, about) => {
             if (!err) {
-              imageUrl = about.image;
+              imageUrl = `${basePath}/${about.image}`;
             }
           })
         }        
       }
       res.render(path.join(__dirname, './lib/views/index.jade'), {
-        postTitle, description, imageUrl
+        postTitle, description, imageUrl, url
       });      
     });
   } else {
@@ -83,14 +85,13 @@ app.get('*', (req, res) => {
     // template's meta og tags
     About.findOne({}, (err, about) => {
       if (!err) {
-        imageUrl = about.image;
+        imageUrl = `${basePath}/${about.image}`;
       }
       res.render(path.join(__dirname, './lib/views/index.jade'), {
-        postTitle, description, imageUrl
+        postTitle, description, imageUrl, url
       });         
     }); 
   }
-  //res.status(200).sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 
