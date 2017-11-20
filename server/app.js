@@ -55,13 +55,13 @@ app.use('/api/auth/', authRoutes);
 app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {
   console.log("req.query.id: ", req.query.id);
-  let title, description, imageUrl = undefined;
+  let postTitle, description, imageUrl = undefined;
   if (req.query.id) {
     // viewing a post, get specific post's information
     // to populate index.jade template's meta og tags
     EmbedPost.findOne({_id: req.query.id}, (err, post) => {
       if (!err) {
-        title = post.title;
+        postTitle = post.title;
         description = post.description;
         imageUrl = post.images[post.thumbnailIndex];
         if (!imageUrl) {
@@ -75,7 +75,7 @@ app.get('*', (req, res) => {
         }        
       }
       res.render(path.join(__dirname, './lib/views/index.jade'), {
-        title, description, imageUrl
+        postTitle, description, imageUrl
       });      
     });
   } else {
@@ -86,7 +86,7 @@ app.get('*', (req, res) => {
         imageUrl = about.image;
       }
       res.render(path.join(__dirname, './lib/views/index.jade'), {
-        title, description, imageUrl
+        postTitle, description, imageUrl
       });         
     }); 
   }
