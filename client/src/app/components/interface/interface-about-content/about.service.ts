@@ -36,6 +36,7 @@ export class AboutService extends AppService<About> {
       if (this.uploader.queue.length > 0) {
         this.contentLoadService.contentNeedsLoading(returnedAbout);
         this.uploadRequestInFlight = true;
+        console.log("returned about: ", returnedAbout);
         return this.uploadImage(returnedAbout.imageId)
           .map(returnedAboutUpload => {
             this.uploadRequestInFlight = false;

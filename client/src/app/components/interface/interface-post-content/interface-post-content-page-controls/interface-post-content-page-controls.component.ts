@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-interface-post-content-page-controls',
@@ -6,6 +6,10 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
   styleUrls: ['./interface-post-content-page-controls.component.css']
 })
 export class InterfacePostContentPageControlsComponent implements OnInit {
+  @Input()
+  public hasNextPage: boolean;
+  @Input()
+  public hasPreviousPage: boolean;
   @Output()
   public nextPageClick: EventEmitter<boolean>;
   @Output()

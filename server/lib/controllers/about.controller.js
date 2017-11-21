@@ -70,7 +70,7 @@ exports.uploadAboutImage = function(req, res) {
                 res.status(500).end(err.toString());
               } else {
                 pathsOfUploadedImages = [];
-                res.json(about);
+                res.json({data: about});
               }
             });
           }
@@ -150,9 +150,9 @@ exports.getAboutPage = function(req, res) {
       res.send(err);
     } else {
       if (about[0]) {
-        res.json(about);
+        res.json({data: about});
       } else {
-        res.json([]);
+        res.json({data: []});
       }
     }
   })

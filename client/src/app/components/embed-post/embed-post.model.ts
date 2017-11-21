@@ -20,3 +20,9 @@ export class EmbedPost extends AppModel {
   public contentType: number;
   public _id: string;
 }
+
+export class EmbedPostResponse {
+  public hasPreviousPage: boolean;
+  public data: any[];
+  public hasNextPage: boolean; 
+}

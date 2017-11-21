@@ -143,9 +143,9 @@ exports.getBannerImage = (req, res) => {
       res.send(err);
     } else {
       if(bannerImage[0]) {
-        res.json(bannerImage);
+        res.json({data: bannerImage});
       } else {
-        res.json([]);
+        res.json({data: []});
       }
     }
   });

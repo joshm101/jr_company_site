@@ -8,6 +8,7 @@
                (doneLoad)="submissionFinished()"
                (doneLoadError)="submissionFinishedWithError()"
                (doneClick)="formDone()"
+               (hasNextPageAfterCreation)="setHasNextPage($event)"
                [focused]="focusForm"
                tabindex="0"
                class="add-post col-sm-10
@@ -38,6 +39,8 @@
       </div>
       <div class="container page-controls-wrap top">
         <app-interface-post-content-page-controls
+          [hasNextPage]="hasNextPage"
+          [hasPreviousPage]="hasPreviousPage"
           (nextPageClick)="handleNextPageClick()"
           (previousPageClick)="handlePreviousPageClick()"
         ></app-interface-post-content-page-controls>
@@ -69,6 +72,8 @@
         </mat-grid-list>
       <div class="container page-controls-wrap bottom">
         <app-interface-post-content-page-controls
+          [hasNextPage]="hasNextPage"
+          [hasPreviousPage]="hasPreviousPage"
           (nextPageClick)="handleNextPageClick()"
           (previousPageClick)="handlePreviousPageClick()"
         ></app-interface-post-content-page-controls>

@@ -1,10 +1,20 @@
 <span class="text-left">
-    <button type="button" mat-button (click)="handlePreviousPageClick()">
+    <button 
+      type="button" 
+      mat-button 
+      (click)="handlePreviousPageClick()"
+      [disabled]="!hasPreviousPage"
+    >
       <mat-icon>arrow_back</mat-icon> Previous Page
     </button>
   </span>
   <span style="float: right">
-    <button type="button" mat-button (click)="handleNextPageClick()">
+    <button 
+      type="button" 
+      mat-button 
+      (click)="handleNextPageClick()" 
+      [disabled]="!hasNextPage"
+    >
       Next Page <mat-icon>arrow_forward</mat-icon>
     </button>
   </span>

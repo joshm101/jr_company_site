@@ -85,6 +85,15 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
             }
           }
         ),
+        this.embedPostService.rawGetAllResponse$.subscribe(
+          (res) => {
+            if (res) {
+              console.log("res: ", res);
+              this.setHasNextPage(res['hasNextPage']);
+              this.hasPreviousPage = res.hasPreviousPage;
+            }
+          }
+        ),
         Observable.combineLatest(
           this.itemsPerPage$,
           this.route.paramMap
@@ -306,6 +315,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       this.itemsPerPageArbiter.next(value);
     }
 
+    setHasNextPage(value: boolean) {
+      this.hasNextPage = value;
+    }
+
     focusForm: boolean = false;
     embedPosts$: Observable<EmbedPost[]>;
     embedPosts: EmbedPost[];
@@ -325,6 +338,8 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     currentContentType: number;
     itemsPerPageArbiter: BehaviorSubject<number>;
     itemsPerPage$: Observable<number>;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
 
     /**
      * Ensures that service is 'reset' to

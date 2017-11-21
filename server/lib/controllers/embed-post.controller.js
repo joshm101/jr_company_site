@@ -125,17 +125,84 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
-  let findOptions, sortCreated, limit, page, offset, contentType = undefined;
-  sortCreated = parseInt(req.query.created) || -1;
-  limit = parseInt(req.query.limit) || 6;
-  page = parseInt(req.query.page) || 1;
-  offset = (page - 1) * limit || 0;
-  contentType = req.query.content_type != undefined ? parseInt(req.query.content_type) : undefined;
+  let sortCreated = parseInt(req.query.created) || -1;
+  let limit = parseInt(req.query.limit) || 6;
+  let requestedPage = parseInt(req.query.page) || 1;
+  let pageBeforeRequested = requestedPage - 1;
+  let pageAfterRequested = requestedPage + 1;
+  let contentType = req.query.content_type != undefined ? parseInt(req.query.content_type) : undefined;
+
+  const requestedPageQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: requestedPage, 
+    contentType
+  });
+  const pageBeforeRequestedQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: pageBeforeRequested, 
+    contentType
+  });
+  const pageAfterRequestedQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: pageAfterRequested, 
+    contentType
+  });
+  requestedPageQuery.exec()
+    .then(posts => {
+      return [posts]
+    })
+    .then(result => {
+      if (pageBeforeRequested === 0) {
+        result.push([]);
+        return result;
+      }
+      return pageBeforeRequestedQuery.exec()
+        .then(previousPagePosts => {
+          result.push(previousPagePosts)
+          return result;
+        });
+    })
+    .then(result => {
+      return pageAfterRequestedQuery.exec()
+        .then(afterPagePosts => {
+          result.push(afterPagePosts);
+          return result;
+        })
+    })
+    .then(result => {
+      let requestedPagePosts = result[0];
+      let previousPagePosts = result[1];
+      let afterPagePosts = result[2];
+      res.json({
+        hasPreviousPage: previousPagePosts.length > 0,
+        data: requestedPagePosts,
+        hasNextPage: afterPagePosts.length > 0,
+      });
+    })
+    .then(undefined, function(err) {
+      console.log(err);
+      res.status(500).send(err);
+    });
+}
+
+constructPagedQuery = (options) => {
+  console.log("options: ", options);
+  const {
+    page,
+    limit,
+    contentType,
+    sortCreated
+  } = options;
+  const offset = (page - 1) * limit || 0;
+  console.log("offset: ", offset);
   findOptions = Object.assign(
     {},
     contentType != undefined ? { contentType } : null
   );
-  EmbedPost.find(
+  return EmbedPost.find(
     findOptions
   ).sort(
     {
@@ -145,13 +212,7 @@ exports.getPosts = function(req, res) {
     offset || 0
   ).limit(
     limit
-  ).exec(function(err, posts) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(posts);
-    }
-  });
+  );
 }
 
 exports.getPostById = function(req, res) {
@@ -159,7 +220,7 @@ exports.getPostById = function(req, res) {
     if (err) {
       res.status(404).send();
     } else {
-      res.json(post);
+      res.json({data: post});
     }
   });
 }

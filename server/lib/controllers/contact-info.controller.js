@@ -59,9 +59,9 @@ exports.getContactInfo = (req, res) => {
       res.send(err);
     } else {
       if (contactInfo[0]) {
-        res.json(contactInfo);
+        res.json({data: contactInfo});
       } else {
-        res.json([]);
+        res.json({data: []});
       }
     }
   });

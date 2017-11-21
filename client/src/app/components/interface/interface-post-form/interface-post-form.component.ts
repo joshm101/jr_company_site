@@ -33,6 +33,7 @@ export class InterfacePostFormComponent implements OnInit {
     this.startLoad = new EventEmitter<boolean>();
     this.doneLoad = new EventEmitter<boolean>();
     this.doneLoadError = new EventEmitter<boolean>();
+    this.hasNextPageAfterCreation = new EventEmitter<boolean>();
     this.route.params.filter(Boolean).subscribe(
       (params) => {
         this.contentType = params['contentType'];
@@ -47,6 +48,7 @@ export class InterfacePostFormComponent implements OnInit {
   @Output() startLoad: EventEmitter<boolean>;
   @Output() doneLoad: EventEmitter<boolean>;
   @Output() doneLoadError: EventEmitter<boolean>;
+  @Output() hasNextPageAfterCreation: EventEmitter<boolean>;
   @ViewChild('fileInput') fileInput: ElementRef;
   uploader: FileUploader;
   safeImages: any[];
@@ -171,6 +173,9 @@ export class InterfacePostFormComponent implements OnInit {
         //this.embedPostService.removeLastItemFromStore();
         if (items.length > this.embedPostService.itemsPerPage) {
           this.embedPostService.removeLastItemFromCache();
+          this.hasNextPageAfterCreation.emit(true);
+        } else {
+          this.hasNextPageAfterCreation.emit(false);          
         }
         const newPost = items[0];
         if (!this.thumbnailCached(newPost)) {

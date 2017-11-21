@@ -12,6 +12,8 @@ export abstract class AppService<Model extends AppModel> {
   protected _authService: AuthService;
   private api: ApiService;
   private cacheService: CacheService<Model>;
+  private rawGetAllResponse: BehaviorSubject<any>;
+  public rawGetAllResponse$: Observable<any>;
   constructor(
     private injector: Injector
   ) {
@@ -19,7 +21,8 @@ export abstract class AppService<Model extends AppModel> {
     this._authService = this.injector.get(AuthService);
     this.api = this.injector.get(ApiService);
     this.cacheService = new CacheService<Model>();
-
+    this.rawGetAllResponse = new BehaviorSubject<any>(undefined);
+    this.rawGetAllResponse$ = this.rawGetAllResponse.asObservable();
   }
 
   protected abstract getResource(): string;
@@ -39,8 +42,9 @@ export abstract class AppService<Model extends AppModel> {
     return this.api.get(
       'api/' + this.getResource(),
       options
-    ).switchMap((res: Model[]) => {
-      let body = res;
+    ).switchMap((res: any) => {
+      this.rawGetAllResponse.next(res);
+      let body = res['data'];
       let temp: Model[] = [];
       temp = body.map(item => this.new(item));
       this.cacheService.clearCache();
@@ -54,8 +58,8 @@ export abstract class AppService<Model extends AppModel> {
     const url = `api/${this.getResource()}/${id || ''}`;
     return this.api.get(
       url
-    ).switchMap((res: Model) => {
-      let body = res;
+    ).switchMap((res: any) => {
+      let body = res['data'];
       let idx;
       let temp: Model = this.new(body);
       this.cacheService.updateCacheItem(temp);
@@ -91,8 +95,9 @@ export abstract class AppService<Model extends AppModel> {
       url, 
       body,
       options
-    ).map((res: Object) => {
+    ).switchMap((res: any) => {
       let body = res['data'];
+      console.log("body: ", body);
       this.editedItem = this.new(body);
       this.cacheService.updateCacheItem(this.editedItem);
       return this.cacheService.retrieveCacheItemById(this.editedItem._id);
