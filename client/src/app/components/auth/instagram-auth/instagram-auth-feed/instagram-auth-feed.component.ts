@@ -21,7 +21,7 @@ export class InstagramAuthFeedComponent implements OnInit {
       imagesArray.map(arrayItem =>
         arrayItem.images.standard_resolution.url
       )
-    ).take(1).subscribe(
+    ).take(1).retryWhen(errors => errors.delay(1000).take(5)).subscribe(
       (imageSrcArray) => {
         console.log("imageSrcArray: ", imageSrcArray);
         this.imageSrcs = imageSrcArray;

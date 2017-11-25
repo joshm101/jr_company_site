@@ -34,12 +34,15 @@ export class InstagramAuthComponent implements OnInit {
           // button.
           this.disableAuthSetupButton = true;
 
-          this.dialog.open(InstagramAuthRequestDialogComponent, {
+          let dialogRef = this.dialog.open(InstagramAuthRequestDialogComponent, {
             width: '500px',
             data: {
               code
             }
           });
+          dialogRef.afterClosed().take(1).subscribe(result => {
+            this.disableAuthSetupButton = false;
+          })
         }
       }, 
       (error) => {
