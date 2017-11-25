@@ -1,0 +1,55 @@
+<h3 mat-dialog-title>Obtain Access Token</h3>
+<div mat-dialog-content>
+  <div class="section-wrap" *ngIf="requestInFlight">
+    <mat-progress-spinner 
+      mode="indeterminate"
+      class="loading-indicator"
+      [diameter]="50"
+      [strokeWidth]="5"
+    >
+    </mat-progress-spinner>
+  </div>
+  <div class="section-wrap request-result-indicator request-fail" *ngIf="!requestInFlight && !successfulRequest">
+    <mat-icon>clear</mat-icon>
+  </div>
+  <div class="section-wrap request-result-indicator request-success" *ngIf="!requestInFlight && successfulRequest">
+    <mat-icon>check</mat-icon>
+  </div>
+  <div class="section-wrap">
+    <app-instagram-auth-request-dialog-status-text
+      *ngFor="let status of statuses; let i = index"
+      [text]="status.text"
+      [textAlign]="status.textAlign || 'center'"
+      [isDiscreteEvent]="status.discreteEvent"
+      [paddingAmount]="i == statuses.length - 1 ? 10 : 0"
+    ></app-instagram-auth-request-dialog-status-text>
+  </div>
+</div>
+<div mat-dialog-actions *ngIf="!requestInFlight">
+  <div class="text-right">
+    <button
+      *ngIf="!requestInFlight && !successfulRequest"
+      mat-button
+      mat-dialog-close
+      type="button"
+    >
+      Close
+    </button>
+    <button
+      *ngIf="!requestInFlight && !successfulRequest"
+      mat-button
+      (click)="handleRetryButtonClick()"
+      type="button"
+    >
+      Retry Process
+    </button>        
+    <button
+      *ngIf="!requestInFlight && successfulRequest"
+      mat-button
+      mat-dialog-close
+      type="button"
+    >
+      Ok
+    </button> 
+  </div>  
+</div>

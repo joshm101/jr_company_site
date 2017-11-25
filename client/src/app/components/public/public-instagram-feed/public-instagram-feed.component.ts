@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { PublicInstagramFeedService } from './public-instagram-feed.service';
+import { InstagramFeedService } from '../../../external-services/instagram-feed/instagram-feed.service';
 
 @Component({
   selector: 'app-public-instagram-feed',
@@ -13,9 +13,9 @@ export class PublicInstagramFeedComponent implements OnInit {
   @Input() public cols: number = 3;
   @Input() public shouldLoadImages: boolean = false;
   constructor(
-    private publicInstagramFeedService: PublicInstagramFeedService
+    private instagramFeedService: InstagramFeedService
   ) {
-    this.images$ = this.publicInstagramFeedService.getImages();
+    this.images$ = this.instagramFeedService.getImages();
    }
 
   ngOnInit() {

@@ -1,0 +1,21 @@
+.instagram-auth-init-btn {
+  color: #083d8d;
+  font-size: 1rem !important;
+}
+
+.instagram-auth-btn-wrap {
+  text-align: center;
+  padding: 15px;
+}
+
+.instagram-auth-btn-wrap .material-icons {
+  font-size: 22px;
+}
+
+.section-wrap {
+  margin-bottom: 40px;
+}
+
+.feed-notice {
+  text-align: left;
+}

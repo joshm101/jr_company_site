@@ -31,10 +31,12 @@ import { AboutService } from './components/interface/interface-about-content/abo
 import { ContactInfoService } from './components/interface/interface-contact-info-content/contact-info.service';
 import { AuthGuardService } from './components/auth/auth-guard.service';
 import { authOptionsProvider } from './components/auth/auth-options.service';
-import { PublicInstagramFeedService } from './components/public/public-instagram-feed/public-instagram-feed.service';
+import { InstagramFeedService } from './external-services/instagram-feed/instagram-feed.service';
 import { ApiService } from './api.service';
 import { LatestContentService } from './external-services/latest-content/latest-content.service';
 import { BannerImageService } from './components/interface/interface-banner-image-content/banner-image.service';
+import { InstagramAuthService } from './components/auth/instagram-auth/instagram-auth.service';
+import { ConfigService } from './external-services/config/config.service';
 
 import { AppComponent } from './app.component';
 import { PublicAudioComponent } from './components/public/public-audio/public-audio.component';
@@ -86,6 +88,11 @@ import { PublicGamesComponent } from './components/public/public-games/public-ga
 import { PublicAboutComponent } from './components/public/public-about/public-about.component';
 import { InterfacePostContentPageControlsComponent } from './components/interface/interface-post-content/interface-post-content-page-controls/interface-post-content-page-controls.component';
 import { InterfacePostContentItemsPerPageSelectorComponent } from './components/interface/interface-post-content/interface-post-content-items-per-page-selector/interface-post-content-items-per-page-selector.component';
+import { InstagramAuthComponent } from './components/auth/instagram-auth/instagram-auth.component';
+import { InstagramAuthRequestDialogComponent } from './components/auth/instagram-auth/instagram-auth-request-dialog/instagram-auth-request-dialog.component';
+import { InstagramAuthRequestDialogStatusTextComponent } from './components/auth/instagram-auth/instagram-auth-request-dialog/instagram-auth-request-dialog-status-text/instagram-auth-request-dialog-status-text.component';
+import { InstagramAuthFeedComponent } from './components/auth/instagram-auth/instagram-auth-feed/instagram-auth-feed.component';
+import { InstagramAuthFeedImageComponent } from './components/auth/instagram-auth/instagram-auth-feed/instagram-auth-feed-image/instagram-auth-feed-image.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -194,6 +201,11 @@ const appRoutes: Routes = [
     PublicAboutComponent,
     InterfacePostContentPageControlsComponent,
     InterfacePostContentItemsPerPageSelectorComponent,
+    InstagramAuthComponent,
+    InstagramAuthRequestDialogComponent,
+    InstagramAuthRequestDialogStatusTextComponent,
+    InstagramAuthFeedComponent,
+    InstagramAuthFeedImageComponent,
   ],
   providers: [
     WindowRefService,
@@ -205,15 +217,18 @@ const appRoutes: Routes = [
     AboutService,
     ContactInfoService,
     ContentLoadService,
-    PublicInstagramFeedService,
+    InstagramFeedService,
     ApiService,
     LatestContentService,
     BannerImageService,
+    InstagramAuthService,
+    ConfigService,
   ],
   entryComponents: [
     InterfacePostFormDialogComponent,
     InterfacePostDeleteConfirmDialogComponent,
     InterfaceViewPostComponent,
+    InstagramAuthRequestDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

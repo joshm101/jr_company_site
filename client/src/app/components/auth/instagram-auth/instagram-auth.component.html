@@ -1,0 +1,26 @@
+<div>
+  <div>
+    <h5>Instagram Feed</h5>
+  </div>
+  <div class="instagram-auth-btn-wrap section-wrap">
+    <p class="feed-notice">
+      If you can see the images below, you have a valid Instagram access token. Instagram
+      content should be displaying site-wide.
+    </p>
+    <p class="feed-notice">
+      If you cannot see the images below, or if you would like to authenticate with a 
+      different Instagram account,
+    </p>
+    <button
+      mat-button
+      [disabled]="disableAuthSetupButton || !instagramAuthInitializationUrl"
+      class="instagram-auth-init-btn"
+      (click)="handleInstagramAuthInitializationButtonClick()"
+    >
+      Obtain an Instagram Access Token&nbsp;&nbsp;<mat-icon>launch</mat-icon>
+    </button>
+  </div>  
+  <div class="section-wrap">
+    <app-instagram-auth-feed></app-instagram-auth-feed>
+  </div>
+</div>

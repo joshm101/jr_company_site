@@ -133,6 +133,11 @@ mat-sidenav {
 
 .mat-dialog-container {
   max-width: 95vw !important;
+  margin: auto;
+}
+
+.mat-dialog-actions {
+  display: inline !important;
 }
 
 .img-fit-container {
@@ -716,10 +721,6 @@ html[xmlns] .clearfix {
 
 .auth-card {
   margin-bottom: 10px;
-}
-
-.settings-change-password-comp-wrap {
-  padding: 20px;
 }
 
 .settings-content-root {

@@ -1,0 +1,7 @@
+<mat-grid-list [cols]="cols" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let imageSrc of imageSrcs">
+    <app-instagram-auth-feed-image
+      [src]="imageSrc"
+    ></app-instagram-auth-feed-image>
+  </mat-grid-tile>
+</mat-grid-list>

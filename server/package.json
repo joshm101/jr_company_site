@@ -27,6 +27,8 @@
     "multer": "~1.2.1",
     "randomstring": "~1.1.5",
     "reflect-metadata": "~0.1.8",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
     "run-sequence": "~1.2.2",
     "serve-favicon": "~2.3.0"
   },
