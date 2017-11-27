@@ -13,6 +13,7 @@ var aboutPageRoutes = require('./lib/routes/api/about.api.routes');
 var contactInfoRoutes = require('./lib/routes/api/contact-info.api.routes');
 var instagramFeedRoutes = require('./lib/routes/api/instagram-feed.api.routes');
 var configRoutes = require('./lib/routes/api/config.api.routes');
+var userPreferencesRoutes = require('./lib/routes/api/user-preferences.api.routes');
 var EmbedPost = require('./lib/models/embed-post.model');
 var About = require('./lib/models/about.model');
 const bannerImageRoutes = require('./lib/routes/api/banner-image.routes');
@@ -55,6 +56,7 @@ app.use('/api/contactInfo', contactInfoRoutes);
 app.use('/api/bannerImage', bannerImageRoutes);
 app.use('/api/instagramFeed', instagramFeedRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/userPreferences', userPreferencesRoutes);
 app.use('/api/auth/', authRoutes);
 app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {

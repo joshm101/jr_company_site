@@ -37,6 +37,7 @@ import { LatestContentService } from './external-services/latest-content/latest-
 import { BannerImageService } from './components/interface/interface-banner-image-content/banner-image.service';
 import { InstagramAuthService } from './components/auth/instagram-auth/instagram-auth.service';
 import { ConfigService } from './external-services/config/config.service';
+import { UserPreferencesService } from './external-services/user-preferences/user-preferences.service';
 
 import { AppComponent } from './app.component';
 import { PublicAudioComponent } from './components/public/public-audio/public-audio.component';
@@ -223,6 +224,7 @@ const appRoutes: Routes = [
     BannerImageService,
     InstagramAuthService,
     ConfigService,
+    UserPreferencesService,
   ],
   entryComponents: [
     InterfacePostFormDialogComponent,

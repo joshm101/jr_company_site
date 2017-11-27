@@ -174,6 +174,14 @@ export class EmbedPostService extends AppService<EmbedPost> {
     this.currentPageArbiter.next(--currentPage || 1);
   }
 
+  setPage(page: number) {
+    this.currentPageArbiter.next(page || 1);
+  }
+
+  get currentPage() {
+    return this.currentPageArbiter.value;
+  }
+
   get itemsPerPage() {
     return this._itemsPerPage;
   }

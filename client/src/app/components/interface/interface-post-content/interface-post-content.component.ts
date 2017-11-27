@@ -26,6 +26,10 @@ import { InterfacePostFormDialogComponent } from '../interface-post-form/interfa
 import { InterfacePostDeleteConfirmDialogComponent } from '../interface-post-delete-confirm-dialog/interface-post-delete-confirm-dialog.component';
 import { InterfaceViewPostComponent } from '../interface-view-post/interface-view-post.component';
 import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
+import { 
+  UserPreferences,
+  UserPreferencesService,
+} from '../../../external-services/user-preferences/user-preferences.index';
 
 @Component({
   selector: 'app-interface-post-content',
@@ -53,6 +57,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       private contentLoadService: ContentLoadService,
       private snackBar: MatSnackBar,
       private changeDetectorRef: ChangeDetectorRef,
+      private userPreferencesService: UserPreferencesService
     ) {
       this.isLoading = true;
       this.animationState = "inactive";
@@ -95,10 +100,11 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           }
         ),
         Observable.combineLatest(
-          this.itemsPerPage$,
+          this.userPreferencesService.getUserPreferences(),
           this.route.paramMap
-        ).switchMap(([itemsPerPage, params]) =>{
-          this.embedPostService.itemsPerPage = itemsPerPage;
+        ).switchMap(([userPreferences, params]) =>{
+          this.embedPostService.itemsPerPage = userPreferences.itemsPerPage;
+          this.userPreferences = userPreferences;          
           this.currentContentType = parseInt(params.get('contentType'));
           return this.embedPostService.getAll({
             params: [
@@ -110,6 +116,9 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
           });
         }).subscribe(
           (posts) => {
+            if (posts.length === 0 && this.embedPostService.currentPage > 1) {
+              this.embedPostService.setPage(1);
+            } 
             if (this.changingPages) {
               this.contentLoadService.removeAllTrackedContent();
               this.contentLoadService.setPostMap(posts);              
@@ -268,11 +277,16 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
       if (
         !this.embedPostService.requestInFlight && 
         !this.embedPostService.uploadRequestInFlight &&
+        !this.userPreferencesService.requestInFlight &&
         this.doneLoadingContent
       ) {
         this.animationState = 'active';
       }
-      return this.embedPostService.requestInFlight || this.embedPostService.uploadRequestInFlight;
+      return (
+        this.embedPostService.requestInFlight || 
+        this.embedPostService.uploadRequestInFlight ||
+        this.userPreferencesService.requestInFlight
+      );
     }
 
     calculateColumns() {
@@ -312,7 +326,31 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
 
     handleItemsPerPageChange(value: number) {
-      this.itemsPerPageArbiter.next(value);
+      this.userPreferences.itemsPerPage = value;
+      this.userPreferencesService.updateUserPreferences(
+        this.userPreferences
+      ).take(1).subscribe(
+        (preferences) => {
+          this.itemsPerPageArbiter.next(preferences.itemsPerPage)
+          this.snackBar.open(
+            'Items per page successfully saved.',
+            '',
+            {
+              duration: 3000
+            }
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      )
+    }
+
+    get itemsPerPage() {
+      if (this.userPreferences) {
+        return this.userPreferences.itemsPerPage || 4;
+      }
+      return 4;
     }
 
     setHasNextPage(value: boolean) {
@@ -338,6 +376,7 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     currentContentType: number;
     itemsPerPageArbiter: BehaviorSubject<number>;
     itemsPerPage$: Observable<number>;
+    userPreferences: UserPreferences;
     hasNextPage: boolean;
     hasPreviousPage: boolean;
 

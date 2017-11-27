@@ -139,6 +139,20 @@ export abstract class AppService<Model extends AppModel> {
     return this._requestInFlight;
   }
 
+  hasNextPage() {
+    if (this.rawGetAllResponse.value) {
+      return this.rawGetAllResponse.value.hasNextPage;
+    }
+    return false;
+  }
+
+  hasPreviousPage() {
+    if (this.rawGetAllResponse.value) {
+      return this.rawGetAllResponse.value.hasPreviousPage;
+    }
+    return false;
+  }
+
   protected _uploadRequestInFlight: boolean;
   protected _requestInFlight: boolean;
 

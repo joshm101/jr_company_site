@@ -28,8 +28,10 @@ export class ApiService {
     options?: OptionsType
   ) {
     const params = this.constructSearchParams(options);
+    const headers = this.constructHeaders(options);
     const requestOptions = {
       params,
+      headers,
     }
     return this.http.get(url, requestOptions);
   }
