@@ -3,6 +3,9 @@
     class="col-xxl-3 col-sm-6 col-12 home-content-block-col"
     *ngFor="let post of posts"
   >
-    <app-public-posts-post [shouldLoad]="shouldLoadPosts" [post]="post"></app-public-posts-post>
+    <app-public-posts-post 
+      [shouldLoad]="shouldLoadPosts" 
+      [post]="post"
+    ></app-public-posts-post>
   </div>
 </div>
