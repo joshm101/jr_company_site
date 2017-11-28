@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { WindowRefService } from '../../../external-services/window/window.service';
+import { EmbedPostService } from '../../embed-post/embed-post.index';
 
 enum ScrollDirection {
   Up = 1,
@@ -41,7 +42,7 @@ export class PublicContainerComponent implements OnInit {
   private _animationFrameId: number = undefined;
   private _fadeNavBar: boolean;
   private _hideLinks: boolean;
-  private _viewingPost: boolean;
+  private _fixingNavBar: boolean;
 
   public set navBarMarginTop(val: number) {
     requestAnimationFrame((_) => {
@@ -165,6 +166,7 @@ export class PublicContainerComponent implements OnInit {
   constructor(
     private _windowRefService: WindowRefService,
     private _router: Router,
+    private _embedPostService: EmbedPostService
   ) {
     this._subscriptions = [];
     this._shouldCollapseNavLogo = true;
@@ -181,15 +183,29 @@ export class PublicContainerComponent implements OnInit {
             this._menuIsOpen = false;
           }
           this.determineAndSetMobileOverride();
-          
-          if (event.url.startsWith('/view')) {
-            // viewing a post
-            console.log("starts with /view");
-            this._viewingPost = true;
-            this.fixNavBarForViewPost();
+
+          // it's possible to just use the condition
+          // event.url !== '/'. This is done for
+          // granularity control. It currently happens
+          // that all non-home routes should have the
+          // nav bar fixed, but that may not always
+          // be the case.
+          if (
+            event.url.startsWith('/audio') ||
+            event.url.startsWith('/video') ||
+            event.url.startsWith('/games') ||
+            event.url.startsWith('/about') ||
+            event.url.startsWith('/view')
+          ) {
+            this._fixingNavBar = true;
+            this.fixNavBar();
+            this._disableHoverOverride();
           }
-          if (!event.url.startsWith('/view')) {
-            this._viewingPost = false;
+          if (event.url === '/') {
+            // navigated home, fix items per page for
+            // latest posts to default value
+            this._embedPostService.itemsPerPage = 4;
+            this._fixingNavBar = false;
             this._initializeNavBar();
           }
           this.currentUrl = event.url;
@@ -199,19 +215,21 @@ export class PublicContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("this._viewingPost: ", this._viewingPost);
+    console.log("this._fixingNavBar: ", this._fixingNavBar);
     this.determineAndSetMobileOverride();
-    if (this._viewingPost) {
-      this.fixNavBarForViewPost();
+    if (this._fixingNavBar) {
+      this.fixNavBar();
       console.log("this.navBarLinksOpacity: ", this.navBarLinksOpacity);
       console.log("this.shouldCollapseNavLogo: ", this.shouldCollapseNavLogo);
     }    
   }
 
-  fixNavBarForViewPost() {
+  fixNavBar() {
+    console.log("fix nav bar for view post");
     this.navBarMarginTop = this.navBarExpandedMargin;
     this.shouldCollapseNavLogo = false;
     this.navBarLinksOpacity = 1;
+    this._navBarInitialized = true;
   }
 
   /**
@@ -422,7 +440,11 @@ export class PublicContainerComponent implements OnInit {
    * last mouseover occurred.
    */
   public navBarMouseLeave() {
-    if (!this._mobileOverride && this.screenWidth > 640) {
+    if (
+      !this._mobileOverride && 
+      !this._fixingNavBar &&      
+      this.screenWidth > 640
+    ) {
       if (this._previousMarginTop < this.navBarMarginTop) {
         // there's a difference between current navBarMarginTop and
         // the value before mousenter. calculate difference and
@@ -599,12 +621,14 @@ export class PublicContainerComponent implements OnInit {
      * scrolling down
      */
     if (0 <= scrollTop && scrollTop < this._expandedScrollTopValue) {
-      this._disableNavBarFade();
-      if (this.navBarMarginTop + change > this.navBarThresholdMargin) {
-        this.shouldCollapseNavLogo = false;
+      if (!this._fixingNavBar) {
+        this._disableNavBarFade();
+        if (this.navBarMarginTop + change > this.navBarThresholdMargin) {
+          this.shouldCollapseNavLogo = false;
+        }
+        this._expandNavByAmount(change);
+        this._expandDone();
       }
-      this._expandNavByAmount(change);
-      this._expandDone();
     }
 
     if (125 <= scrollTop && scrollTop <= 625) {
@@ -665,7 +689,7 @@ export class PublicContainerComponent implements OnInit {
        * Nav bar should collapse in this region while
        * scrolling up
        */
-      if (scrollTop < this._expandedScrollTopValue && !this._viewingPost) {
+      if (scrollTop < this._expandedScrollTopValue && !this._fixingNavBar) {
         requestAnimationFrame(ts => {
           this.navBarLinksOpacity -= 0.25;
         });
