@@ -1,0 +1,9 @@
+.video {
+  padding-top: 40px;
+}
+
+@media screen and (max-width: 640px) {
+  .video {
+    padding-top: 20px;
+  }
+}

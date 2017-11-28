@@ -1,0 +1,9 @@
+.audio {
+  padding-top: 40px;
+}
+
+@media screen and (max-width: 640px) {
+  .audio {
+    padding-top: 20px;
+  }
+}

@@ -1,3 +1,8 @@
-<p>
-  public-games works!
-</p>
+<div class="container-fluid non-home-route-wrap">
+  <div class="games">
+    <app-public-posts 
+      [posts]="posts$ | async"
+      [shouldLoadPosts]="true"
+    ></app-public-posts>
+  </div>
+</div>
