@@ -1,72 +1,72 @@
-.latest-posts-post-title {
+.posts-post-title {
   font-size: 1.5rem;
   color: white;
 }
 
-.latest-posts-post-text {
+.posts-post-text {
   color: rgba(255, 255, 255, 0.60);
 }
 
-.latest-posts-post-info {
+.posts-post-info {
   padding-top: 17px;
   padding-bottom: 17px;
 }
 
-.latest-post-wrapper-div:before {
+.post-wrapper-div:before {
   content: "";
   padding-top: 115.16%;
   display: block;
 }
 
 @media screen and (max-width: 1499px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 130%;    
   }
 }
 
 @media screen and (max-width: 1125px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 140%;    
   }
 }
 
 @media screen and (max-width: 875px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 145%;    
   }
 }
 
 @media screen and (max-width: 750px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 150%;    
   }
 }
 
 @media screen and (max-width: 576px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 140%;    
   }
 }
 
 @media screen and (max-width: 545px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 145%;    
   }
 }
 
 @media screen and (max-width: 380px) {
-  .latest-post-wrapper-div:before {
+  .post-wrapper-div:before {
     padding-top: 160%;    
   }
 }
 
-.latest-post-wrapper-div {
+.post-wrapper-div {
   display: inline-block;
   width: 100%;
   position: relative;  
 }
 
-.latest-post-wrapper-child {
+.post-wrapper-child {
   position: absolute;
   top: 0;
   left: 0;
@@ -75,7 +75,7 @@
   text-align: center;
 }
 
-.latest-posts-post-image {
+.posts-post-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -84,13 +84,13 @@
   z-index: 10;
 }
 
-.latest-posts-post-img-wrapper-div:before {
+.posts-post-img-wrapper-div:before {
   content: "";
   display: block;
   padding-top: 100%;
 }
 
-.latest-posts-post-img-wrapper-div {
+.posts-post-img-wrapper-div {
   display: inline-block;
   width: 100%;
   position: relative;

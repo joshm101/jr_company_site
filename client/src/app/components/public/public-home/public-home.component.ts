@@ -20,6 +20,7 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
     private _screenSizeService: ScreenSizeService,
     private latestContentService: LatestContentService
   ) {
+    this.latestPosts$ = this.latestContentService.getLatestPosts();
   }
 
   ngOnInit() {

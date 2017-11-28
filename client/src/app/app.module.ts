@@ -71,8 +71,6 @@ import { InterfacePostDeleteConfirmDialogComponent } from './components/interfac
 import { AutoResizeTextareaDirective } from './directives/auto-resize-textarea.directive';
 import { InterfaceViewPostComponent } from './components/interface/interface-view-post/interface-view-post.component';
 import { PublicInstagramFeedComponent } from './components/public/public-instagram-feed/public-instagram-feed.component';
-import { PublicLatestPostsComponent } from './components/public/public-latest-posts/public-latest-posts.component';
-import { PublicLatestPostsPostComponent } from './components/public/public-latest-posts/public-latest-posts-post/public-latest-posts-post.component';
 import { ScrollInViewDirective } from './directives/scroll-in-view.directive';
 import { InterfaceAdditionalContentComponent } from './components/interface/interface-additional-content/interface-additional-content.component';
 import { InterfaceBannerImageContentComponent } from './components/interface/interface-banner-image-content/interface-banner-image-content.component';
@@ -94,6 +92,8 @@ import { InstagramAuthRequestDialogComponent } from './components/auth/instagram
 import { InstagramAuthRequestDialogStatusTextComponent } from './components/auth/instagram-auth/instagram-auth-request-dialog/instagram-auth-request-dialog-status-text/instagram-auth-request-dialog-status-text.component';
 import { InstagramAuthFeedComponent } from './components/auth/instagram-auth/instagram-auth-feed/instagram-auth-feed.component';
 import { InstagramAuthFeedImageComponent } from './components/auth/instagram-auth/instagram-auth-feed/instagram-auth-feed-image/instagram-auth-feed-image.component';
+import { PublicPostsComponent } from './components/public/public-posts/public-posts.component';
+import { PublicPostsPostComponent } from './components/public/public-posts/public-posts-post/public-posts-post.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -184,8 +184,6 @@ const appRoutes: Routes = [
     AutoResizeTextareaDirective,
     InterfaceViewPostComponent,
     PublicInstagramFeedComponent,
-    PublicLatestPostsComponent,
-    PublicLatestPostsPostComponent,
     ScrollInViewDirective,
     InterfaceAdditionalContentComponent,
     InterfaceBannerImageContentComponent,
@@ -207,6 +205,8 @@ const appRoutes: Routes = [
     InstagramAuthRequestDialogStatusTextComponent,
     InstagramAuthFeedComponent,
     InstagramAuthFeedImageComponent,
+    PublicPostsComponent,
+    PublicPostsPostComponent,
   ],
   providers: [
     WindowRefService,

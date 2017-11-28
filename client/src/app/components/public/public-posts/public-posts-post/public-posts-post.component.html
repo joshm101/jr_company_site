@@ -1,10 +1,10 @@
-<div class="latest-post-wrapper-div">
-  <div class="latest-post-wrapper-child">
-    <div class="latest-posts-post-img-wrapper-div">
+<div class="post-wrapper-div">
+  <div class="post-wrapper-child">
+    <div class="posts-post-img-wrapper-div">
       <a routerLink="view" [queryParams]="{id: post._id}">
         <img 
           [src]="post.images[post.thumbnailIndex]" 
-          class="latest-posts-post-image"
+          class="posts-post-image"
           *ngIf="shouldLoad"
           (load)="handleImageLoadDoneEvent()"
           [class.hidden-img]="!imageLoaded" 
@@ -20,12 +20,12 @@
         ></mat-progress-spinner>    
       </div>      
     </div>
-    <div class="latest-posts-post-info">
+    <div class="posts-post-info">
       <div>
-        <span class="latest-posts-post-title">{{ post.title }}</span>  
+        <span class="posts-post-title">{{ post.title }}</span>  
       </div>
       <div>
-        <span class="latest-posts-post-text">{{ post.created | date:'longDate' }}</span>
+        <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
       </div>
     </div>
   </div>

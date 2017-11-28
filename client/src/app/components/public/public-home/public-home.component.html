@@ -13,7 +13,10 @@
         scrollInView
         (onPartiallyInView)="triggerLatestPostsLoad()"
       >
-        <app-public-latest-posts [shouldLoadPosts]="shouldLoadLatestPosts"></app-public-latest-posts>  
+        <app-public-posts 
+          [posts]="latestPosts$ | async" 
+          [shouldLoadPosts]="shouldLoadLatestPosts"
+        ></app-public-posts>  
       </div> 
     </div>
   </div>
