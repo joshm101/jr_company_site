@@ -62,6 +62,11 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
         }
       } 
       (document,"script","twitter-wjs");   
+    } else {
+      // trigger a reload if already previously loaded.
+      // this is typically done if returning back to
+      // home page via router.
+      window['twttr'] && window['twttr'].widgets.load();
     }
     this.shouldLoadTwitterFeed = true;
   }
