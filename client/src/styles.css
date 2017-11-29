@@ -832,7 +832,8 @@ html[xmlns] .clearfix {
 
   .public-nav-bar-links li span {
     display: block;
-    padding: 20px 0px;
+    padding-top: 23px;
+    padding-bottom: 20px;
   }
 
   .public-nav-bar-menu-icon-bar {
@@ -1182,6 +1183,7 @@ app-public-home {
 
 .non-home-route-wrap {
   padding-top: 125px;
+  padding-bottom: 40px;
   background-color: #16161d;
 }
 
