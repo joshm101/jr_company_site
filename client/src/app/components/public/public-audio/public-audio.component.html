@@ -1,5 +1,13 @@
 <div class="container-fluid non-home-route-wrap">
   <div class="audio">
+    <app-public-pagination-control-button
+      text="PREVIOUS"
+      (click)="goToPreviousPage()"
+    ></app-public-pagination-control-button>
+    <app-public-pagination-control-button
+      text="NEXT"
+      (click)="goToNextPage()"
+    ></app-public-pagination-control-button>
     <app-public-posts 
       [posts]="posts$ | async"
       [shouldLoadPosts]="true"

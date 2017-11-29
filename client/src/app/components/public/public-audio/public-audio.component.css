@@ -1,9 +1,9 @@
 .audio {
-  padding-top: 40px;
+  padding: 40px 0;
 }
 
 @media screen and (max-width: 640px) {
   .audio {
-    padding-top: 20px;
+    padding: 20px 0;
   }
 }
