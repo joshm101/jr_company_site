@@ -13,6 +13,7 @@ export abstract class AppService<Model extends AppModel> {
   private api: ApiService;
   private cacheService: CacheService<Model>;
   private rawGetAllResponse: BehaviorSubject<any>;
+  public requestInFlight$: Observable<boolean>;
   public rawGetAllResponse$: Observable<any>;
   constructor(
     private injector: Injector
@@ -23,6 +24,8 @@ export abstract class AppService<Model extends AppModel> {
     this.cacheService = new CacheService<Model>();
     this.rawGetAllResponse = new BehaviorSubject<any>(undefined);
     this.rawGetAllResponse$ = this.rawGetAllResponse.asObservable();
+    this._requestInFlight = new BehaviorSubject<boolean>(false);
+    this.requestInFlight$ = this._requestInFlight.asObservable();
   }
 
   protected abstract getResource(): string;
@@ -132,11 +135,11 @@ export abstract class AppService<Model extends AppModel> {
   }
 
   set requestInFlight(val: boolean) {
-    this._requestInFlight = val;
+    this._requestInFlight.next(val);
   }
 
   get requestInFlight() {
-    return this._requestInFlight;
+    return this._requestInFlight.getValue();
   }
 
   hasNextPage() {
@@ -154,7 +157,7 @@ export abstract class AppService<Model extends AppModel> {
   }
 
   protected _uploadRequestInFlight: boolean;
-  protected _requestInFlight: boolean;
+  protected _requestInFlight: BehaviorSubject<boolean>;
 
   public newlyCreatedItem: Model;
   public editedItem: Model;

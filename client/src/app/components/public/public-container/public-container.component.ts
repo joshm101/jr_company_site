@@ -1,4 +1,5 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -43,6 +44,8 @@ export class PublicContainerComponent implements OnInit {
   private _fadeNavBar: boolean;
   private _hideLinks: boolean;
   private _fixingNavBar: boolean;
+  private _previousRouteScrollTop: number = 0;
+  private _shouldRestoreScrollPositionOnStatePop: boolean = false;
 
   public set navBarMarginTop(val: number) {
     requestAnimationFrame((_) => {
@@ -166,7 +169,8 @@ export class PublicContainerComponent implements OnInit {
   constructor(
     private _windowRefService: WindowRefService,
     private _router: Router,
-    private _embedPostService: EmbedPostService
+    private _embedPostService: EmbedPostService,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this._subscriptions = [];
     this._shouldCollapseNavLogo = true;
@@ -200,6 +204,12 @@ export class PublicContainerComponent implements OnInit {
             this._fixingNavBar = true;
             this.fixNavBar();
             this._disableHoverOverride();
+            if (
+              !event.url.startsWith('/view') && 
+              !event.url.startsWith('/about')
+            ) {
+              this._shouldRestoreScrollPositionOnStatePop = true;
+            }
           }
           if (event.url === '/') {
             // navigated home, fix items per page for
@@ -221,7 +231,7 @@ export class PublicContainerComponent implements OnInit {
       this.fixNavBar();
       console.log("this.navBarLinksOpacity: ", this.navBarLinksOpacity);
       console.log("this.shouldCollapseNavLogo: ", this.shouldCollapseNavLogo);
-    }    
+    }      
   }
 
   fixNavBar() {
@@ -458,6 +468,31 @@ export class PublicContainerComponent implements OnInit {
     }
   }
 
+  @HostListener('window:popstate', ['$event']) 
+  onPopStateEvent(event: any) {
+    console.log("window pop state event: ", event);
+    this._embedPostService.requestInFlight$.filter(requestInFlight =>
+      !requestInFlight
+    ).skip(1).take(1).subscribe(
+      (requestInFlight) => {
+        console.log("requestInFlight: ", requestInFlight);
+        console.log("_shouldRestoreScrollPositionOnStatePop: ", this._shouldRestoreScrollPositionOnStatePop);
+        console.log("_previousRouteScrollTop: ", this._previousRouteScrollTop);
+        if (this._shouldRestoreScrollPositionOnStatePop) {
+          this._shouldRestoreScrollPositionOnStatePop = false;
+          console.log('window: ', window);
+
+          // defer the scrollTo() call until the next JS event cycle.
+          // scrollTo() won't happen within this subscription if
+          // it's not wrapped in this timeout.
+          setTimeout(() => {
+            window.scrollTo(0, this._previousRouteScrollTop);            
+          }, 0);
+        }
+      }
+    );
+  }
+
   /**
    * Function invoked on window resize. On window resize,
    * determine if we should render mobile menu or non-mobile menu
@@ -538,6 +573,13 @@ export class PublicContainerComponent implements OnInit {
   ])
   public _handleScrollEvent(scrollTop: number, scrollHeight: number) {
     console.log("scrollTop: ", scrollTop);
+    if (
+      this.currentUrl.startsWith('/audio') ||
+      this.currentUrl.startsWith('/video') ||
+      this.currentUrl.startsWith('/games')
+    ) {
+      this._previousRouteScrollTop = scrollTop;
+    }
     this._calculateScrollTopChange(scrollTop);
     if (!this._hoverOverride && !this._mobileOverride) {
       if (this._navBarInitialized) {

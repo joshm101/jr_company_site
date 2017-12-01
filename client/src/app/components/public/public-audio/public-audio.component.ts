@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { 
@@ -12,20 +13,30 @@ import { ContentTypeEnum } from '../../../enums/content-type.enum';
   templateUrl: './public-audio.component.html',
   styleUrls: ['./public-audio.component.css']
 })
-export class PublicAudioComponent implements OnInit, OnDestroy {
+export class PublicAudioComponent implements OnInit {
   posts$: Observable<EmbedPost[]>;
   constructor(
-    private embedPostService: EmbedPostService
+    private embedPostService: EmbedPostService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
-    this.embedPostService.itemsPerPage = 8;
+    this.embedPostService.itemsPerPage = 6;
     this.posts$ = this.embedPostService.getAll({
       params: [
         {
           key: 'content_type',
           value: ContentTypeEnum.Audio
-        }
+        },
       ]
-    });
+    })
+    
+    this.activatedRoute.queryParamMap.map(paramMap =>
+      paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
+    ).subscribe(
+      (page) => {
+        this.embedPostService.setPage(page)
+      }
+    )
   }
 
   ngOnInit() {
@@ -33,13 +44,25 @@ export class PublicAudioComponent implements OnInit, OnDestroy {
 
   goToPreviousPage() {
     if (this.hasPreviousPage) {
-      this.embedPostService.decrementPage();      
+      let page = this.embedPostService.currentPage - 1;
+      this.router.navigate(
+        ['/audio'],
+        {
+          queryParams: { page }
+        }
+      );   
     }
   }
 
   goToNextPage() {
     if (this.hasNextPage) {
-      this.embedPostService.incrementPage();      
+      let page = this.embedPostService.currentPage + 1;
+      this.router.navigate(
+        ['/audio'],
+        {
+          queryParams: { page }
+        }
+      );    
     }
   }
 
@@ -49,11 +72,6 @@ export class PublicAudioComponent implements OnInit, OnDestroy {
 
   get hasPreviousPage() {
     return this.embedPostService.hasPreviousPage();
-  }
-
-
-  ngOnDestroy() {
-    this.embedPostService.setPage(1);
   }
 
 }

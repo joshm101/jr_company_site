@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { 
@@ -13,10 +14,12 @@ import { ContentTypeEnum } from '../../../enums/content-type.enum';
   templateUrl: './public-video.component.html',
   styleUrls: ['./public-video.component.css']
 })
-export class PublicVideoComponent implements OnInit, OnDestroy {
+export class PublicVideoComponent implements OnInit {
   posts$: Observable<EmbedPost[]>;
   constructor(
-    private embedPostService: EmbedPostService
+    private embedPostService: EmbedPostService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.embedPostService.itemsPerPage = 8;
     this.posts$ = this.embedPostService.getAll({
@@ -27,6 +30,14 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
         }
       ]
     });
+
+    this.activatedRoute.queryParamMap.map(paramMap =>
+      paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
+    ).subscribe(
+      (page) => {
+        this.embedPostService.setPage(page)
+      }
+    )    
   }
 
   ngOnInit() {
@@ -34,13 +45,25 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
 
   goToPreviousPage() {
     if (this.hasPreviousPage) {
-      this.embedPostService.decrementPage();      
+      let page = this.embedPostService.currentPage - 1;
+      this.router.navigate(
+        ['/audio'],
+        {
+          queryParams: { page }
+        }
+      );   
     }
   }
 
   goToNextPage() {
     if (this.hasNextPage) {
-      this.embedPostService.incrementPage();      
+      let page = this.embedPostService.currentPage + 1;
+      this.router.navigate(
+        ['/audio'],
+        {
+          queryParams: { page }
+        }
+      );    
     }
   }
 
@@ -50,11 +73,6 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
 
   get hasPreviousPage() {
     return this.embedPostService.hasPreviousPage();
-  }
-
-
-  ngOnDestroy() {
-    this.embedPostService.setPage(1);
   }
 
 }

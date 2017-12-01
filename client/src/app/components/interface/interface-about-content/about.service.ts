@@ -22,16 +22,16 @@ export class AboutService extends AppService<About> {
   }
 
   getAll() {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.getAll().map((about: About[]) => {
-      this._requestInFlight = false;
+      this.requestInFlight = false;
       return about;
     });
   }
 
   update(body: About): Observable<About> {
     console.log("body: ", body);
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.update(body).switchMap((returnedAbout: About) => {
       if (this.uploader.queue.length > 0) {
         this.contentLoadService.contentNeedsLoading(returnedAbout);
@@ -41,7 +41,7 @@ export class AboutService extends AppService<About> {
           .map(returnedAboutUpload => {
             this.uploadRequestInFlight = false;
             console.log("returnedAboutUpload: ", returnedAboutUpload);
-            this._requestInFlight = false;
+            this.requestInFlight = false;
 
             // if an image was uploaded, update
             // the image url.
@@ -60,14 +60,14 @@ export class AboutService extends AppService<About> {
         if (returnedAbout.image === '') {
           this.contentLoadService.removeAllTrackedContent();
         }
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         return Observable.of(returnedAbout);
       }
     });
   }
 
   create(about: About): Observable<About[]> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.create(about).switchMap((returnedAbout: About[]) => {
       this.contentLoadService.contentNeedsLoading(returnedAbout[0]);
       if (this.uploader.queue.length > 0) {
@@ -75,12 +75,12 @@ export class AboutService extends AppService<About> {
         return this.uploadImage(this.newlyCreatedItem.imageId)
           .map((returnedAboutUpload: About) => {
             this.uploadRequestInFlight = false;
-            this._requestInFlight = false;
+            this.requestInFlight = false;
             returnedAbout[0].image = returnedAboutUpload.image;
             return returnedAbout;
           })
       } else {
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         return Observable.of(returnedAbout);
       }
     });

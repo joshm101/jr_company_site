@@ -24,7 +24,7 @@ export class BannerImageService extends AppService<BannerImage> {
   }
 
   create(bannerImage: BannerImage): Observable<BannerImage[]> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.create(
       bannerImage
     ).switchMap((returnedBannerImages: BannerImage[]) => {
@@ -38,27 +38,27 @@ export class BannerImageService extends AppService<BannerImage> {
           this.newlyCreatedItem.imageId
         ).map((returnedBannerImageUpload: BannerImage) => {
           this.uploadRequestInFlight = false;
-          this._requestInFlight = false;
+          this.requestInFlight = false;
           returnedBannerImages[0].image = returnedBannerImageUpload.image;
           return returnedBannerImages;
         })
       } else {
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         return Observable.of(returnedBannerImages);
       }
     });
   }
 
   getAll() {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.getAll().map((bannerImages: BannerImage[]) => {
-      this._requestInFlight = false;
+      this.requestInFlight = false;
       return bannerImages;
     }); 
   }
 
   update(body: BannerImage): Observable<BannerImage> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return super.update(
       body
     ).switchMap((returnedBannerImage: BannerImage) => {
@@ -71,7 +71,7 @@ export class BannerImageService extends AppService<BannerImage> {
           returnedBannerImage.imageId
         ).map(returnedBannerImageUpload => {
           this.uploadRequestInFlight = false;
-          this._requestInFlight = false;
+          this.requestInFlight = false;
           if (returnedBannerImageUpload.image !== body.image) {
             return Object.assign(
               returnedBannerImage,
@@ -87,7 +87,7 @@ export class BannerImageService extends AppService<BannerImage> {
         if (returnedBannerImage.image === '') {
           this.contentLoadService.removeAllTrackedContent();
         }
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         return Observable.of(returnedBannerImage);
       }
     })

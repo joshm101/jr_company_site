@@ -27,7 +27,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
       url: "/api/embed-post/upload"
     });
     this.http = injector.get(HttpClient);
-    this._requestInFlight = false;
+    this.requestInFlight = false;
     this.editErrorArbiter = new Subject<boolean>();
     this.currentPageArbiter = new BehaviorSubject<number>(1);
     this.editErrorOccurred$ = this.editErrorArbiter.asObservable();
@@ -41,7 +41,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
   }
 
   getAll(options: any = {}): Observable<EmbedPost[]> {
-    this._requestInFlight = true;
+    this.requestInFlight = true;
     return this.currentPage$.switchMap(currentPage => {
       const requestOptions = {
         params: [
@@ -62,7 +62,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
           return posts;
         }
       }).map(posts => {
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         posts.forEach((post) => {
           post.embedContentSafe = [];
         });
@@ -93,7 +93,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
           });
       } else {
         // this.contentLoadService.contentNeedsLoading(post);
-        this._requestInFlight = false;
+        this.requestInFlight = false;
         return Observable.of(post);
       }
     });
@@ -125,7 +125,7 @@ export class EmbedPostService extends AppService<EmbedPost> {
           this.newlyCreatedItem.imagesId
         ).map((returnedPost: EmbedPost): EmbedPost[] => {
           posts.forEach(post => {
-            this._requestInFlight = false;
+            this.requestInFlight = false;
             if (post.imagesId === returnedPost.imagesId) {
               // update the recently created post's images
               // array to contain the paths of images uploaded
@@ -166,12 +166,12 @@ export class EmbedPostService extends AppService<EmbedPost> {
 
   incrementPage() {
     let currentPage = this.currentPageArbiter.value;
-    this.currentPageArbiter.next(++currentPage);
+    this.currentPageArbiter.next(currentPage + 1);
   }
 
   decrementPage() {
     let currentPage = this.currentPageArbiter.value;
-    this.currentPageArbiter.next(--currentPage || 1);
+    this.currentPageArbiter.next(currentPage - 1 || 1);
   }
 
   setPage(page: number) {
