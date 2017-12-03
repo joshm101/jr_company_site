@@ -1,6 +1,7 @@
 .instagram-auth-init-btn {
   color: #083d8d;
   font-size: 1rem !important;
+  white-space: pre-line;
 }
 
 .instagram-auth-btn-wrap {
