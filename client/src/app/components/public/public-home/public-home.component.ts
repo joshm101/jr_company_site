@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { ScreenSizeService } from '../../../external-services/screen-size/screen-size.service';
 import { LatestContentService } from '../../../external-services/latest-content/latest-content.service';
-import { EmbedPost } from '../../embed-post/embed-post.index';
+import { EmbedPost, EmbedPostService } from '../../embed-post/embed-post.index';
 
 @Component({
   selector: 'app-public-home',
@@ -17,7 +17,8 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
   public shouldLoadSoundcloudWidget: boolean = false;
   constructor(
     private _screenSizeService: ScreenSizeService,
-    private latestContentService: LatestContentService
+    private latestContentService: LatestContentService,
+    private embedPostService: EmbedPostService
   ) {
     this.latestPosts$ = this.latestContentService.getLatestPosts();
   }
@@ -64,6 +65,11 @@ export class PublicHomeComponent implements OnInit, AfterViewInit {
       window['twttr'] && window['twttr'].widgets.load();
     }
     this.shouldLoadTwitterFeed = true;
+  }
+
+  get fourColumnGridMax() {
+    const itemsPerPage = this.embedPostService.itemsPerPage;
+    return itemsPerPage % 2 === 0 && itemsPerPage !== 6;    
   }
 
   triggerSoundcloudWidgetLoad() {
