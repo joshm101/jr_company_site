@@ -1,6 +1,8 @@
 <div class="row" id="posts-wrap">
   <div 
     class="col-xxl-3 col-sm-6 col-12 home-content-block-col"
+    [class.col-xxl-4]="postsLengthMultipleOf3"    
+    [class.col-xxl-3]="!postsLengthMultipleOf3"
     *ngFor="let post of posts"
   >
     <app-public-posts-post 

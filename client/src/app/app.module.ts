@@ -95,6 +95,8 @@ import { InstagramAuthFeedImageComponent } from './components/auth/instagram-aut
 import { PublicPostsComponent } from './components/public/public-posts/public-posts.component';
 import { PublicPostsPostComponent } from './components/public/public-posts/public-posts-post/public-posts-post.component';
 import { PublicPaginationControlButtonComponent } from './components/public/public-pagination-control-button/public-pagination-control-button.component';
+import { ItemsPerPageSettingsComponent } from './components/settings/items-per-page-settings/items-per-page-settings.component';
+import { ItemsPerPageSettingsSelectComponent } from './components/settings/items-per-page-settings/items-per-page-settings-select/items-per-page-settings-select.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -209,6 +211,8 @@ const appRoutes: Routes = [
     PublicPostsComponent,
     PublicPostsPostComponent,
     PublicPaginationControlButtonComponent,
+    ItemsPerPageSettingsComponent,
+    ItemsPerPageSettingsSelectComponent,
   ],
   providers: [
     WindowRefService,

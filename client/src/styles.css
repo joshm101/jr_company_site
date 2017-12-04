@@ -1137,6 +1137,13 @@ html[xmlns] .clearfix {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 50%;
   }
+
+  .col-xxl-4 {
+    max-width: 33.333333% !important;
+    flex: 0 0 33.333333%;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33.333333%;    
+  }
 }
 
 .home-content-block iframe {

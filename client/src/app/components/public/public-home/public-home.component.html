@@ -10,12 +10,10 @@
       </div>
       <div 
         class="home-content-block"
-        scrollInView
-        (onPartiallyInView)="triggerLatestPostsLoad()"
+        style="min-height: 400px;"
       >
         <app-public-posts 
           [posts]="latestPosts$ | async" 
-          [shouldLoadPosts]="shouldLoadLatestPosts"
         ></app-public-posts>  
       </div> 
     </div>

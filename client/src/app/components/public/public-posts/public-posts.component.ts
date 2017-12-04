@@ -21,4 +21,8 @@ export class PublicPostsComponent implements OnInit {
   ngOnInit() {
   }
 
+  get postsLengthMultipleOf3() {
+    return this.posts.length % 3 === 0;
+  }
+
 }

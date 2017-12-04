@@ -1,4 +1,8 @@
-<div class="post-wrapper-div">
+<div 
+  class="post-wrapper-div"
+  scrollInView
+  (onPartiallyInView)="triggerPostLoad()"
+>
   <div class="post-wrapper-child">
     <div class="posts-post-img-wrapper-div">
       <a routerLink="/view" [queryParams]="{id: post._id}">

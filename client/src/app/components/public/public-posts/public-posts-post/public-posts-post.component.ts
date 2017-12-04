@@ -22,4 +22,8 @@ export class PublicPostsPostComponent implements OnInit {
   handleImageLoadDoneEvent() {
     this.imageLoaded = true;
   }
+
+  triggerPostLoad() {
+    this.shouldLoad = true;
+  }
 }
