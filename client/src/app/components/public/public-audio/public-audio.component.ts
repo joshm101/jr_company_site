@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { ConfigService } from '../../../external-services/config/config.service';
+
 import { 
   EmbedPost,
   EmbedPostService, 
@@ -17,18 +19,25 @@ export class PublicAudioComponent implements OnInit {
   posts$: Observable<EmbedPost[]>;
   constructor(
     private embedPostService: EmbedPostService,
+    private configService: ConfigService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
     this.embedPostService.itemsPerPage = 6;
-    this.posts$ = this.embedPostService.getAll({
-      params: [
-        {
-          key: 'content_type',
-          value: ContentTypeEnum.Audio
-        },
-      ]
-    })
+    this.posts$ = this.configService.getConfig().filter(
+      config => !!config
+    ).map(config => {
+      this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
+    }).switchMap(() => 
+      this.embedPostService.getAll({
+        params: [
+          {
+            key: 'content_type',
+            value: ContentTypeEnum.Audio
+          },
+        ]
+      })
+    )
     
     this.activatedRoute.queryParamMap.map(paramMap =>
       paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
@@ -64,6 +73,11 @@ export class PublicAudioComponent implements OnInit {
         }
       );    
     }
+  }
+
+  get fourColumnGridMax() {
+    const itemsPerPage = this.embedPostService.itemsPerPage;
+    return itemsPerPage % 2 === 0 && itemsPerPage !== 6;
   }
 
   get hasNextPage() {

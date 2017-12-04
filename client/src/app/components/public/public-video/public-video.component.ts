@@ -7,6 +7,7 @@ import {
   EmbedPostService, 
 } from '../../embed-post/embed-post.index';
 import { ContentTypeEnum } from '../../../enums/content-type.enum';
+import { ConfigService } from '../../../external-services/config/config.service';
 
 
 @Component({
@@ -18,18 +19,24 @@ export class PublicVideoComponent implements OnInit {
   posts$: Observable<EmbedPost[]>;
   constructor(
     private embedPostService: EmbedPostService,
+    private configService: ConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.embedPostService.itemsPerPage = 8;
-    this.posts$ = this.embedPostService.getAll({
-      params: [
-        {
-          key: 'content_type',
-          value: ContentTypeEnum.Video
-        }
-      ]
-    });
+    this.posts$ = this.configService.getConfig().filter(
+      config => !!config
+    ).map(config => {
+      this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
+    }).switchMap(() => 
+      this.embedPostService.getAll({
+        params: [
+          {
+            key: 'content_type',
+            value: ContentTypeEnum.Video
+          },
+        ]
+      })
+    )
 
     this.activatedRoute.queryParamMap.map(paramMap =>
       paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
@@ -65,6 +72,11 @@ export class PublicVideoComponent implements OnInit {
         }
       );    
     }
+  }
+
+  get fourColumnGridMax() {
+    const itemsPerPage = this.embedPostService.itemsPerPage;
+    return itemsPerPage % 2 === 0 && itemsPerPage !== 6;
   }
 
   get hasNextPage() {

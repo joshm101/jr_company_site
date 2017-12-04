@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { EmbedPost } from '../../embed-post/embed-post.index';
 
-
 @Component({
   selector: 'app-public-posts',
   templateUrl: './public-posts.component.html',
@@ -14,6 +13,8 @@ export class PublicPostsComponent implements OnInit {
   public posts: EmbedPost[];
   @Input()
   public shouldLoadPosts: boolean;
+  @Input()
+  public isFourColumnsMax: boolean = false;
   constructor(
   ) {
   }
@@ -23,6 +24,10 @@ export class PublicPostsComponent implements OnInit {
 
   get postsLengthMultipleOf3() {
     return this.posts.length % 3 === 0;
+  }
+
+  get postsLengthMultipleOf2() {
+    return this.posts.length % 2 === 0;
   }
 
 }
