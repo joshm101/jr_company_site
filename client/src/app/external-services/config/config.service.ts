@@ -17,10 +17,13 @@ export class ConfigService {
   }
 
   getConfig(): Observable<any> {
-    return this.api.get('api/config').switchMap(res => {
-      this.config.next(res['data']);
-      return this.config$;
-    }).catch(err => this.api.handleError(err));
+    if (!this.config.value) {
+      return this.api.get('api/config').switchMap(res => {
+        this.config.next(res['data']);
+        return this.config$;
+      }).catch(err => this.api.handleError(err));
+    }
+    return this.config$;
   }
 
   updateConfig(config: any): Observable<any> {
