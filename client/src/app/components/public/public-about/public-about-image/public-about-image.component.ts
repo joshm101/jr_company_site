@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PublicAboutImageComponent implements OnInit {
   @Input()
-  imageSrc: string;
+  public imageSrc: string;
+  public opacity: number = 0;
   constructor() { }
 
   ngOnInit() {
