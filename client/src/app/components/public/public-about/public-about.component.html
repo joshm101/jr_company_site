@@ -1,3 +1,23 @@
-<p>
-  public-about works!
-</p>
+<div class="non-home-route-wrap">
+  <div class="container about-route-wrap">
+    <div class="about-wrap">
+      <div>
+        <app-public-about-image
+          [imageSrc]="(about$ | async)?.image"
+        >
+        </app-public-about-image>
+      </div>
+      <div class="description-component-wrap">
+        <app-public-about-description
+          [text]="(about$ | async)?.description"
+        ></app-public-about-description>
+      </div>
+      <div class="links-component-wrap">
+        <app-public-about-links
+          *ngIf="contactInfo$ | async"
+          [contactInfo]="contactInfo$ | async"
+        ></app-public-about-links>
+      </div>  
+    </div>
+  </div>
+</div>

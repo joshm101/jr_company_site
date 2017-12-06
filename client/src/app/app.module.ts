@@ -97,6 +97,9 @@ import { PublicPostsPostComponent } from './components/public/public-posts/publi
 import { PublicPaginationControlButtonComponent } from './components/public/public-pagination-control-button/public-pagination-control-button.component';
 import { ItemsPerPageSettingsComponent } from './components/settings/items-per-page-settings/items-per-page-settings.component';
 import { ItemsPerPageSettingsSelectComponent } from './components/settings/items-per-page-settings/items-per-page-settings-select/items-per-page-settings-select.component';
+import { PublicAboutImageComponent } from './components/public/public-about/public-about-image/public-about-image.component';
+import { PublicAboutLinksComponent } from './components/public/public-about/public-about-links/public-about-links.component';
+import { PublicAboutDescriptionComponent } from './components/public/public-about/public-about-description/public-about-description.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -213,6 +216,9 @@ const appRoutes: Routes = [
     PublicPaginationControlButtonComponent,
     ItemsPerPageSettingsComponent,
     ItemsPerPageSettingsSelectComponent,
+    PublicAboutImageComponent,
+    PublicAboutLinksComponent,
+    PublicAboutDescriptionComponent,
   ],
   providers: [
     WindowRefService,

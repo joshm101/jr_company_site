@@ -766,6 +766,7 @@ export class PublicContainerComponent implements OnInit {
         this._expandNavByAmount(change);
         if (startingMarginTop !== this.navBarExpandedMargin) {
           // wasn't already expanded, so an actual expansion occurred.
+          console.log("scroll up expansion occurred");
           this._expandDone();          
         }
       }

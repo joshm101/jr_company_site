@@ -1,0 +1,36 @@
+<div *ngIf="contactInfo" class="links-wrap">
+  <a 
+    *ngIf="contactInfo.soundcloudUrl" 
+    [href]="contactInfo.soundcloudUrl"
+    target="_blank"  
+  >
+    <img src="/assets/svg/soundcloud.svg">      
+  </a>
+  <a 
+    *ngIf="contactInfo.facebookUrl" 
+    [href]="contactInfo.facebookUrl"
+    target="_blank"
+  >
+    <img src="/assets/svg/facebook.svg">      
+  </a>
+  <a 
+    *ngIf="contactInfo.instagramUrl" 
+    [href]="contactInfo.instagramUrl"
+    target="_blank"
+  >
+    <img src="/assets/svg/instagram.svg">      
+  </a>
+  <a 
+    *ngIf="contactInfo.twitterUrl" 
+    [href]="contactInfo.twitterUrl"
+    target="_blank"
+  >
+    <img src="/assets/svg/twitter.svg">      
+  </a>
+  <a 
+    *ngIf="contactInfo.email" 
+    [href]="'mailto:' + contactInfo.email"
+  >
+    <img src="/assets/svg/email.svg">      
+  </a>
+</div>

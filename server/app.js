@@ -47,6 +47,7 @@ app.get('*.bundle.js', express.static(path.join(__dirname, '../client/dist/')));
 app.get('*.bundle.css', express.static(path.join(__dirname, '../client/dist/')));
 app.get('*.ico', express.static(path.join(__dirname, '../client/dist/')));
 app.get('*.ttf', express.static(path.join(__dirname, '../client/dist/')));
+app.get('*.svg', express.static(path.join(__dirname, '../client/dist/')));
 
 app.use('/images', express.static(path.resolve(__dirname, './lib/images/')));
 app.use('/api', api);
