@@ -1,0 +1,9 @@
+.contact-info-links:hover {
+  background-color: #16161d !important;
+  transition: none !important;
+  cursor: default !important;
+}
+
+.contact-info-links {
+  padding: 10px 0;
+}

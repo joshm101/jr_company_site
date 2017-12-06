@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ContactInfo } from '../../../interface/interface-contact-info-content/contact-info.index';
 
 type Link = {
   label: string,
@@ -14,7 +15,7 @@ export class LinksComponent implements OnInit {
   @Input() public links: Link[];
   @Input() public isOpen: boolean = false;
   @Input() public screenWidth: number;
-
+  @Input() public contactInfo: ContactInfo;
   constructor() { }
 
   ngOnInit() {

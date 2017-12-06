@@ -2,6 +2,7 @@ import { Component, Input, HostListener, Output, EventEmitter } from '@angular/c
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { ScreenSizeService } from '../../../external-services/screen-size/screen-size.service';
+import { ContactInfo, ContactInfoService } from '../../interface/interface-contact-info-content/contact-info.index';
 
 type Link = {
   label: string,
@@ -18,6 +19,8 @@ export class NavBarComponent {
   @Input() set shouldCollapseLogo(val: boolean) {
     this._shouldCollapseLogo = val;
   }
+
+  public contactInfo$: Observable<ContactInfo>;
 
 
   get shouldCollapseLogo() {
@@ -50,6 +53,7 @@ export class NavBarComponent {
   public shouldExpandLinks$: Observable<boolean>;
   constructor(
     private _screenSizeService: ScreenSizeService,
+    private contactInfoService: ContactInfoService,
   ) {
     this.links = [
       {
@@ -79,6 +83,10 @@ export class NavBarComponent {
     this.onNavBarMouseEnter = new EventEmitter<boolean>();
     this.onNavBarMouseLeave = new EventEmitter<boolean>();
     this.menuOpenStatusChange = new EventEmitter<boolean>();
+
+    this.contactInfo$ = this.contactInfoService.getAll().map(contactInfos =>
+      contactInfos[0]
+    );
   }
 
   @HostListener('mouseenter')

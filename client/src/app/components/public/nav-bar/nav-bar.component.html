@@ -14,6 +14,11 @@
     [style.opacity]="linksOpacity"
     [class.hide]="shouldHideLinks"
     [class.show]="!shouldHideLinks">
-      <app-links [isOpen]="menuIsOpen" [screenWidth]="screenWidth" [links]="links"></app-links>
+      <app-links 
+        [isOpen]="menuIsOpen" 
+        [screenWidth]="screenWidth" 
+        [links]="links"
+        [contactInfo]="contactInfo$ | async"
+      ></app-links>
   </div>
 </div>
