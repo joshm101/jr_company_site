@@ -700,11 +700,19 @@ export class PublicContainerComponent implements OnInit {
       if (this._changeKeepsNavBarAboveThreshold(change, this.navBarMarginTop, false)) {
         // collapsing by given amount keeps nav bar above threshold
         if (this.navBarMarginTop - change >= this.NAVBAR_MOSTLY_EXPANDED) {
-          this.navBarLinksOpacity -= 0.25;
+
+          // condition used to prevent weird mouse wheel quirks that
+          // may register an ever so slight "down" scroll while scrolling
+          // up with the mouse wheel. That down scroll event would then
+          // come here to change opacity amount
+          if (this.navBarMarginTop - change < this.navBarExpandedMargin - 1) {
+            this.navBarLinksOpacity -= 0.25;  
+            this._enableNavBarFade();            
+          }
         } else {
           this.navBarLinksOpacity = 0;
+          this._enableNavBarFade();          
         }
-        this._enableNavBarFade();
         this._collapseNavByAmount(change);
       } else {
         // collapsing by given amount would drop nav bar below threshold,
@@ -810,8 +818,16 @@ export class PublicContainerComponent implements OnInit {
       }
       if (this._navExpandedAtLeastThreshold()) {
         // collapse kept nav bar above threshold.
-        if(this._navBarMarginTop > this.NAVBAR_MOSTLY_EXPANDED) {
-          this.navBarLinksOpacity -= 0.25;
+        if(this._navBarMarginTop > this.NAVBAR_MOSTLY_EXPANDED ) {
+
+          // handles quirk where scrolling up with a mouse wheel
+          // may cause an ever-so-slight scroll down event to
+          // be fired. The amount of this scroll is always less than
+          // 1. Prevent opacity change if a collapseDone() is fired
+          // in that specific scenario
+          if (this._navBarMarginTop < this.navBarExpandedMargin - 1) {
+            this.navBarLinksOpacity -= 0.25;            
+          }
         } else {
           this.navBarLinksOpacity = 0;
         }
