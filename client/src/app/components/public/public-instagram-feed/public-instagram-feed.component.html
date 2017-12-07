@@ -1,4 +1,4 @@
-<mat-grid-list [cols]="cols" rowHeight="1:1">
+<mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="0">
   <mat-grid-tile *ngFor="let image of images$ | async">
     <img 
       [src]="image.imageSrc" 
