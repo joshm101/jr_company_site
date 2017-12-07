@@ -1,5 +1,11 @@
 .ig-image {
-  height: 100%;
+   /*
+   * 100.2% used to ensure
+   * that there are no side
+   * gutters between images.
+   */
+
+  width: 100.2%;
 }
 
 .ig-image:hover {
