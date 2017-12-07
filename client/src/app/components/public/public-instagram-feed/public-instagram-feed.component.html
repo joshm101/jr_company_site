@@ -1,5 +1,10 @@
 <mat-grid-list [cols]="cols" rowHeight="1:1">
-  <mat-grid-tile *ngFor="let imageSrc of images$ | async">
-    <img [src]="imageSrc" style="height: 100%;" *ngIf="shouldLoadImages">
+  <mat-grid-tile *ngFor="let image of images$ | async">
+    <img 
+      [src]="image.imageSrc" 
+      class="ig-image"
+      *ngIf="shouldLoadImages"
+      (click)="goToImageLink(image)"
+    >
   </mat-grid-tile>
 </mat-grid-list>

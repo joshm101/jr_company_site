@@ -1,0 +1,7 @@
+.ig-image {
+  height: 100%;
+}
+
+.ig-image:hover {
+  cursor: pointer;
+}

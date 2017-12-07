@@ -9,15 +9,26 @@ import { InstagramFeedService } from '../../../external-services/instagram-feed/
   styleUrls: ['./public-instagram-feed.component.css']
 })
 export class PublicInstagramFeedComponent implements OnInit {
-  public images$: Observable<string[]>;
+  public images$: Observable<any[]>;
   @Input() public cols: number = 3;
   @Input() public shouldLoadImages: boolean = false;
   constructor(
     private instagramFeedService: InstagramFeedService
   ) {
-    this.images$ = this.instagramFeedService.getImages();
+    this.images$ = this.instagramFeedService.getLatestImages().map(imagesArray =>
+      imagesArray.map(arrayItem => {
+        return {
+          imageSrc: arrayItem.images.standard_resolution.url,
+          imageLink: arrayItem.link
+        }
+      })
+    );
    }
 
   ngOnInit() {
+  }
+
+  goToImageLink(image: any) {
+    window.open(image.imageLink, '_blank');
   }
 }
