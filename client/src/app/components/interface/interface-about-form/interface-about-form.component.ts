@@ -1,10 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, ElementRef, OnInit } from '@angular/core';
 import { FormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material';
 
 import { About, AboutService } from '../interface-about-content/about.index';
-import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
 
 @Component({
   selector: 'app-interface-about-form',
@@ -12,27 +11,24 @@ import { ContentLoadService } from '../../../external-services/content-load/cont
   styleUrls: ['./interface-about-form.component.css']
 })
 export class InterfaceAboutFormComponent implements OnInit {
-
+  @Output()
+  public doneLoading: EventEmitter<boolean>;
   constructor(
     private _fb: FormBuilder,
     protected aboutService: AboutService,
     protected sanitizer: DomSanitizer,
-    protected contentLoadService: ContentLoadService,
     private snackBar: MatSnackBar
   ) {
+    this.doneLoading = new EventEmitter<boolean>();
+    this.doneLoading.emit(false);
     this.aboutService.getAll().filter(aboutArr => !!aboutArr).subscribe(
       (aboutArray) => {
         if (aboutArray.length > 0) {
           this.aboutObj = aboutArray[0];
           this.aboutObjBackup = this.aboutService.new(this.aboutObj);
-          if (!this.contentLoadService.contentBeingTracked()) {
-            this.contentLoadService.setPostMap([this.aboutObj]);
+          if (this.aboutObj._id) {
             console.log("aboutArray: ", aboutArray);
             console.log('---');
-            console.log(this.contentLoadService.postMapping);
-            if (this.aboutObj.image === '') {
-              this.contentLoadService.contentLoadingDone(aboutArray[0]);
-            }
           }
         } else {
           // haven't configured about page before
@@ -40,8 +36,6 @@ export class InterfaceAboutFormComponent implements OnInit {
             header: '',
             description: ''
           });
-          this.contentLoadService.contentNeedsLoading(this.aboutObj);
-          this.contentLoadService.contentLoadingDone(this.aboutObj);
         }
         this.initializeForm();
         console.log("this.aboutObj: ", this.aboutObj);
@@ -51,8 +45,6 @@ export class InterfaceAboutFormComponent implements OnInit {
           header: '',
           description: ''
         });
-        this.contentLoadService.contentNeedsLoading(this.aboutObj);
-        this.contentLoadService.contentLoadingDone(this.aboutObj);
         this.initializeForm();
       }
     )
@@ -70,8 +62,6 @@ export class InterfaceAboutFormComponent implements OnInit {
     this.aboutObj.description = copy.description;
     if (this.aboutObj.image !== copy.image) {
       this.aboutObj.image = copy.image;
-      this.contentLoadService.removeAllTrackedContent();
-      //this.contentLoadService.contentNeedsLoading(this.aboutObj);
       this.aboutService.initializeUploaderInstance();
     }
     this.initializeForm();
@@ -98,7 +88,7 @@ export class InterfaceAboutFormComponent implements OnInit {
 
   handleAboutImageLoadDone(event: boolean) {
     console.log("done loading: ", event);
-    this.contentLoadService.contentLoadingDone(this.aboutObj);
+    this.doneLoading.emit(true);
   }
 
   handleFileSelection(input: any) {
@@ -130,7 +120,7 @@ export class InterfaceAboutFormComponent implements OnInit {
     this.aboutObj.header = this.aboutForm.value.header;
     this.aboutObj.description = this.aboutForm.value.description;
     console.log("this.aboutObj on submit: ", this.aboutObj);
-
+    this.doneLoading.emit(false);
     if (this.aboutObj._id) {
       this.aboutService.update(this.aboutObj).take(1).subscribe(
         (about) => {
@@ -138,6 +128,9 @@ export class InterfaceAboutFormComponent implements OnInit {
           console.log("successful update: ", about);
           this.snackBar.open("About page updated.","", { duration: 3000 });
           //this.aboutObj = this.aboutService.new(about);
+          if (this.imageSrc === about.image) {
+            this.doneLoading.emit(true);
+          }
           this.imageSrc = about.image;
         },
         (err) => {
@@ -151,6 +144,9 @@ export class InterfaceAboutFormComponent implements OnInit {
           console.log("successful creation: ", about);
           this.snackBar.open("About page updated.","", { duration: 3000 });
           this.imageSrc = about[0].image;
+          if (!this.imageSrc || this.imageSrc === "") {
+            this.doneLoading.emit(true);
+          }
         },
         (err) => {
           console.error(err);

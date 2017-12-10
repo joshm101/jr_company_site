@@ -98,14 +98,12 @@ export class AboutService extends AppService<About> {
       .map((res: About) => {
         this._uploadRequestInFlight = false;
         this.initializeUploaderInstance();
-        return res;
+        return res['data'];
       });
   }
 
   initializeUploaderInstance() {
-    this.uploader = new FileUploader({
-      url: "http://localhost:3000/api/about/upload"
-    });
+    this.uploader = new FileUploader({});
   }
 
   uploader: FileUploader;

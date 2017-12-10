@@ -25,38 +25,16 @@ export class InterfaceAboutContentComponent {
   ) {
     this.animationState = "inactive";
     this.doneLoadingContent = false;
-    this.subscriptions = [];
-    this.subscriptions.push(
-      this.contentLoadService.doneLoading$.debounce(() => Observable.timer(5)).subscribe(
-        (result) => {
-          this.doneLoadingContent = result;
-          if (!this.doneLoadingContent) {
-            this.animationState = 'inactive';
-          }
-          if (this.doneLoadingContent) {
-            this.contentLoadService.removeAllTrackedContent();
-            this.animationState = 'active';
-          }
-        }
-      )
-    );
+  }
+
+  doneLoadingEventHandler(value: boolean) {
+    console.log("doneLoadingEventHandler: ", value);
+    this.doneLoadingContent = value;
+    this.animationState = this.doneLoadingContent ? "active" : "inactive";
   }
 
   doneLoadingContent: boolean;
   animationState: string;
   subscriptions: Subscription[];
-
-  /**
-   * Ensures that service is 'reset' to
-   * a fresh state. ngOnDestroy would
-   * occur when navigating away
-   * from the current route, so we
-   * don't want leftover items
-   * in our new route.
-   */
-  ngOnDestroy() {
-    this.contentLoadService.removeAllTrackedContent();
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
 
 }
