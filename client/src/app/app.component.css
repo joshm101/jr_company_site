@@ -16,10 +16,10 @@
 
 @font-face {
   font-family: bodyFont;
-  src: url("/assets/fonts/Derivia.TTF");
+  src: url("/assets/fonts/Derivia.ttf");
 }
 
 @font-face {
   font-family: bodyFont2;
-  src: url("/assets/fonts/CallingCode-Regular.TTF");
+  src: url("/assets/fonts/CallingCode-Regular.ttf");
 }
