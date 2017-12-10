@@ -6,10 +6,10 @@ export class ScreenSizeService {
 
   public get screenWidth(): number {
     // get current width of screen
-    return window.document.body.offsetWidth;
+    return window.innerWidth;
   }
   public get screenHeight(): number {
     // get current height of screen
-    return window.document.body.offsetHeight;
+    return window.innerHeight;
   }
 }
