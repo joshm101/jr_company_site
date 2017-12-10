@@ -15,7 +15,7 @@
           [class.visible-img]="imageLoaded"
         >      
       </a>
-      <div class="loading-indicator-wrap">
+      <div class="loading-indicator-wrap" *ngIf="!imageLoaded">
         <mat-progress-spinner 
           [class.visible-loading-indicator]="!imageLoaded" 
           [class.hidden-loading-indicator]="imageLoaded" 

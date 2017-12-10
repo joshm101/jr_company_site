@@ -9,18 +9,11 @@
       *ngIf="shouldLoadImages"
     >
     </div>
-    <div class="loading-indicator-wrap">
+    <div class="loading-indicator-wrap" *ngIf="!imageIsLoaded(image)">
       <mat-progress-spinner 
         class="loading-indicator-image"
-        [style.opacity]="imageIsLoaded(image) ? 0 : 1"
         mode="indeterminate"
       ></mat-progress-spinner>    
     </div>  
-    <!-- <img 
-      [src]="image.imageSrc" 
-      class="ig-image"
-      *ngIf="shouldLoadImages"
-      (click)="goToImageLink(image)"
-    > -->
   </mat-grid-tile>
 </mat-grid-list>
