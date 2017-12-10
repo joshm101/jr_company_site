@@ -34,10 +34,12 @@
     color: #B2A464;
     font-size: 25px;
     text-rendering: optimizeLegibility;
+    line-height: 25px;
+    margin-top: 0.5rem;
 }
 
 .home-content-block-header {
-    padding-bottom: 5px;
+    padding: 10px 0;
 }
 
 .big-header {
@@ -102,13 +104,6 @@
         font-size: 16px;
         text-rendering: optimizeLegibility;
     }   
-}
-
-.fb_iframe_widget, 
-.fb_iframe_widget span, 
-.fb_iframe_widget iframe,
-div[class^="uiScaledImageContainer"] {
-    width: 100% !important;
 }
 
 .public-home-background-logo {
