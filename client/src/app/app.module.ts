@@ -21,6 +21,9 @@ import {
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
+import { ModalGalleryModule } from 'angular-modal-gallery';
+import 'hammerjs';
+import 'mousetrap';
 
 import { WindowRefService } from './external-services/window/window.service';
 import { ScreenSizeService } from './external-services/screen-size/screen-size.service';
@@ -100,6 +103,7 @@ import { ItemsPerPageSettingsSelectComponent } from './components/settings/items
 import { PublicAboutImageComponent } from './components/public/public-about/public-about-image/public-about-image.component';
 import { PublicAboutLinksComponent } from './components/public/public-about/public-about-links/public-about-links.component';
 import { PublicAboutDescriptionComponent } from './components/public/public-about/public-about-description/public-about-description.component';
+import { PublicViewPostImagesComponent } from './components/public/public-view-post/public-view-post-images/public-view-post-images.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -156,6 +160,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatProgressBarModule,
     MatSelectModule,
+    ModalGalleryModule.forRoot()
   ],  
   declarations: [
     AppComponent,
@@ -219,6 +224,7 @@ const appRoutes: Routes = [
     PublicAboutImageComponent,
     PublicAboutLinksComponent,
     PublicAboutDescriptionComponent,
+    PublicViewPostImagesComponent,
   ],
   providers: [
     WindowRefService,

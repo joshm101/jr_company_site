@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');
 
 html {
   height: 100%;
@@ -1230,4 +1231,16 @@ app-public-home {
       in that case */
   margin-left: auto;
   margin-right: auto;
+}
+
+/**
+ * Override style range where angular-modal-gallery 
+ * info text span misbehaves. Correctly positions 
+ * info-text span.
+ **/
+@media screen and (max-width: 804px) and (min-width: 676px) {
+  .info-text {
+    padding-top: 43px !important;
+    bottom: 20% !important;
+  }
 }
