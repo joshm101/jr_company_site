@@ -961,7 +961,7 @@ html[xmlns] .clearfix {
   }
   .public-nav-bar-menu-icon-bar.change.bar-1 {
     -webkit-transform: rotate(-45deg) translate(-4px, 5px);
-    transform: rotate(-45deg) translate(-4px, 5px);
+    transform: rotate(-45deg) translate(-5px, 5px);
   }
   .public-nav-bar-menu-icon-bar.change.bar-3 {
     -webkit-transform: rotate(45deg) translate(-4px, -6px);
@@ -1056,7 +1056,7 @@ html[xmlns] .clearfix {
 }
 
 .public-container {
-  font-family: bodyFont;
+  font-family: bodyFont2;
   background-color: #16161d;
 }
 

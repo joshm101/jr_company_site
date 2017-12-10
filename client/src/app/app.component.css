@@ -18,3 +18,8 @@
   font-family: bodyFont;
   src: url("/assets/fonts/Derivia.TTF");
 }
+
+@font-face {
+  font-family: bodyFont2;
+  src: url("/assets/fonts/CallingCode-Regular.TTF");
+}
