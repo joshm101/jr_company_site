@@ -1,13 +1,26 @@
-.ig-image {
-   /*
-   * 100.2% used to ensure
-   * that there are no side
-   * gutters between images.
-   */
-
+.feed-image-wrapper {
   width: 100.2%;
+  height: 100.2%;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  z-index: 2;
 }
 
-.ig-image:hover {
+.feed-image-wrapper.hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.feed-image-wrapper:hover {
   cursor: pointer;
+}
+
+.loading-indicator-image {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;  
 }

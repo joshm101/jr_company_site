@@ -1158,6 +1158,7 @@ html[xmlns] .clearfix {
 }
 
 .loading-indicator-post.mat-progress-spinner circle,
+.loading-indicator-image.mat-progress-spinner circle,
 .loading-indicator.mat-progress-spinner.mat-accent circle,
 .loading-indicator.mat-spinner.mat-accent circle{
   stroke: #5f5f7e !important;
@@ -1243,4 +1244,14 @@ app-public-home {
     padding-top: 43px !important;
     bottom: 20% !important;
   }
+}
+
+.show-ig-feed-image {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 125ms linear;
+}
+
+.hide-ig-feed-image {
+  opacity: 0;
 }

@@ -9,26 +9,47 @@ import { InstagramFeedService } from '../../../external-services/instagram-feed/
   styleUrls: ['./public-instagram-feed.component.css']
 })
 export class PublicInstagramFeedComponent implements OnInit {
-  public images$: Observable<any[]>;
+  public images: any[] = [];
+  private imageLoadedLookup: any = {};
   @Input() public cols: number = 3;
   @Input() public shouldLoadImages: boolean = false;
   constructor(
     private instagramFeedService: InstagramFeedService
   ) {
-    this.images$ = this.instagramFeedService.getLatestImages().map(imagesArray =>
-      imagesArray.map(arrayItem => {
-        return {
-          imageSrc: arrayItem.images.standard_resolution.url,
-          imageLink: arrayItem.link
-        }
-      })
+    this.instagramFeedService.getLatestImages().filter(images => 
+      !!images
+    ).take(1).subscribe(
+      (images) => {
+        images.forEach(image => {
+          this.imageLoadedLookup[image.images.standard_resolution.url] = false;
+          let img = new Image();
+          img.onload = () => {
+            this.imageLoadedLookup[image.images.standard_resolution.url] = true;
+          };
+          img.src = image.images.standard_resolution.url;
+        });
+        this.images = images.map(arrayItem => {
+          return {
+            imageSrc: arrayItem.images.standard_resolution.url,
+            imageLink: arrayItem.link
+          }
+        });
+      }
     );
-   }
+  }
 
   ngOnInit() {
   }
 
   goToImageLink(image: any) {
     window.open(image.imageLink, '_blank');
+  }
+
+  imageBackgroundStyle(image: any) {
+    return `url(${image.imageSrc})`;
+  }
+
+  imageIsLoaded(image: any) {
+    return this.imageLoadedLookup[image.imageSrc];
   }
 }
