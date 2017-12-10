@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, AfterViewInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
@@ -26,6 +27,7 @@ export class InterfacePostFormComponent implements OnInit {
     private route: ActivatedRoute,
     private _fb: FormBuilder,
     private _contentLoadService: ContentLoadService,
+    private _snackBar: MatSnackBar
   ) {
     this.formHidden = true;
     this.doneClick = new EventEmitter<boolean>();
@@ -182,6 +184,7 @@ export class InterfacePostFormComponent implements OnInit {
           console.log("Content needs loading: ", newPost);
           this._contentLoadService.contentNeedsLoading(newPost);
         }
+        this._snackBar.open("The post was successfully created.", "Dismiss", {duration: 3000});
       },
       (error) => {
         console.error(error);

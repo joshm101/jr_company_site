@@ -176,6 +176,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
             this.contentLoadService.contentNeedsLoading(item);
           }
           this.embedPostService.requestInFlight = false;
+          this.snackBar.open("The post was successfully updated.", "Dismiss", {duration: 3000});          
         },
         (error) => {
           this.snackBar.open("Error. Check your connection & try again.", "", { duration: 5000 });
