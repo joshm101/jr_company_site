@@ -30,12 +30,16 @@ export class InterfaceAboutFormComponent implements OnInit {
             console.log("aboutArray: ", aboutArray);
             console.log('---');
           }
+          if (!this.aboutObj.image) {
+            this.doneLoading.emit(true);
+          }
         } else {
           // haven't configured about page before
           this.aboutObj = this.aboutService.new({
             header: '',
             description: ''
           });
+          this.doneLoading.emit(true);
         }
         this.initializeForm();
         console.log("this.aboutObj: ", this.aboutObj);
