@@ -328,14 +328,6 @@ int-about-form-image-preview {
   padding: 0 !important;
 }
 
-.about-preview-img:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  filter: blur(0);
-  -webkit-filter: blur(0);
-}
-
 .full-width {
   width: 100%;
 }
