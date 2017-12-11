@@ -185,6 +185,9 @@ export class PublicContainerComponent implements OnInit {
           console.log('event: ', event);
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
+            setTimeout(() => {
+              window.scrollTo(0, 0);         
+            }, 50);
           }
           this.determineAndSetMobileOverride();
 
@@ -487,7 +490,7 @@ export class PublicContainerComponent implements OnInit {
           // it's not wrapped in this timeout.
           setTimeout(() => {
             window.scrollTo(0, this._previousRouteScrollTop);            
-          }, 0);
+          }, 75);
         }
       }
     );
