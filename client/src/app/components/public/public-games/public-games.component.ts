@@ -35,7 +35,7 @@ export class PublicGamesComponent implements OnInit {
             value: ContentTypeEnum.Games
           },
         ]
-      })
+      }).filter(posts => !!posts)
     )
 
     this.activatedRoute.queryParamMap.map(paramMap =>

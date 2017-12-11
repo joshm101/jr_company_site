@@ -1279,3 +1279,12 @@ app-public-home {
   left: 0;
   right: 0;
 }
+
+.posts-pagination-control-wrap {
+  text-align: right;
+  padding: 20px;
+}
+
+app-public-pagination-control-button {
+  padding: 15px;
+}

@@ -36,7 +36,7 @@ export class PublicAudioComponent implements OnInit {
             value: ContentTypeEnum.Audio
           },
         ]
-      })
+      }).filter(posts => !!posts)
     )
     
     this.activatedRoute.queryParamMap.map(paramMap =>

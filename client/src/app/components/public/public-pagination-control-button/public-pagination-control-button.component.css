@@ -2,7 +2,22 @@
   font-family: bodyFont2;
   color: white;
   display: inline-block;
-  padding: 20px 10px;
+  padding: 15px 15px;
+  background-color: #16161d;
+  border: none;
+  border-radius: 3px;
+}
+
+.pagination-control-btn:disabled:hover {
+  cursor: not-allowed
+}
+
+.pagination-control-btn:disabled {
+  color: #ffffff57;
+}
+
+.pagination-control-btn:active:enabled {
+  background-color: #10101B;
 }
 
 .pagination-control-btn:hover {

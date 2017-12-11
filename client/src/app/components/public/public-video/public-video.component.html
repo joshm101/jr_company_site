@@ -1,17 +1,21 @@
 <div class="container-fluid non-home-route-wrap">
   <div class="video">
-    <app-public-pagination-control-button
-      text="PREVIOUS"
-      (click)="goToPreviousPage()"
-    ></app-public-pagination-control-button>
-    <app-public-pagination-control-button
-      text="NEXT"
-      (click)="goToNextPage()"
-    ></app-public-pagination-control-button>    
     <app-public-posts 
       [posts]="posts$ | async"
       [shouldLoadPosts]="true"
       [isFourColumnsMax]="fourColumnGridMax"
     ></app-public-posts>
+    <div class="posts-pagination-control-wrap" *ngIf="(posts$ | async)?.length > 0">
+      <app-public-pagination-control-button
+        text="PREVIOUS"
+        (click)="goToPreviousPage()"
+        [disabled]="!hasPreviousPage"
+      ></app-public-pagination-control-button>
+      <app-public-pagination-control-button
+        text="NEXT"
+        (click)="goToNextPage()"
+        [disabled]="!hasNextPage"
+      ></app-public-pagination-control-button>
+    </div>    
   </div>
 </div>

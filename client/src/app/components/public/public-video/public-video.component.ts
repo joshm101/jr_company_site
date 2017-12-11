@@ -35,7 +35,7 @@ export class PublicVideoComponent implements OnInit {
             value: ContentTypeEnum.Video
           },
         ]
-      })
+      }).filter(posts => !!posts)
     )
 
     this.activatedRoute.queryParamMap.map(paramMap =>
