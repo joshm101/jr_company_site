@@ -46,16 +46,15 @@ export class PublicAudioComponent implements OnInit, OnDestroy {
           }, 0);
           this.posts = posts;
         }
+      ),
+      this.activatedRoute.queryParamMap.map(paramMap =>
+        paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
+      ).subscribe(
+        (page) => {
+          this.embedPostService.setPage(page)
+        }
       )
     );
-    
-    this.activatedRoute.queryParamMap.map(paramMap =>
-      paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
-    ).subscribe(
-      (page) => {
-        this.embedPostService.setPage(page)
-      }
-    )
   }
 
   ngOnInit() {

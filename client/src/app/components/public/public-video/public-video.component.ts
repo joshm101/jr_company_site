@@ -24,35 +24,37 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.configService.getConfig().filter(
-      config => !!config
-    ).map(config => {
-      this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
-    }).switchMap(() => 
-      this.embedPostService.getAll({
-        params: [
-          {
-            key: 'content_type',
-            value: ContentTypeEnum.Video
-          },
-        ]
-      })
-    ).filter(posts => !!posts).subscribe(
-      (posts) => {
-        this.posts = posts;
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 0);
-      }
+    this.subscriptions.push(
+      this.configService.getConfig().filter(
+        config => !!config
+      ).map(config => {
+        this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
+      }).switchMap(() => 
+        this.embedPostService.getAll({
+          params: [
+            {
+              key: 'content_type',
+              value: ContentTypeEnum.Video
+            },
+          ]
+        })
+      ).filter(posts => !!posts).subscribe(
+        (posts) => {
+          this.posts = posts;
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+          }, 0);
+        }
+      ),
+      this.activatedRoute.queryParamMap.map(paramMap =>
+        paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
+      ).subscribe(
+        (page) => {
+          this.embedPostService.setPage(page)
+        }
+      ) 
     )
-
-    this.activatedRoute.queryParamMap.map(paramMap =>
-      paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
-    ).subscribe(
-      (page) => {
-        this.embedPostService.setPage(page)
-      }
-    )    
+   
   }
 
   ngOnInit() {

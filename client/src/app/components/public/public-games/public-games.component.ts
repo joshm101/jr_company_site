@@ -24,35 +24,36 @@ export class PublicGamesComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.configService.getConfig().filter(
-      config => !!config
-    ).map(config => {
-      this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
-    }).switchMap(() => 
-      this.embedPostService.getAll({
-        params: [
-          {
-            key: 'content_type',
-            value: ContentTypeEnum.Games
-          },
-        ]
-      })
-    ).filter(posts => !!posts).subscribe(
-      (posts) => {
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 0);
-        this.posts = posts;
-      }
+    this.subscriptions.push(
+      this.configService.getConfig().filter(
+        config => !!config
+      ).map(config => {
+        this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
+      }).switchMap(() => 
+        this.embedPostService.getAll({
+          params: [
+            {
+              key: 'content_type',
+              value: ContentTypeEnum.Games
+            },
+          ]
+        })
+      ).filter(posts => !!posts).subscribe(
+        (posts) => {
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+          }, 0);
+          this.posts = posts;
+        }
+      ),
+      this.activatedRoute.queryParamMap.map(paramMap =>
+        paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
+      ).subscribe(
+        (page) => {
+          this.embedPostService.setPage(page)
+        }
+      )    
     )
-
-    this.activatedRoute.queryParamMap.map(paramMap =>
-      paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
-    ).subscribe(
-      (page) => {
-        this.embedPostService.setPage(page)
-      }
-    )    
   }
 
   ngOnInit() {
