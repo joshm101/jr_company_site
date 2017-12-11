@@ -107,7 +107,7 @@ exports.updateBannerImage = (req, res) => {
         if (err) {
           res.send(err);
         } else {
-          if (req.body.image !== bannerImage.image) {
+          if (req.body.image !== bannerImage.image && bannerImage.image !== "") {
             fs.remove(path.resolve(__dirname, `../${bannerImage.image}`), (err) => {
               if (err) {
                 res.send(err);
