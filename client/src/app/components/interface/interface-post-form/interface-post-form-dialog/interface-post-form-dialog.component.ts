@@ -155,6 +155,7 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     }
     this.embedPostEdit.embedContent = [];
     this.addPostForm.value.embedContent.forEach((item: string) => {
+      console.log("embedContent item: ", item);
       // don't save empty fields
       if (item !== undefined && item !== '') {
         this.embedPostEdit.embedContent.push(item)
@@ -200,6 +201,10 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
       return thumbnail.complete;
     }
     return true;
+  }
+
+  handeEmbedContentItemInputEvent(index: number, event: any) {
+    this.addPostForm.value.embedContent[index] = event.target.value;
   }
 
   postHasImages(post: EmbedPost) {
