@@ -185,9 +185,6 @@ export class PublicContainerComponent implements OnInit {
           console.log('event: ', event);
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
-            setTimeout(() => {
-              window.scrollTo(0, 0);         
-            }, 50);
           }
           this.determineAndSetMobileOverride();
 

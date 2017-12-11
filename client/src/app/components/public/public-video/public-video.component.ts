@@ -40,6 +40,9 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
     ).filter(posts => !!posts).subscribe(
       (posts) => {
         this.posts = posts;
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
       }
     )
 

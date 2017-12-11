@@ -39,6 +39,9 @@ export class PublicGamesComponent implements OnInit, OnDestroy {
       })
     ).filter(posts => !!posts).subscribe(
       (posts) => {
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
         this.posts = posts;
       }
     )
