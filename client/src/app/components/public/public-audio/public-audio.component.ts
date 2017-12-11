@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { ConfigService } from '../../../external-services/config/config.service';
 
@@ -15,8 +15,9 @@ import { ContentTypeEnum } from '../../../enums/content-type.enum';
   templateUrl: './public-audio.component.html',
   styleUrls: ['./public-audio.component.css']
 })
-export class PublicAudioComponent implements OnInit {
-  posts$: Observable<EmbedPost[]>;
+export class PublicAudioComponent implements OnInit, OnDestroy {
+  posts: EmbedPost[];
+  subscriptions: Subscription[] = [];
   constructor(
     private embedPostService: EmbedPostService,
     private configService: ConfigService,
@@ -24,20 +25,26 @@ export class PublicAudioComponent implements OnInit {
     private router: Router,
   ) {
     this.embedPostService.itemsPerPage = 6;
-    this.posts$ = this.configService.getConfig().filter(
-      config => !!config
-    ).map(config => {
-      this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
-    }).switchMap(() => 
-      this.embedPostService.getAll({
-        params: [
-          {
-            key: 'content_type',
-            value: ContentTypeEnum.Audio
-          },
-        ]
-      }).filter(posts => !!posts)
-    )
+    this.subscriptions.push(
+      this.configService.getConfig().filter(
+        config => !!config
+      ).map(config => {
+        this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
+      }).switchMap(() => 
+        this.embedPostService.getAll({
+          params: [
+            {
+              key: 'content_type',
+              value: ContentTypeEnum.Audio
+            },
+          ]
+        })
+      ).filter(posts => !!posts).subscribe(
+        (posts) => {
+          this.posts = posts;
+        }
+      )
+    );
     
     this.activatedRoute.queryParamMap.map(paramMap =>
       paramMap.has('page') ? parseInt(paramMap.get('page')) : 1
@@ -86,6 +93,12 @@ export class PublicAudioComponent implements OnInit {
 
   get hasPreviousPage() {
     return this.embedPostService.hasPreviousPage();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription =>
+      subscription.unsubscribe()
+    );
   }
 
 }

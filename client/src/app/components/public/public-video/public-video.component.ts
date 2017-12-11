@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { 
   EmbedPost,
@@ -15,15 +15,16 @@ import { ConfigService } from '../../../external-services/config/config.service'
   templateUrl: './public-video.component.html',
   styleUrls: ['./public-video.component.css']
 })
-export class PublicVideoComponent implements OnInit {
-  posts$: Observable<EmbedPost[]>;
+export class PublicVideoComponent implements OnInit, OnDestroy {
+  posts: EmbedPost[];
+  subscriptions: Subscription[] = [];
   constructor(
     private embedPostService: EmbedPostService,
     private configService: ConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.posts$ = this.configService.getConfig().filter(
+    this.configService.getConfig().filter(
       config => !!config
     ).map(config => {
       this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
@@ -35,7 +36,11 @@ export class PublicVideoComponent implements OnInit {
             value: ContentTypeEnum.Video
           },
         ]
-      }).filter(posts => !!posts)
+      })
+    ).filter(posts => !!posts).subscribe(
+      (posts) => {
+        this.posts = posts;
+      }
     )
 
     this.activatedRoute.queryParamMap.map(paramMap =>
@@ -85,6 +90,12 @@ export class PublicVideoComponent implements OnInit {
 
   get hasPreviousPage() {
     return this.embedPostService.hasPreviousPage();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription =>
+      subscription.unsubscribe()
+    );
   }
 
 }

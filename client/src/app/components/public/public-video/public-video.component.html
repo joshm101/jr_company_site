@@ -1,11 +1,11 @@
 <div class="container-fluid non-home-route-wrap">
   <div class="video">
     <app-public-posts 
-      [posts]="posts$ | async"
+      [posts]="posts || []"
       [shouldLoadPosts]="true"
       [isFourColumnsMax]="fourColumnGridMax"
     ></app-public-posts>
-    <div class="posts-pagination-control-wrap" *ngIf="(posts$ | async)?.length > 0">
+    <div class="posts-pagination-control-wrap" *ngIf="posts?.length > 0">
       <app-public-pagination-control-button
         text="PREVIOUS"
         (click)="goToPreviousPage()"
