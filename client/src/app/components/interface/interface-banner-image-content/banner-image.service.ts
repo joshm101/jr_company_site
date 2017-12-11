@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { AppService } from '../../../app.service';
 import { BannerImage } from './banner-image.model';
 import { FileUploader } from 'ng2-file-upload';
-import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
 
 @Injectable()
 export class BannerImageService extends AppService<BannerImage> {
@@ -13,7 +12,6 @@ export class BannerImageService extends AppService<BannerImage> {
   uploader: FileUploader;  
 
   constructor(
-    private contentLoadService: ContentLoadService,
     injector: Injector
   ) {
     super(injector);
@@ -28,9 +26,6 @@ export class BannerImageService extends AppService<BannerImage> {
     return super.create(
       bannerImage
     ).switchMap((returnedBannerImages: BannerImage[]) => {
-      this.contentLoadService.contentNeedsLoading(
-        returnedBannerImages[0]
-      );
       if (this.uploader.queue.length > 0) {
         this.uploadRequestInFlight = true;
         console.log("bannerImageService: this.newlyCreatedItem: ", this.newlyCreatedItem);
@@ -59,13 +54,11 @@ export class BannerImageService extends AppService<BannerImage> {
 
   update(body: BannerImage): Observable<BannerImage> {
     this.requestInFlight = true;
+    this.uploadRequestInFlight = true;
     return super.update(
       body
     ).switchMap((returnedBannerImage: BannerImage) => {
       if (this.uploader.queue.length > 0) {
-        this.contentLoadService.contentNeedsLoading(
-          returnedBannerImage
-        );
         this.uploadRequestInFlight = true;
         return this.uploadImage(
           returnedBannerImage.imageId
@@ -84,10 +77,8 @@ export class BannerImageService extends AppService<BannerImage> {
           }
         });
       } else {
-        if (returnedBannerImage.image === '') {
-          this.contentLoadService.removeAllTrackedContent();
-        }
         this.requestInFlight = false;
+        this.uploadRequestInFlight = false;
         return Observable.of(returnedBannerImage);
       }
     })

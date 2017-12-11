@@ -1,7 +1,6 @@
 <form 
   (submit)="bannerImageFormSubmit()" 
   autocomplete="off" 
-  *ngIf="bannerImage"
 >
   <div class="banner-image-form-wrap">
     <mat-card>
@@ -9,34 +8,39 @@
         <h2>Home Banner Image</h2>
       </mat-card-header>
       <mat-card-content>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div style="min-height: 400px">
+        <div class="banner-image-card-content-wrap">
+          <div class="loading-wrap-interface" *ngIf="!doneLoadingContent" >
+            <mat-progress-spinner class="absolute-center" mode="indeterminate" color="primary"></mat-progress-spinner>
+          </div>
+          <div class="container-fluid absolute-center" [@interfaceState]="animationState">
+            <div class="row">
+              <div class="col-12">
+                <div style="min-height: 400px">
                   <app-interface-banner-image-form-image-preview
                     [imgSrc]="imageSrc"
                     (imageLoaded)="handleBannerImageLoadDone($event)"
                     (removeImage)="removeImage()"
                   >
                   </app-interface-banner-image-form-image-preview>
-              </div>              
-            </div>            
-          </div>
-          <input 
-            hidden 
-            #fileInput 
-            type="file"
-            ng2FileSelect
-            #input
-            (change)="handleFileSelection(input)"
-            [uploader]="bannerImageService.uploader"
-          >
-        </div>   
+                </div>              
+              </div>            
+            </div>
+            <input 
+              hidden 
+              #fileInput 
+              type="file"
+              ng2FileSelect
+              #input
+              (change)="handleFileSelection(input)"
+              [uploader]="bannerImageService.uploader"
+            >
+          </div>  
+        </div>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions [@interfaceState]="animationState">
         <mat-toolbar class="add-post-action-bar">
           <button class="add-image-button"
-            [matTooltip]="bannerImage.image ? 'Replace image' : 'Add image'"
+            [matTooltip]="bannerImage && bannerImage.image ? 'Replace image' : 'Add image'"
             mat-icon-button
             type="button"
             (click)="selectFileInput()"
@@ -48,6 +52,7 @@
             tabindex="0"  
             mat-button 
             type="button"
+            [disabled]="!doneLoadingContent"
             (click)="cancelChanges()"
           >
             Cancel Changes
@@ -56,6 +61,7 @@
             tabindex="0"     
             mat-button 
             type="submit"
+            [disabled]="!doneLoadingContent"
             class="add-post-done-button"
           >
             Done

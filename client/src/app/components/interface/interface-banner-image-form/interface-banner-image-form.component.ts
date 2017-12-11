@@ -1,71 +1,64 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, trigger, transition, style, state, animate, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material';
 
 import { BannerImage, BannerImageService } from '../interface-banner-image-content/banner-image.index';
-import { ContentLoadService } from '../../../external-services/content-load/content-load.service';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-interface-banner-image-form',
+  animations: [
+    trigger(
+      'interfaceState', [
+        state('inactive', style({opacity: 0})),
+        state('active', style({opacity: 1})),
+        transition('inactive => active', animate('300ms ease-in')),
+        transition('active => inactive', animate('300ms ease-out'))
+      ]
+    )
+  ],  
   templateUrl: './interface-banner-image-form.component.html',
   styleUrls: ['./interface-banner-image-form.component.css']
 })
-export class InterfaceBannerImageFormComponent implements OnInit {
+export class InterfaceBannerImageFormComponent implements OnInit, OnDestroy {
   public bannerImage: BannerImage;
   public bannerImageBackup: BannerImage;
   public imageSrc: any;
+  public doneLoadingContent: boolean = false;
+  public animationState: string;
+  public subscriptions: Subscription[] = [];
   constructor(
     public bannerImageService: BannerImageService,
     private sanitizer: DomSanitizer,
-    private contentLoadService: ContentLoadService,
     private snackBar: MatSnackBar
   ) { 
-    this.bannerImageService.getAll().filter(
-      bannerImageArr => !!bannerImageArr
-    ).subscribe(
-      (bannerImageArr) => {
-        if (bannerImageArr.length > 0) {
-          this.bannerImage = bannerImageArr[0];
-          this.bannerImageBackup = this.bannerImageService.new(
-            this.bannerImage
-          );
-          // if (!this.contentLoadService.contentBeingTracked()) {
-          //   this.contentLoadService.setPostMap(
-          //     [this.bannerImage]
-          //   );
-          //   if (this.bannerImage.image === '') {
-          //     this.contentLoadService.contentLoadingDone(
-          //       bannerImageArr[0]
-          //     );
-          //   }
-          // }
-          this.imageSrc = this.bannerImage.image;
-        } else {
+    this.animationState = "inactive";
+    this.subscriptions.push(
+      this.bannerImageService.getAll().filter(
+        bannerImageArr => !!bannerImageArr
+      ).subscribe(
+        (bannerImageArr) => {
+          if (bannerImageArr.length > 0) {
+            this.bannerImage = bannerImageArr[0];
+            this.bannerImageBackup = this.bannerImageService.new(
+              this.bannerImage
+            );
+            this.imageSrc = this.bannerImage.image;
+          } else {
+            this.bannerImage = this.bannerImageService.new({
+              image: '',
+            });
+            this.bannerImageBackup = this.bannerImageService.new(
+              this.bannerImage
+            );
+          }
+        },
+        (err) => {
           this.bannerImage = this.bannerImageService.new({
             image: '',
           });
-          this.contentLoadService.contentNeedsLoading(
-            this.bannerImage
-          );
-          this.contentLoadService.contentLoadingDone(
-            this.bannerImage
-          );
-          this.bannerImageBackup = this.bannerImageService.new(
-            this.bannerImage
-          );
         }
-      },
-      (err) => {
-        this.bannerImage = this.bannerImageService.new({
-          image: '',
-        });
-        this.contentLoadService.contentNeedsLoading(
-          this.bannerImage
-        );
-        this.contentLoadService.contentLoadingDone(
-          this.bannerImage
-        );
-      }
+      )
     )
   }
 
@@ -81,7 +74,6 @@ export class InterfaceBannerImageFormComponent implements OnInit {
     if (this.bannerImage.image !== copy.image) {
       this.bannerImage.image = copy.image;
       this.imageSrc = copy.image;
-      this.contentLoadService.removeAllTrackedContent();
       this.bannerImageService.initializeUploaderInstance();
     }
   }
@@ -97,9 +89,8 @@ export class InterfaceBannerImageFormComponent implements OnInit {
   }
 
   handleBannerImageLoadDone(event: boolean) {
-    this.contentLoadService.contentLoadingDone(
-      this.bannerImage
-    );
+    this.doneLoadingContent = event;
+    this.animationState = this.doneLoadingContent ? "active" : "inactive";
   }
 
   handleFileSelection(input: any) {
@@ -127,6 +118,8 @@ export class InterfaceBannerImageFormComponent implements OnInit {
   }
 
   bannerImageFormSubmit() {
+    this.animationState = "inactive";
+    this.doneLoadingContent = false;
     if (this.bannerImage._id) {
       this.bannerImageService.update(
         this.bannerImage
@@ -135,15 +128,24 @@ export class InterfaceBannerImageFormComponent implements OnInit {
           this.bannerImageBackup = this.bannerImageService.new(
             bannerImage
           );
+          this.bannerImageService.uploadRequestInFlight = false;
           this.snackBar.open(
             "Banner image updated.", 
             "", 
             { duration: 3000}
           );
+          if (this.imageSrc !== bannerImage.image && bannerImage.image) {
+            this.animationState = "inactive";
+            this.doneLoadingContent = false;
+          } else {
+            this.animationState = "active";
+            this.doneLoadingContent = true;
+          }
           this.imageSrc = bannerImage.image;
         }, 
         (err) => {
           console.error(err);
+          this.animationState = "active";
         }
       )
     } else {
@@ -160,8 +162,17 @@ export class InterfaceBannerImageFormComponent implements OnInit {
             { duration: 3000 }
           );
           this.imageSrc = bannerImages[0].image;
+        },
+        (err) => {
+          this.animationState = "inactive";
         }
       )
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => 
+      subscription.unsubscribe()
+    );
   }
 }

@@ -1,0 +1,18 @@
+.absolute-center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.banner-image-card-content-wrap:before {
+  content: "";
+  display: block;
+  padding-top: 60.25%;
+}
+
+.banner-image-card-content-wrap {
+  position: relative;
+}
