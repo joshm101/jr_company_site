@@ -6,9 +6,8 @@
     [class.visible-img]="imageLoaded"
     (load)="handleBannerImageLoadedEvent()"
   >
-  <div class="loading-indicator-wrap">
+  <div class="loading-indicator-wrap" *ngIf="!imageLoaded">
     <mat-progress-bar 
-      [class.visible-loading-indicator]="!imageLoaded" 
       [class.hidden-loading-indicator]="imageLoaded" 
       class="loading-indicator" 
       mode="indeterminate"
