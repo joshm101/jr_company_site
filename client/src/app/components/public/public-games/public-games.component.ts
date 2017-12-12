@@ -29,7 +29,14 @@ export class PublicGamesComponent implements OnInit, OnDestroy {
         config => !!config
       ).map(config => {
         this.embedPostService.itemsPerPage = config.itemsPerPage.contentPages;
-      }).switchMap(() => 
+
+      // prevent request that gets cancelled in under 15ms during
+      // route transition by debouncing observable emission. The
+      // cancelled network request should not be procesed by this
+      // component in the first place (since the network request
+      // is firing and being cancelled on this component's destroy
+      // lifecycle event).
+      }).debounceTime(25).switchMap(() => 
         this.embedPostService.getAll({
           params: [
             {
