@@ -121,3 +121,7 @@
   right: 0;
   bottom: 0;
 }
+
+.posts-post-link {
+  text-decoration: none;
+}

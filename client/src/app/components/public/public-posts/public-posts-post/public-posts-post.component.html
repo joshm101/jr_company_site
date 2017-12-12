@@ -26,10 +26,14 @@
     </div>
     <div class="posts-post-info">
       <div>
-        <span class="posts-post-title">{{ post.title }}</span>  
+        <a class="posts-post-link" [href]="'/view/?id=' + post._id">
+          <span class="posts-post-title">{{ post.title }}</span>
+        </a>  
       </div>
       <div>
-        <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
+        <a class="posts-post-link" [href]="'/view/?id=' + post._id">
+          <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
+        </a>
       </div>
     </div>
   </div>
