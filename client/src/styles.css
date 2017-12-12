@@ -1090,6 +1090,12 @@ html[xmlns] .clearfix {
   transition: margin-top 0s !important;
 }
 
+#public-nav-bar-wrap-name a {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+}
+
 .small-header {
   font-family: headersFont !important;  
 }
