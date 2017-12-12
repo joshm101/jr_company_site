@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { EmbedPost } from '../../../embed-post/embed-post.index';
 
@@ -14,7 +15,9 @@ export class PublicPostsPostComponent implements OnInit {
   public shouldLoad: boolean;
   public imageLoaded: boolean;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -25,5 +28,14 @@ export class PublicPostsPostComponent implements OnInit {
 
   triggerPostLoad() {
     this.shouldLoad = true;
+  }
+
+  navigateToPost() {
+    this.router.navigate(
+      ['/view'],
+      {
+        queryParams: { id: this.post._id }
+      }
+    );  
   }
 }

@@ -4,17 +4,15 @@
   (onPartiallyInView)="triggerPostLoad()"
 >
   <div class="post-wrapper-child">
-    <div class="posts-post-img-wrapper-div">
-      <a routerLink="/view" [queryParams]="{id: post._id}">
-        <img 
-          [src]="post.images[post.thumbnailIndex]" 
-          class="posts-post-image"
-          *ngIf="shouldLoad"
-          (load)="handleImageLoadDoneEvent()"
-          [class.hidden-img]="!imageLoaded" 
-          [class.visible-img]="imageLoaded"
-        >      
-      </a>
+    <div class="posts-post-img-wrapper-div" (click)="navigateToPost()">
+      <img 
+        [src]="post.images[post.thumbnailIndex]" 
+        class="posts-post-image"
+        *ngIf="shouldLoad"
+        (load)="handleImageLoadDoneEvent()"
+        [class.hidden-img]="!imageLoaded" 
+        [class.visible-img]="imageLoaded"
+      >      
       <div class="loading-indicator-wrap" *ngIf="!imageLoaded">
         <mat-progress-spinner 
           [class.visible-loading-indicator]="!imageLoaded" 
@@ -24,16 +22,12 @@
         ></mat-progress-spinner>    
       </div>      
     </div>
-    <div class="posts-post-info">
+    <div class="posts-post-info" (click)="navigateToPost()">
       <div>
-        <a class="posts-post-link" routerLink="/view" [queryParams]="{id: post._id}">
-          <span class="posts-post-title">{{ post.title }}</span>
-        </a>  
+        <span class="posts-post-title">{{ post.title }}</span>
       </div>
       <div>
-        <a class="posts-post-link" routerLink="/view" [queryParams]="{id: post._id}">
-          <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
-        </a>
+        <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
       </div>
     </div>
   </div>

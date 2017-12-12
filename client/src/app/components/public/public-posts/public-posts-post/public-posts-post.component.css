@@ -96,6 +96,14 @@
   position: relative;
 }
 
+.posts-post-img-wrapper-div:hover {
+  cursor: pointer;
+}
+
+.posts-post-info:hover {
+  cursor: pointer;
+}
+
 .hidden-img {
   opacity: 0;
 }
