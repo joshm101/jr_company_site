@@ -26,12 +26,12 @@
     </div>
     <div class="posts-post-info">
       <div>
-        <a class="posts-post-link" [href]="'/view/?id=' + post._id">
+        <a class="posts-post-link" routerLink="/view" [queryParams]="{id: post._id}">
           <span class="posts-post-title">{{ post.title }}</span>
         </a>  
       </div>
       <div>
-        <a class="posts-post-link" [href]="'/view/?id=' + post._id">
+        <a class="posts-post-link" routerLink="/view" [queryParams]="{id: post._id}">
           <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
         </a>
       </div>
