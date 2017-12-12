@@ -1,6 +1,6 @@
 .view-post-title {
   color: white;
-  font-family: bodyFont2 !important;
+  font-family: bodyFont !important;
 }
 
 @media screen and (max-width: 420px) {
