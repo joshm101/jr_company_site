@@ -182,7 +182,6 @@ export class PublicContainerComponent implements OnInit {
     this._subscriptions.push(
       this._router.events.subscribe(
         (event: any) => {
-          console.log('event: ', event);
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
           }
@@ -225,17 +224,13 @@ export class PublicContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("this._fixingNavBar: ", this._fixingNavBar);
     this.determineAndSetMobileOverride();
     if (this._fixingNavBar) {
       this.fixNavBar();
-      console.log("this.navBarLinksOpacity: ", this.navBarLinksOpacity);
-      console.log("this.shouldCollapseNavLogo: ", this.shouldCollapseNavLogo);
     }      
   }
 
   fixNavBar() {
-    console.log("fix nav bar for view post");
     this.navBarMarginTop = this.navBarExpandedMargin;
     this.shouldCollapseNavLogo = false;
     this.navBarLinksOpacity = 1;
@@ -470,17 +465,12 @@ export class PublicContainerComponent implements OnInit {
 
   @HostListener('window:popstate', ['$event']) 
   onPopStateEvent(event: any) {
-    console.log("window pop state event: ", event);
     this._embedPostService.requestInFlight$.filter(requestInFlight =>
       !requestInFlight
     ).skip(1).take(1).subscribe(
       (requestInFlight) => {
-        console.log("requestInFlight: ", requestInFlight);
-        console.log("_shouldRestoreScrollPositionOnStatePop: ", this._shouldRestoreScrollPositionOnStatePop);
-        console.log("_previousRouteScrollTop: ", this._previousRouteScrollTop);
         if (this._shouldRestoreScrollPositionOnStatePop) {
           this._shouldRestoreScrollPositionOnStatePop = false;
-          console.log('window: ', window);
 
           // defer the scrollTo() call until the next JS event cycle.
           // scrollTo() won't happen within this subscription if
@@ -510,7 +500,6 @@ export class PublicContainerComponent implements OnInit {
   public determineAndSetMobileOverride() {
     this.screenWidth = window.innerWidth
     let body = document.getElementsByTagName('body')[0];
-    console.log("this.screenWidth: ", this.screenWidth);
     if (this.screenWidth <= 640) {
       // mobile display
 
@@ -531,8 +520,6 @@ export class PublicContainerComponent implements OnInit {
 
       // non-mobile display, enable body scrolling
       body.classList.remove('prevent-body-scroll');
-      console.log("this.navBarMarginTop: ", this.navBarMarginTop);
-      console.log("this.navbarTresholdMargin: ", this.navBarThresholdMargin);
       if (this.navBarMarginTop <= this.navBarThresholdMargin) {
         this.shouldCollapseNavLogo = true;
         this.navBarLinksOpacity = 0;
@@ -572,7 +559,6 @@ export class PublicContainerComponent implements OnInit {
     '$event.target.scrollingElement.scrollHeight',
   ])
   public _handleScrollEvent(scrollTop: number, scrollHeight: number) {
-    console.log("scrollTop: ", scrollTop);
     if (
       this.currentUrl.startsWith('/audio') ||
       this.currentUrl.startsWith('/video') ||
@@ -774,7 +760,6 @@ export class PublicContainerComponent implements OnInit {
         this._expandNavByAmount(change);
         if (startingMarginTop !== this.navBarExpandedMargin) {
           // wasn't already expanded, so an actual expansion occurred.
-          console.log("scroll up expansion occurred");
           this._expandDone();          
         }
       }
