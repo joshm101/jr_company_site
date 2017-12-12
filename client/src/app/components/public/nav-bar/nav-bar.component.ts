@@ -73,7 +73,7 @@ export class NavBarComponent {
         url: '/games',
       },
       {
-        label: 'about',
+        label: 'About',
         url: '/about'
       }
     ];
