@@ -5,18 +5,22 @@ import {
   HostListener, 
   ElementRef,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { WindowRefService } from '../external-services/window/window.service';
 
 @Directive({
   selector: '[scrollInView]'
 })
-export class ScrollInViewDirective implements OnInit {
+export class ScrollInViewDirective implements OnInit, OnDestroy {
   @Output()
   public onPartiallyInView: EventEmitter<boolean>;
   @Output()
   public onFullyInView: EventEmitter<boolean>;
+
+  private subscriptions: Subscription[] = [];
   
   constructor(
     private hostElementReference: ElementRef,
@@ -24,6 +28,15 @@ export class ScrollInViewDirective implements OnInit {
   ) {
     this.onPartiallyInView = new EventEmitter<boolean>();
     this.onFullyInView = new EventEmitter<boolean>();
+    this.subscriptions.push(
+      Observable.fromEvent(window, 'scroll').throttleTime(100).subscribe(
+        (event: any) => {
+          let scrollTop = event.target.scrollingElement.scrollTop;
+          let clientHeight = event.target.scrollingElement.clientHeight;
+          this.onWindowScrollEvent(scrollTop, clientHeight);
+        }
+      )
+    ) 
   }
 
   ngOnInit() {
@@ -32,13 +45,6 @@ export class ScrollInViewDirective implements OnInit {
     this.onWindowScrollEvent(scrollTop, clientHeight);
   }
 
-  @HostListener(
-    'window:scroll', 
-    [
-      '$event.target.scrollingElement.scrollTop',
-      '$event.target.scrollingElement.clientHeight'
-    ]
-  )
   onWindowScrollEvent(
     scrollTop: number,
     clientHeight: number
@@ -94,6 +100,12 @@ export class ScrollInViewDirective implements OnInit {
       (bottomOfPageLocation > hostElementBottomLocation)
       &&
       (topOfPageLocation < hostElementTopLocation)
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription =>
+      subscription.unsubscribe()
     );
   }
 
