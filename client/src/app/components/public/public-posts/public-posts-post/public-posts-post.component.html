@@ -4,15 +4,21 @@
   (onPartiallyInView)="triggerPostLoad()"
 >
   <div class="post-wrapper-child">
-    <div class="posts-post-img-wrapper-div" (click)="navigateToPost()">
-      <img 
-        [src]="post.images[post.thumbnailIndex]" 
-        class="posts-post-image"
-        *ngIf="shouldLoad"
-        (load)="handleImageLoadDoneEvent()"
-        [class.hidden-img]="!imageLoaded" 
-        [class.visible-img]="imageLoaded"
-      >      
+    <div class="posts-post-img-wrapper-div">
+      <a 
+        [routerLink]="postLink" 
+        [queryParams]="postLinkQueryParams" 
+        class="posts-post-link"
+      >
+        <img 
+          [src]="post.images[post.thumbnailIndex]" 
+          class="posts-post-image"
+          *ngIf="shouldLoad"
+          (load)="handleImageLoadDoneEvent()"
+          [class.hidden-img]="!imageLoaded" 
+          [class.visible-img]="imageLoaded"
+        >   
+      </a>
       <div class="loading-indicator-wrap" *ngIf="!imageLoaded">
         <mat-progress-spinner 
           [class.visible-loading-indicator]="!imageLoaded" 
@@ -22,12 +28,24 @@
         ></mat-progress-spinner>    
       </div>      
     </div>
-    <div class="posts-post-info" (click)="navigateToPost()">
+    <div class="posts-post-info">
       <div>
-        <span class="posts-post-title">{{ post.title }}</span>
+        <a 
+          [routerLink]="postLink" 
+          [queryParams]="postLinkQueryParams" 
+          class="posts-post-link"
+        >
+          <span class="posts-post-title">{{ post.title }}</span>            
+        </a>
       </div>
       <div>
-        <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>
+        <a 
+          [routerLink]="postLink" 
+          [queryParams]="postLinkQueryParams" 
+          class="posts-post-link"
+        >
+          <span class="posts-post-text">{{ post.created | date:'longDate' }}</span>            
+        </a>
       </div>
     </div>
   </div>

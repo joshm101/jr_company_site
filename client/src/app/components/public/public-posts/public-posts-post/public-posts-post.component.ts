@@ -30,12 +30,11 @@ export class PublicPostsPostComponent implements OnInit {
     this.shouldLoad = true;
   }
 
-  navigateToPost() {
-    this.router.navigate(
-      ['/view'],
-      {
-        queryParams: { id: this.post._id }
-      }
-    );  
+  get postLink() {
+    return '/view';
+  }
+
+  get postLinkQueryParams() {
+    return {id: this.post._id};
   }
 }
