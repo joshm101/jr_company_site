@@ -754,14 +754,11 @@ html[xmlns] .clearfix {
   text-align: center;
 }
 
-.public-nav-bar-links li a {
+.public-nav-bar-links .text-links,
+.public-nav-bar-links .text-links:hover {
   text-decoration: none;
   color: white;
-}
-
-.public-nav-bar-links li a:hover {
-  text-decoration: none;
-  color: white;
+  display: block;
 }
 
 .public-nav-bar-links {
@@ -824,9 +821,11 @@ html[xmlns] .clearfix {
   }
 
   .public-nav-bar-links li span {
-    display: block;
-    padding-top: 25px;
-    padding-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 65px;
+    height: 65px;
+    padding-top: 7.5px;
   }
 
   .public-nav-bar-menu-icon-bar {

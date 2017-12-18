@@ -3,7 +3,7 @@
       [class.hide-links]="!isOpen"
       [class.show-links]="isOpen && screenWidth <= 640">
     <li *ngFor="let link of links">
-      <a [routerLink]="link.url"><span>{{ link.label }}</span></a>
+      <a class="text-links" [routerLink]="link.url"><span>{{ link.label }}</span></a>
     </li>
     <li class="contact-info-links" *ngIf="screenWidth <= 640">
       <app-public-about-links
