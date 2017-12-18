@@ -38,7 +38,6 @@ export class EmbedPostComponent implements OnInit {
 
   handleThumbnailClick() {
     this.thumbnailClick.emit(true);
-    console.log("thumbail click");
   }
 
   handlePostLoadError() {

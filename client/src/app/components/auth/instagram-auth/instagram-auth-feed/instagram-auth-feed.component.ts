@@ -23,7 +23,6 @@ export class InstagramAuthFeedComponent implements OnInit {
       )
     ).take(1).retryWhen(errors => errors.delay(1000).take(5)).subscribe(
       (imageSrcArray) => {
-        console.log("imageSrcArray: ", imageSrcArray);
         this.imageSrcs = imageSrcArray;
       },
       (error) => {

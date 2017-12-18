@@ -27,8 +27,6 @@ export class InterfaceAboutFormComponent implements OnInit {
           this.aboutObj = aboutArray[0];
           this.aboutObjBackup = this.aboutService.new(this.aboutObj);
           if (this.aboutObj._id) {
-            console.log("aboutArray: ", aboutArray);
-            console.log('---');
           }
           if (!this.aboutObj.image) {
             this.doneLoading.emit(true);
@@ -42,7 +40,6 @@ export class InterfaceAboutFormComponent implements OnInit {
           this.doneLoading.emit(true);
         }
         this.initializeForm();
-        console.log("this.aboutObj: ", this.aboutObj);
       },
       (err) => {
         this.aboutObj = this.aboutService.new({
@@ -84,19 +81,16 @@ export class InterfaceAboutFormComponent implements OnInit {
   }
 
   removeImage() {
-    console.log("remove image");
     this.imageSrc = '';
     this.aboutObj.image = '';
     this.aboutService.initializeUploaderInstance();
   }
 
   handleAboutImageLoadDone(event: boolean) {
-    console.log("done loading: ", event);
     this.doneLoading.emit(true);
   }
 
   handleFileSelection(input: any) {
-    console.log("input: ", input);
     if (input.files.length > 0) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
@@ -119,17 +113,13 @@ export class InterfaceAboutFormComponent implements OnInit {
   }
 
   aboutFormSubmit() {
-    console.log("submit about form");
-    console.log("this.aboutForm: ", this.aboutForm);
     this.aboutObj.header = this.aboutForm.value.header;
     this.aboutObj.description = this.aboutForm.value.description;
-    console.log("this.aboutObj on submit: ", this.aboutObj);
     this.doneLoading.emit(false);
     if (this.aboutObj._id) {
       this.aboutService.update(this.aboutObj).take(1).subscribe(
         (about) => {
           this.aboutObjBackup = this.aboutService.new(about);
-          console.log("successful update: ", about);
           this.snackBar.open("About page updated.","", { duration: 3000 });
           //this.aboutObj = this.aboutService.new(about);
           if (this.imageSrc === about.image) {
@@ -145,7 +135,6 @@ export class InterfaceAboutFormComponent implements OnInit {
       this.aboutService.create(this.aboutObj).take(1).subscribe(
         (about) => {
           this.aboutObjBackup = this.aboutService.new(about);
-          console.log("successful creation: ", about);
           this.snackBar.open("About page updated.","", { duration: 3000 });
           this.imageSrc = about[0].image;
           if (!this.imageSrc || this.imageSrc === "") {

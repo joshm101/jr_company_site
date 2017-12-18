@@ -18,12 +18,10 @@ export class InstagramAuthService {
         code
       }
     ).map((res) => {
-      console.log("res success: ", res);
       return {
         success: true
       };
     }).catch(errResponse => {
-      console.log("errResponse: ", errResponse);
       const errorMessage = this.constructErrorMessage(
         errResponse.error.error
       );

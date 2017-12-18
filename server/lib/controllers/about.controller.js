@@ -17,7 +17,6 @@ var storage = multer.diskStorage({
   destination: function(req, file, cb) {
 
     imagesId = req.body.imagesid;
-    console.log("imagesId: ", imagesId);
     if (imagesId && imagesId !== 'undefined') {
       cb(null, path.resolve(__dirname, "../images/about/" + imagesId));
     } else {

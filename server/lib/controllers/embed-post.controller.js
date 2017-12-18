@@ -183,13 +183,11 @@ exports.getPosts = function(req, res) {
       });
     })
     .then(undefined, function(err) {
-      console.log(err);
       res.status(500).send(err);
     });
 }
 
 constructPagedQuery = (options) => {
-  console.log("options: ", options);
   const {
     page,
     limit,
@@ -197,7 +195,6 @@ constructPagedQuery = (options) => {
     sortCreated
   } = options;
   const offset = (page - 1) * limit || 0;
-  console.log("offset: ", offset);
   findOptions = Object.assign(
     {},
     contentType != undefined ? { contentType } : null

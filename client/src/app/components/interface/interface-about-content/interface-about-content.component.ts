@@ -28,7 +28,6 @@ export class InterfaceAboutContentComponent {
   }
 
   doneLoadingEventHandler(value: boolean) {
-    console.log("doneLoadingEventHandler: ", value);
     this.doneLoadingContent = value;
     this.animationState = this.doneLoadingContent ? "active" : "inactive";
   }

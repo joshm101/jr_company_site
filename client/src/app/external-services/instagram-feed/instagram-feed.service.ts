@@ -34,7 +34,6 @@ export class InstagramFeedService {
       );
       return this.feed$;
     }).catch(err => {
-      console.log("feed err: ", err);
       throw new Error(err.error.error);
     });
   }

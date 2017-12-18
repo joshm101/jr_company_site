@@ -28,7 +28,6 @@ export class BannerImageService extends AppService<BannerImage> {
     ).switchMap((returnedBannerImages: BannerImage[]) => {
       if (this.uploader.queue.length > 0) {
         this.uploadRequestInFlight = true;
-        console.log("bannerImageService: this.newlyCreatedItem: ", this.newlyCreatedItem);
         return this.uploadImage(
           this.newlyCreatedItem.imageId
         ).map((returnedBannerImageUpload: BannerImage) => {
@@ -85,7 +84,6 @@ export class BannerImageService extends AppService<BannerImage> {
   }
 
   uploadImage(imageId: string): Observable<BannerImage> {
-    console.log("bannerImageService: imageId: ", imageId);
     let formData = new FormData();
     formData.append('imageid', imageId);
     let headers = new HttpHeaders({ 'Authorization': this._authService.token });

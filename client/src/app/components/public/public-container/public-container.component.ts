@@ -196,10 +196,6 @@ export class PublicContainerComponent implements OnInit {
             this._menuIsOpen = false;
           }
           this.determineAndSetMobileOverride();
-          console.log("router event: ", event);
-          if (event instanceof NavigationEnd) {
-            console.log("instance of NavigationEnd");
-          }
 
           // it's possible to just use the condition
           // event.url !== '/'. This is done for
@@ -225,7 +221,6 @@ export class PublicContainerComponent implements OnInit {
             }
           }
           if (event.url === '/') {
-            console.log('ok');
             // navigated home, fix items per page for
             // latest posts to default value
             this._fixingNavBar = false;

@@ -84,7 +84,6 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
         this.contentLoadService.doneLoading$.subscribe(
           (result) => {
             this.doneLoadingContent = result;
-            console.log("this.doneLoadingContent: ", this.doneLoadingContent);
             if (this.doneLoadingContent) {
               this.animationState = 'active';
             }
@@ -93,7 +92,6 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
         this.embedPostService.rawGetAllResponse$.subscribe(
           (res) => {
             if (res) {
-              console.log("res: ", res);
               this.setHasNextPage(res['hasNextPage']);
               this.hasPreviousPage = res.hasPreviousPage;
             }
@@ -229,13 +227,9 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
     }
 
     viewPost(post: EmbedPost) {
-      console.log("post to view: ", post);
       this.dialogRefViewPost = this.dialog.open(InterfaceViewPostComponent, {
         width: this.screenWidth < 760 ? "95%" : "65%",
         data: {post}
-      });
-      this.dialogRefViewPost.afterClosed().take(1).subscribe((result?) => {
-        console.log("done viewing post");
       });
     }
 
@@ -253,12 +247,10 @@ export class InterfacePostContentComponent implements OnInit, OnDestroy {
 
     submissionFinished() {
       //this.isLoading = false;
-      console.log("successful submission");
     }
 
     submissionFinishedWithError() {
       this.isLoading = false;
-      console.log("submissionfinishedwitherror()");
       this.animationState = "active";
       this.snackBar.open("Error. Check your connection & try again.", "", { duration: 5000 });
     }

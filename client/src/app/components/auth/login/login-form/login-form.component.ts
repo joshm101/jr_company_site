@@ -34,7 +34,6 @@ export class LoginFormComponent {
     };
     this._authService.login(credentials).subscribe(
       (success) => {
-        console.log("success: ", success);
         this._router.navigate(['interface/audio', { contentType: 0 }]);
       },
       (error) => {

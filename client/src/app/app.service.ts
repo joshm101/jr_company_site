@@ -100,7 +100,6 @@ export abstract class AppService<Model extends AppModel> {
       options
     ).switchMap((res: any) => {
       let body = res['data'];
-      console.log("body: ", body);
       this.editedItem = this.new(body);
       this.cacheService.updateCacheItem(this.editedItem);
       return this.cacheService.retrieveCacheItemById(this.editedItem._id);

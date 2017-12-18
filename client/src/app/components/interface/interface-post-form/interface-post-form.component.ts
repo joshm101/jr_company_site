@@ -181,7 +181,6 @@ export class InterfacePostFormComponent implements OnInit {
         }
         const newPost = items[0];
         if (!this.thumbnailCached(newPost)) {
-          console.log("Content needs loading: ", newPost);
           this._contentLoadService.contentNeedsLoading(newPost);
         }
         this._snackBar.open("The post was successfully created.", "Dismiss", {duration: 3000});

@@ -51,7 +51,6 @@ export class InterfaceComponent implements AfterViewInit {
 
     @HostListener('window:scroll', ['$event'])
   onWindowScrollEvent(event: Event) {
-    console.log("scroll event: ", event);
   }
 
   logout() {
@@ -70,7 +69,6 @@ export class InterfaceComponent implements AfterViewInit {
   }
 
   goToSettings() {
-    console.log("trigger settings");
     this._router.navigate(['/settings']);
   }
 

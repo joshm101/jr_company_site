@@ -28,7 +28,6 @@ export class InstagramAuthRequestDialogComponent implements OnInit {
       text: 'Obtaining access token...'
     });
     this.instagramAuthService.obtainAccessToken(data['code']).switchMap(res => {
-      console.log("res!!!!!!!: ", res);
       this.statuses.push(
         {
           discreteEvent: true,

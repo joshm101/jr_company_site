@@ -52,12 +52,10 @@ exports.uploadBannerImage = (req, res) => {
           return res.status(401).end(err.toString());
         }
         const imageId = req.body.imageid;
-        console.log("imageId: ", imageId);
         BannerImage.findOne({ 'imageId': imageId }, (err, bannerImage) => {
           if (err) {
             res.send(err);
           } else {
-            console.log("bannerImage: ", bannerImage);
             bannerImage.image = pathOfUploadedImage;
             bannerImage.save((err) => {
               if (err) {

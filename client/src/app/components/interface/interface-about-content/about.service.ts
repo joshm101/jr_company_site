@@ -30,17 +30,14 @@ export class AboutService extends AppService<About> {
   }
 
   update(body: About): Observable<About> {
-    console.log("body: ", body);
     this.requestInFlight = true;
     return super.update(body).switchMap((returnedAbout: About) => {
       if (this.uploader.queue.length > 0) {
         this.contentLoadService.contentNeedsLoading(returnedAbout);
         this.uploadRequestInFlight = true;
-        console.log("returned about: ", returnedAbout);
         return this.uploadImage(returnedAbout.imageId)
           .map(returnedAboutUpload => {
             this.uploadRequestInFlight = false;
-            console.log("returnedAboutUpload: ", returnedAboutUpload);
             this.requestInFlight = false;
 
             // if an image was uploaded, update

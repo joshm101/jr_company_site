@@ -29,7 +29,6 @@ exports.getLatestImages = (req, res) => {
           });
         })
         .catch(function(err) {
-          console.log('err: ', err);
           res.status(500).json({
             error: 'Images could not be retrieved from Instagram\'s servers.'
           });

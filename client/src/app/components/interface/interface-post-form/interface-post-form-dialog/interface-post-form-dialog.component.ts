@@ -43,7 +43,6 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     this.safeImages = [];
     this.contentLoadService.removeContentToTrack(this.postToEdit);
     this.embedPostEdit = this.embedPostService.new(this.postToEdit);
-    console.log(this.embedPostEdit);
     if (!this.embedPostEdit.embedContent) {
       this.embedPostEdit.embedContent = [];
     }
@@ -155,7 +154,6 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
     }
     this.embedPostEdit.embedContent = [];
     this.addPostForm.value.embedContent.forEach((item: string) => {
-      console.log("embedContent item: ", item);
       // don't save empty fields
       if (item !== undefined && item !== '') {
         this.embedPostEdit.embedContent.push(item)
@@ -170,7 +168,6 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
       this.embedPostService.update(this.embedPostEdit).take(1).subscribe(
         (item: EmbedPost) => {
           if (thumbnailIndexChanged) {
-            console.log("thumbnailIndexChanged: ", thumbnailIndexChanged);
             this.contentLoadService.contentNeedsLoading(item);            
           }
           if (!this.thumbnailCached(item)) {
@@ -254,7 +251,6 @@ export class InterfacePostFormDialogComponent implements OnInit, OnDestroy {
   public i: number;
 
   ngOnDestroy() {
-    console.log('undefined?');
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();
     })

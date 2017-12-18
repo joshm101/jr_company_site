@@ -100,7 +100,6 @@ export class NavBarComponent {
   }
 
   public handleNavMenuToggle() {
-    console.log('nav menu toggle');
     //this.menuIsOpen = !this.menuIsOpen;
     this.menuOpenStatusChange.emit(!this.menuIsOpen);
   }

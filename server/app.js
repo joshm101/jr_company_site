@@ -61,7 +61,6 @@ app.use('/api/userPreferences', userPreferencesRoutes);
 app.use('/api/auth/', authRoutes);
 app.get('/images/**/*', express.static(path.resolve(__dirname, './lib/images/')));
 app.get('*', (req, res) => {
-  console.log("req.query.id: ", req.query.id);
   let postTitle, description, imageUrl = undefined;
   const basePath = 'http://jruttenberg.io'  
   const url = `${basePath}${req.originalUrl}`;

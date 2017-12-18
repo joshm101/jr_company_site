@@ -94,7 +94,6 @@ export class InterfaceBannerImageFormComponent implements OnInit, OnDestroy {
   }
 
   handleFileSelection(input: any) {
-    console.log("input: ", input);
     if (input.files.length > 0) {
       let reader = new FileReader();
       reader.onload = (e: any) => {

@@ -66,8 +66,6 @@ export class ContentLoadService {
    * @param post
    */
   contentLoadingDone(post: AppModel) {
-    console.log("post: ", post);
-    console.log("this.postMapping: ", this.postMapping);
     if (this.postMapping.has(post)) {
       this.postMapping.set(post, 1);
       this.determineLoadDone();
@@ -95,12 +93,10 @@ export class ContentLoadService {
     this.postMapping.forEach(val => {
       if (val === 0) {
         loaded = false;
-        console.log("val is: ", val);
         this.doneLoadingArbiter.next(false);
       }
     });
     if (loaded) {
-      console.log('content load done!!!');
       this.doneLoadingArbiter.next(true);
     }
   }
