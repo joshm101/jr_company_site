@@ -1,6 +1,8 @@
 .posts-post-title {
   font-size: 1.5rem;
   color: white;
+  width: 100%;
+  display: inline-block;
 }
 
 .posts-post-text {
@@ -132,4 +134,16 @@
 
 .posts-post-link {
   text-decoration: none;
+  color: white;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.posts-post-title-link-wrap {
+  position: relative;
+  width: 100%;
+  color: white;
+  padding-bottom: 5px;
 }
