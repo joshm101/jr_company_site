@@ -31,8 +31,18 @@ export class ScrollInViewDirective implements OnInit, OnDestroy {
     this.subscriptions.push(
       Observable.fromEvent(window, 'scroll').throttleTime(100).subscribe(
         (event: any) => {
-          let scrollTop = event.target.scrollingElement.scrollTop;
-          let clientHeight = event.target.scrollingElement.clientHeight;
+          const scrollTop = event.target.scrollingElement.scrollTop;
+          const clientHeight = event.target.scrollingElement.clientHeight;
+          this.onWindowScrollEvent(scrollTop, clientHeight);
+        }
+      ),
+
+      // some items can come into view following a window resize, so
+      // handle the event in the same way scroll events are handled.
+      Observable.fromEvent(window, 'resize').throttleTime(100).subscribe(
+        (event: any) => {
+          const scrollTop = event.currentTarget.document.scrollingElement.scrollTop;
+          const clientHeight = event.currentTarget.document.scrollingElement.clientHeight;
           this.onWindowScrollEvent(scrollTop, clientHeight);
         }
       )
