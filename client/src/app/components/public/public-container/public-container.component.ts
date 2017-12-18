@@ -219,7 +219,6 @@ export class PublicContainerComponent implements OnInit {
             console.log('ok');
             // navigated home, fix items per page for
             // latest posts to default value
-            this._embedPostService.itemsPerPage = 4;
             this._fixingNavBar = false;
             this._initializeNavBar();
             setTimeout(() => {
