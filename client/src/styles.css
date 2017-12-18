@@ -14,12 +14,6 @@ body {
   height: 100% !important;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  background-repeat:no-repeat;
-  background: -webkit-linear-gradient( to left top, rgba(128, 128, 128, 0.02), white, rgba(128, 128, 128, 0.02));
-  background: -moz-linear-gradient( to left top, rgba(128, 128, 128, 0.02), white, rgba(128, 128, 128, 0.02));
-  background: -ms-linear-gradient( to left top, rgba(128, 128, 128, 0.02), white, rgba(128, 128, 128, 0.02));
-  background: -o-linear-gradient( to left top, rgba(128, 128, 128, 0.02), white, rgba(128, 128, 128, 0.02));
-  background: linear-gradient( to left top, rgba(128, 128, 128, 0.02), white, rgba(128, 128, 128, 0.02));
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
