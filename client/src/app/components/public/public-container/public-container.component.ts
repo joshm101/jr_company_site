@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { DOCUMENT, Title } from '@angular/platform-browser';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { WindowRefService } from '../../../external-services/window/window.service';
@@ -170,6 +170,7 @@ export class PublicContainerComponent implements OnInit {
     private _windowRefService: WindowRefService,
     private _router: Router,
     private _embedPostService: EmbedPostService,
+    private _titleService: Title,
     @Inject(DOCUMENT) private document: Document
   ) {
     this._subscriptions = [];
@@ -186,6 +187,10 @@ export class PublicContainerComponent implements OnInit {
             this._menuIsOpen = false;
           }
           this.determineAndSetMobileOverride();
+          console.log("router event: ", event);
+          if (event instanceof NavigationEnd) {
+            console.log("instance of NavigationEnd");
+          }
 
           // it's possible to just use the condition
           // event.url !== '/'. This is done for
@@ -194,11 +199,11 @@ export class PublicContainerComponent implements OnInit {
           // nav bar fixed, but that may not always
           // be the case.
           if (
-            event.url.startsWith('/audio') ||
-            event.url.startsWith('/video') ||
-            event.url.startsWith('/games') ||
-            event.url.startsWith('/about') ||
-            event.url.startsWith('/view')
+             event.url.startsWith('/audio') ||
+             event.url.startsWith('/video') ||
+             event.url.startsWith('/games') ||
+             event.url.startsWith('/about') ||
+             event.url.startsWith('/view')
           ) {
             this._fixingNavBar = true;
             this.fixNavBar();
@@ -211,11 +216,16 @@ export class PublicContainerComponent implements OnInit {
             }
           }
           if (event.url === '/') {
+            console.log('ok');
             // navigated home, fix items per page for
             // latest posts to default value
             this._embedPostService.itemsPerPage = 4;
             this._fixingNavBar = false;
             this._initializeNavBar();
+            setTimeout(() => {
+              window.scrollTo(0, 0);              
+            }, 50);
+            this._titleService.setTitle('JRuttenberg');
           }
           this.currentUrl = event.url;
         }
