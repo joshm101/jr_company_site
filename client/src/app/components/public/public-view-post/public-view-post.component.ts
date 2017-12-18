@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs/Rx';
 
@@ -17,7 +17,8 @@ export class PublicViewPostComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private embedPostService: EmbedPostService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private titleService: Title,
   ) { 
     this.subscriptions = [];
     this.subscriptions.push(
@@ -35,6 +36,7 @@ export class PublicViewPostComponent implements OnInit, OnDestroy {
         (post) => {
           this.post = post;
           this.embedContent = this.getSafeEmbedContent();
+          this.titleService.setTitle(`${post.title} | JRuttenberg`);
         }
       )
     );

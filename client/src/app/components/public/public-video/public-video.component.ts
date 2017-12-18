@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { 
@@ -22,8 +23,10 @@ export class PublicVideoComponent implements OnInit, OnDestroy {
     private embedPostService: EmbedPostService,
     private configService: ConfigService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
   ) {
+    this.titleService.setTitle('Video | JRuttenberg');
     this.subscriptions.push(
       this.configService.getConfig().filter(
         config => !!config

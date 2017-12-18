@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
 import {
@@ -18,8 +19,10 @@ export class PublicAboutComponent implements OnInit {
   public contactInfo$: Observable<ContactInfo>;
   constructor(
     private aboutService: AboutService,
-    private contactInfoService: ContactInfoService
+    private contactInfoService: ContactInfoService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle('About | JRuttenberg');
     this.about$ = this.aboutService.getAll().map(abouts =>
       abouts[0]
     );

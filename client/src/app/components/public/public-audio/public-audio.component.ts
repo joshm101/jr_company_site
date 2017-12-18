@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { ConfigService } from '../../../external-services/config/config.service';
@@ -23,7 +24,9 @@ export class PublicAudioComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle('Audio | JRuttenberg');
     this.embedPostService.itemsPerPage = 6;
     this.subscriptions.push(
       this.configService.getConfig().filter(
