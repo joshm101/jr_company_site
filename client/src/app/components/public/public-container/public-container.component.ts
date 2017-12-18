@@ -226,7 +226,8 @@ export class PublicContainerComponent implements OnInit {
             this._fixingNavBar = false;
             setTimeout(() => {
               window.scrollTo(0, 0);   
-              this._initializeNavBar();              
+              this._initializeNavBar();
+              this.determineAndSetMobileOverride();              
             }, 1);
             this._titleService.setTitle('JRuttenberg');
           }
