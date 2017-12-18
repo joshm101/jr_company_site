@@ -45,6 +45,7 @@ export class PublicContainerComponent implements OnInit {
   private _hideLinks: boolean;
   private _fixingNavBar: boolean;
   private _previousRouteScrollTop: number = 0;
+  private _previousRouteScrollTopOnRouteEvent: number = 0;
   private _shouldRestoreScrollPositionOnStatePop: boolean = false;
 
   public set navBarMarginTop(val: number) {
@@ -183,6 +184,14 @@ export class PublicContainerComponent implements OnInit {
     this._subscriptions.push(
       this._router.events.subscribe(
         (event: any) => {
+
+          // capture value on route event because an initial scroll
+          // event can overwrite the intended value of 
+          // _previousRouteScrollTop when attempting to restore
+          // scroll top position on window popstate event (back
+          // navigation)
+          this._previousRouteScrollTopOnRouteEvent = this._previousRouteScrollTop;
+
           if (this.currentUrl !== event.url) {
             this._menuIsOpen = false;
           }
@@ -480,13 +489,13 @@ export class PublicContainerComponent implements OnInit {
       (requestInFlight) => {
         if (this._shouldRestoreScrollPositionOnStatePop) {
           this._shouldRestoreScrollPositionOnStatePop = false;
-
+          const restoreTo = this._previousRouteScrollTopOnRouteEvent;
           // defer the scrollTo() call until the next JS event cycle.
           // scrollTo() won't happen within this subscription if
           // it's not wrapped in this timeout.
           setTimeout(() => {
-            window.scrollTo(0, this._previousRouteScrollTop);            
-          }, 75);
+            window.scrollTo(0, restoreTo);            
+          }, 50);
         }
       }
     );
