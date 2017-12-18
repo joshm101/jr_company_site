@@ -220,10 +220,10 @@ export class PublicContainerComponent implements OnInit {
             // navigated home, fix items per page for
             // latest posts to default value
             this._fixingNavBar = false;
-            this._initializeNavBar();
             setTimeout(() => {
-              window.scrollTo(0, 0);              
-            }, 50);
+              window.scrollTo(0, 0);   
+              this._initializeNavBar();              
+            }, 1);
             this._titleService.setTitle('JRuttenberg');
           }
           this.currentUrl = event.url;
