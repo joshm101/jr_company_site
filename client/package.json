@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "build-dev": "ng build --output-hashing none --extract-css",
+    "build-prod": "ng build --prod --output-hashing none",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
