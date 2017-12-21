@@ -882,7 +882,7 @@ html[xmlns] .clearfix {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 390px) {
   #public-nav-bar-name {
     font-size: 20px;
     line-height: 20px;
@@ -910,7 +910,7 @@ html[xmlns] .clearfix {
     margin: 3px 0;
   }
   .public-nav-bar-menu-icon-wrap {
-    top: 91.5px;
+    top: 92px;
   }
   .public-nav-bar-menu-icon-bar.change.bar-1 {
     -webkit-transform: rotate(-45deg) translate(-3.1px, 3px);
@@ -922,7 +922,7 @@ html[xmlns] .clearfix {
   }
 }
 
-@media (min-width: 375px) and (max-width: 425px) {
+@media (min-width: 390px) and (max-width: 425px) {
   #public-nav-bar-name {
     font-size: 25px;
     line-height: 25px;
