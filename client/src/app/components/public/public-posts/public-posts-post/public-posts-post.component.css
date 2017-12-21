@@ -62,6 +62,12 @@
   }
 }
 
+@media screen and (max-width: 390px) {
+  .posts-post-title {
+    font-size: 1.3rem !important;
+  }
+}
+
 .post-wrapper-div {
   display: inline-block;
   width: 100%;
@@ -143,7 +149,7 @@
 
 .posts-post-title-link-wrap {
   position: relative;
-  width: 90%;
+  width: 85%;
   margin: auto;
   color: white;
   padding-bottom: 5px;
