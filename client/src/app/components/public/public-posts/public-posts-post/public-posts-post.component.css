@@ -2,7 +2,6 @@
   font-size: 1.5rem;
   color: white;
   width: 100%;
-  display: inline-block;
 }
 
 .posts-post-text {
@@ -149,7 +148,7 @@
 
 .posts-post-title-link-wrap {
   position: relative;
-  width: 85%;
+  width: 90%;
   margin: auto;
   color: white;
   padding-bottom: 5px;
