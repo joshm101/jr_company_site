@@ -125,6 +125,7 @@ const appRoutes: Routes = [
       { path: 'audio', component: InterfacePostContentComponent },
       { path: 'video', component: InterfacePostContentComponent },
       { path: 'games', component: InterfacePostContentComponent },
+      { path: 'reel', component: InterfacePostContentComponent },
       { path: 'additional-content', component: InterfaceAdditionalContentComponent },
     ],
     canActivate: [AuthGuardService],
