@@ -75,8 +75,6 @@ export class LatestContentService {
         }).catch(this.apiService.handleError)
       )
     }).map(([latestPosts, reelPosts]) => {
-      console.log("latestPosts: ", latestPosts);
-      console.log("reelPosts: ", reelPosts);
       let reelPost = undefined;
       let result: EmbedPost[] = [];
       // check if there is at least one reel post
