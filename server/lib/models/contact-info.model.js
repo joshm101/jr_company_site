@@ -8,6 +8,7 @@ var ContactInfo = new Schema({
   instagramUrl: String,
   soundcloudUrl: String,
   twitterUrl: String,
+  youtubeUrl: String,
 });
 
 module.exports = mongoose.model('ContactInfo', ContactInfo);

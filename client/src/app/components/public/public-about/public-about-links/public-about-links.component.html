@@ -27,6 +27,13 @@
   >
     <img src="/assets/svg/twitter.svg">      
   </a>
+  <a
+    *ngIf="contactInfo.youtubeUrl"
+    [href]="contactInfo.youtubeUrl"
+    target="_blank"
+  >
+    <img src="/assets/svg/youtube.svg">
+  </a>  
   <a 
     *ngIf="contactInfo.email" 
     [href]="'mailto:' + contactInfo.email"

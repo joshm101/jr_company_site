@@ -47,6 +47,7 @@ export class InterfaceContactInfoFormComponent {
       instagramUrl: '',
       soundcloudUrl: '',
       twitterUrl: '',
+      youtubeUrl: '',
     });
     this.contactInfoObjBackup = Object.assign(
       {},
@@ -62,6 +63,7 @@ export class InterfaceContactInfoFormComponent {
       instagramUrl: [this.contactInfoObj.instagramUrl],
       soundcloudUrl: [this.contactInfoObj.soundcloudUrl],
       twitterUrl: [this.contactInfoObj.twitterUrl],
+      youtubeUrl: [this.contactInfoObj.youtubeUrl],
     });
   }
 
@@ -81,6 +83,7 @@ export class InterfaceContactInfoFormComponent {
     this.contactInfoObj.facebookUrl = this.contactInfoForm.value.facebookUrl;
     this.contactInfoObj.instagramUrl = this.contactInfoForm.value.instagramUrl;
     this.contactInfoObj.twitterUrl = this.contactInfoForm.value.twitterUrl;
+    this.contactInfoObj.youtubeUrl = this.contactInfoForm.value.youtubeUrl;
     if (this.contactInfoObj._id) {
       this.contactInfoService.update(this.contactInfoObj).take(1).subscribe(
         (contactInfo) => {

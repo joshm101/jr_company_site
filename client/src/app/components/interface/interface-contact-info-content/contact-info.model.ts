@@ -11,4 +11,5 @@ export class ContactInfo extends AppModel {
   instagramUrl: string;
   soundcloudUrl: string;
   twitterUrl: string;
+  youtubeUrl: string;
 }
