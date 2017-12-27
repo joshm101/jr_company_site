@@ -1,0 +1,22 @@
+<div class="post-form-image-preview-comp-wrap">
+  <div class="text-right remove-img-button-wrap">
+    <button mat-button
+            mat-icon-button
+            type="button"
+            mat-tooltip="Remove image"
+            (click)="removeThisImage($event)">
+      <mat-icon>
+        close
+      </mat-icon>
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <img class="img-fit-container" [src]="imgData">
+    </div>
+  </div>
+  <button mat-button
+          (click)="setThisImageAsThumbnail($event)"
+          type="button">Set as thumbnail</button>
+</div>

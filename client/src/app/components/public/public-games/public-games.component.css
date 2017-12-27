@@ -1,0 +1,9 @@
+.games {
+  padding: 40px 0;
+}
+
+@media screen and (max-width: 640px) {
+  .games {
+    padding: 20px 0;
+  }
+}

@@ -1,0 +1,14 @@
+<div>
+  <ul class="public-nav-bar-links hide-links"
+      [class.hide-links]="!isOpen"
+      [class.show-links]="isOpen && screenWidth <= 640">
+    <li *ngFor="let link of links">
+      <a class="text-links" [routerLink]="link.url"><span>{{ link.label }}</span></a>
+    </li>
+    <li class="contact-info-links" *ngIf="screenWidth <= 640">
+      <app-public-about-links
+        [contactInfo]="contactInfo"
+      ></app-public-about-links>
+    </li>
+  </ul>
+</div>

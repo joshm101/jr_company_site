@@ -1,0 +1,11 @@
+.post-wrapper-div:before {
+  content: "";
+  display: block;
+  padding-top: 1%;
+}
+
+.post-wrapper-div {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}

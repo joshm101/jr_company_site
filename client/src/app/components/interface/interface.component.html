@@ -1,0 +1,52 @@
+<div class="interface-wrap" (window:resize)="onResize($event)">
+
+  <mat-toolbar class="interface-toolbar"  color="primary">
+    <span>Manage Site Content</span>
+    <span class="toolbar-spacer"></span>
+    <span *ngIf="currentWidth > 559">
+      <button mat-button (click)="goToSettings()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+        <mat-icon class="navbar-button-icon">settings</mat-icon>
+        <span>Settings</span>
+      </button>
+      <button mat-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+        <mat-icon class="navbar-button-icon">power_settings_new</mat-icon>
+        <span>Log Out</span>
+      </button>
+    </span>
+    <span *ngIf="currentWidth < 560">
+      <button mat-icon-button [matMenuTriggerFor]="navbarMenu"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #navbarMenu="matMenu">
+        <button mat-menu-item (click)="goToSettings()">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+          <span>Log Out</span>
+        </button>
+      </mat-menu>
+    </span>
+  </mat-toolbar>
+
+
+    <nav mat-tab-nav-bar color="primary">
+      <a mat-tab-link
+         *ngFor="let link of tabLinks; let i = index"
+         [active]="activeLinkIndex === i"
+         [routerLink]="[link.path, { contentType: link.contentType }]"
+         routerLinkActive #rla="routerLinkActive"
+
+         (click)="activeLinkIndex = i">
+        {{ link.label }}
+      </a>
+      <!--
+      <a mat-tab-link
+         #aboutTab label="About">
+        <interface-content></interface-content>
+      </a>-->
+    </nav>
+  <div class="interface-content-outlet-wrap">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

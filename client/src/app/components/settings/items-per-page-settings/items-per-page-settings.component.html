@@ -1,0 +1,30 @@
+<div>
+  <div style="margin-bottom: 70px;">
+    <div>
+      <h4>Latest Content - Number of Items</h4>        
+    </div>
+    <div>
+      <app-items-per-page-settings-select
+        [itemsPerPageOptions]="latestContentItemsPerPageOptions"
+        [label]="latestContentSelectLabel"
+        [itemsPerPageValue]="latestContentItemsPerPage"
+        (itemsPerPageChange)="latestContentItemsPerPageChange($event)"
+      >
+      </app-items-per-page-settings-select>
+    </div>
+  </div>
+  <div>
+    <div>
+      <h4>Content Pages - Items per Page</h4>
+    </div>
+    <div>
+      <app-items-per-page-settings-select
+        [itemsPerPageOptions]="contentPagesItemsPerPageOptions"
+        [label]="contentPagesItemsPerPageSelectLabel"
+        [itemsPerPageValue]="contentPagesItemsPerPage"
+        (itemsPerPageChange)="contentPagesItemsPerPageChange($event)"
+      >
+      </app-items-per-page-settings-select>
+    </div>
+  </div>
+</div>

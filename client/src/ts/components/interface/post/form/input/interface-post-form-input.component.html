@@ -1,9 +1,0 @@
-<div [hidden]="!fillerInputDisplay"
-     [ngClass]="{'filler-title-text': biggerInput, 'filler-text': !biggerInput}">{{ fillerText }}</div>
-<div (input)="removeInputFiller($event)"
-     contenteditable="true"
-     tabindex="0"
-     [textContent]="value"
-     (input)="value=$event.target.textContent"
-     [ngClass]="{'title-input': inputMode === InputMode.SingleLine,
-                 'description-input': inputMode === InputMode.MultiLine}"><br></div>

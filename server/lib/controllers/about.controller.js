@@ -5,6 +5,7 @@ var uuid = require('uuid');
 var formidable = require('formidable');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
+var path = require('path');
 var jwt = require('jsonwebtoken');
 const JRSECRET = process.env.JRSECRET;
 
@@ -16,9 +17,8 @@ var storage = multer.diskStorage({
   destination: function(req, file, cb) {
 
     imagesId = req.body.imagesid;
-    console.log("imagesId: ", imagesId);
-    if (imagesId !== undefined) {
-      cb(null, "./client/static/images/about/" + imagesId);
+    if (imagesId && imagesId !== 'undefined') {
+      cb(null, path.resolve(__dirname, "../images/about/" + imagesId));
     } else {
       cb(new Error("The upload handshake failed."));
     }
@@ -69,7 +69,7 @@ exports.uploadAboutImage = function(req, res) {
                 res.status(500).end(err.toString());
               } else {
                 pathsOfUploadedImages = [];
-                res.json(about);
+                res.json({data: about});
               }
             });
           }
@@ -87,7 +87,7 @@ exports.createAboutPage = function(req, res) {
     } else {
       var about = new About(req.body);
       about.imageId = randomstring.generate(12);
-      fs.mkdir('./client/static/images/about/' + about.imageId);
+      fs.mkdir(path.resolve(__dirname, '../images/about/' + about.imageId));
       about.save(function(err) {
         if (err) {
           res.send(err);
@@ -114,7 +114,7 @@ exports.updateAboutPage = function(req, res) {
           about.description = req.body.description;
           if (req.body.image !== about.image) {
             // image has been replaced/removed, purge about images directory
-            fs.remove('./client/static/images/about/' + about.image, function(err) {
+            fs.remove(path.resolve(__dirname, '../' + about.image), function(err) {
               if (err) {
                 res.send(err);
               } else {
@@ -149,9 +149,9 @@ exports.getAboutPage = function(req, res) {
       res.send(err);
     } else {
       if (about[0]) {
-        res.json(about);
+        res.json({data: about});
       } else {
-        res.json([]);
+        res.json({data: []});
       }
     }
   })

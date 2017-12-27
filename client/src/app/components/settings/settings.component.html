@@ -1,0 +1,34 @@
+<div class="settings-wrap" (window:resize)="onResize()">
+  <div class="settings-toolbar-wrap">
+    <mat-toolbar class="settings-toolbar"  color="primary">
+      <span>Settings</span>
+      <span class="toolbar-spacer"></span>
+      <span *ngIf="currentWidth > 559">
+        <button mat-button (click)="goToInterface()" class="navbar-button" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+          <mat-icon class="navbar-button-icon">home</mat-icon>
+          <span>Interface</span>
+        </button>
+        <button mat-button (click)="logout()" style="background-color: #3f51b5; color: white; margin-right: 15px;">
+          <mat-icon class="navbar-button-icon">power_settings_new</mat-icon>
+          <span>Log Out</span>
+        </button>
+      </span>
+      <span *ngIf="currentWidth < 560">
+        <button mat-icon-button [matMenuTriggerFor]="navbarMenu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #navbarMenu="matMenu">
+          <button mat-menu-item (click)="goToInterface()">
+            <mat-icon>home</mat-icon>
+            <span>Interface</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Log Out</span>
+          </button>
+        </mat-menu>
+      </span>
+    </mat-toolbar>
+  </div>
+  <div class="settings-content-wrap container" style="padding-top: 64px;">
+    <app-settings-content></app-settings-content>
+  </div>
+</div>

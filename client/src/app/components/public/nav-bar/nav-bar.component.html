@@ -1,0 +1,24 @@
+<div class="public-nav-bar container-fluid">
+  <div class="public-nav-bar-menu-icon-wrap" (click)="handleNavMenuToggle()">
+    <app-menu-icon [isOpen]="menuIsOpen"></app-menu-icon>
+  </div>
+  <div
+    id="public-nav-bar-wrap-name"
+    class="public-nav-bar-name-wrap text-center"
+    [class.not-scrolling-in]="!shouldCollapseLogo"
+    [class.scrolling-in]="shouldCollapseLogo"
+  >
+    <a routerLink="/"><span id="public-nav-bar-name">Jacob Ruttenberg</span></a>
+  </div>
+  <div class="text-center public-nav-bar-links-wrap"
+    [style.opacity]="linksOpacity"
+    [class.hide]="shouldHideLinks"
+    [class.show]="!shouldHideLinks">
+      <app-links 
+        [isOpen]="menuIsOpen" 
+        [screenWidth]="screenWidth" 
+        [links]="links"
+        [contactInfo]="contactInfo$ | async"
+      ></app-links>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+.links-wrap img {
+  padding: 10px 5px;
+}
+
+.links-wrap a {
+  text-decoration: none;
+  padding: 0 2px;  
+}
+
+@media screen and (min-width: 355px) {
+  .links-wrap a {
+    padding: 0 6px;
+  }
+}

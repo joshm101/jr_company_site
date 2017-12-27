@@ -1,0 +1,80 @@
+<form [formGroup]="addPostForm" (ngSubmit)="addPostSubmit($event)" *ngIf="addPostForm">
+  <mat-card class="post-form-comp-wrap" #postFormWrap tabindex="0">
+    <div class="form-wrap">
+      <div class="add-post-input-wrap">
+        <input type="text" class="title-input" formControlName="title" placeholder="Title" />
+      </div>
+
+      <div [hidden]="!focused" class="add-post-input-wrap" formArrayName="embedContent">
+        <div *ngFor="let embedItemInput of addPostForm.controls['embedContent']['controls']; let i=index;">
+          <div [formGroupName]="i" class="add-post-input-inner-wrap">
+            <textarea 
+              formControlName="embedItem" 
+              class="description-input" 
+              placeholder="Embed Code"
+              appAutoResizeTextarea>
+            </textarea>
+          </div>
+          <button matTooltip="Remove embeddable content"
+                  type="button"
+                  (click)="removeEmbedContent(index, $event)"
+                  [hidden]="!focused" mat-icon-button>
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button matTooltip="Add embeddable content"
+              class="add-embed-input-button"
+              type="button"
+              (click)="addEmbedContent()"
+              [hidden]="!focused" mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+
+      <div [hidden]="!focused" class="add-post-input-wrap">
+        <textarea 
+          formControlName="description" 
+          class="description-input" 
+          placeholder="Description"
+          appAutoResizeTextarea>
+        </textarea>
+      </div>
+
+      <input hidden #fileInput type="file"
+             ng2FileSelect
+             #input
+             (change)="handleFileSelection(input)"
+             [uploader]="embedPostService.uploader" />
+
+      <div class="row">
+        <div [hidden]="!focused" class="col-12 col-md-6 col-xl-4"
+          *ngFor="let image of images;trackBy:i; let i = index;">
+            <app-interface-post-form-image-preview [imgData]="image"
+                              [isThumbnail]="i === 0 || i === this.addPostForm.value.thumbnailIndex"
+                              (setAsThumbnail)="setThumbnail(i)"
+                              (removeImage)="removeImage(i)">
+            </app-interface-post-form-image-preview>
+        </div>
+      </div>
+
+
+
+      <div [hidden]="!focused" class="add-post-action-bar-wrap">
+        <mat-toolbar class="add-post-action-bar">
+          <button class="add-image-button"
+                  matTooltip="Add image"
+                  mat-icon-button
+                  type="button"
+                  (click)="selectFileInput()">
+            <mat-icon class="add-image-icon">image</mat-icon>
+          </button>
+          <span flex style="flex: 1 1 auto;"></span>
+          <button (click)="doneClicked($event)"
+                  tabindex="0"
+                  mat-button type="submit"
+                  class="add-post-done-button">Done</button>
+        </mat-toolbar>
+      </div>
+    </div>
+  </mat-card>
+</form>

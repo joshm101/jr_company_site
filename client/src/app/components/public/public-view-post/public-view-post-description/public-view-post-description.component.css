@@ -1,0 +1,11 @@
+.view-post-description {
+  color: white;
+  white-space: pre-line;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 420px) {
+  .view-post-description {
+    font-size: 18px;
+  }
+}

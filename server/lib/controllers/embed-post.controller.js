@@ -7,6 +7,7 @@ var bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 const JRSECRET = process.env.JRSECRET;
+const path = require('path');
 
 var EmbedPost = require('../models/embed-post.model');
 
@@ -18,7 +19,7 @@ var storage = multer.diskStorage({
 
     imagesId = req.body.imagesid;
     if (imagesId !== undefined) {
-      cb(null, "./client/static/images/posts/" + imagesId);
+      cb(null, path.resolve(__dirname, "../images/posts/" + imagesId));
     } else {
       cb(new Error("The upload handshake failed."));
     }
@@ -100,9 +101,9 @@ exports.createPost = function(req, res) {
       var embedPost = new EmbedPost(req.body);
       embedPost.edited = embedPost.created;
       embedPost.imagesId = randomstring.generate(12);
-      fs.mkdir('./client/static/images/posts/' + embedPost.imagesId, function(err) {
+      fs.mkdir(path.resolve(__dirname, '../images/posts/' + embedPost.imagesId), function(err) {
         if (err) {
-          res.status(500).send();
+          res.status(500).send(err);
         } else {
           // save the newly created
           // embedPost object to the DB
@@ -124,21 +125,99 @@ exports.createPost = function(req, res) {
 }
 
 exports.getPosts = function(req, res) {
-  EmbedPost.find(function(err, posts) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(posts);
-    }
+  let sortCreated = parseInt(req.query.created) || -1;
+  let limit = parseInt(req.query.limit) || 6;
+  let requestedPage = parseInt(req.query.page) || 1;
+  let pageBeforeRequested = requestedPage - 1;
+  let pageAfterRequested = requestedPage + 1;
+  let contentType = req.query.content_type != undefined ? parseInt(req.query.content_type) : undefined;
+
+  const requestedPageQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: requestedPage, 
+    contentType
   });
+  const pageBeforeRequestedQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: pageBeforeRequested, 
+    contentType
+  });
+  const pageAfterRequestedQuery = constructPagedQuery({
+    sortCreated, 
+    limit, 
+    page: pageAfterRequested, 
+    contentType
+  });
+  requestedPageQuery.exec()
+    .then(posts => {
+      return [posts]
+    })
+    .then(result => {
+      if (pageBeforeRequested === 0) {
+        result.push([]);
+        return result;
+      }
+      return pageBeforeRequestedQuery.exec()
+        .then(previousPagePosts => {
+          result.push(previousPagePosts)
+          return result;
+        });
+    })
+    .then(result => {
+      return pageAfterRequestedQuery.exec()
+        .then(afterPagePosts => {
+          result.push(afterPagePosts);
+          return result;
+        })
+    })
+    .then(result => {
+      let requestedPagePosts = result[0];
+      let previousPagePosts = result[1];
+      let afterPagePosts = result[2];
+      res.json({
+        hasPreviousPage: previousPagePosts.length > 0,
+        data: requestedPagePosts,
+        hasNextPage: afterPagePosts.length > 0,
+      });
+    })
+    .then(undefined, function(err) {
+      res.status(500).send(err);
+    });
+}
+
+constructPagedQuery = (options) => {
+  const {
+    page,
+    limit,
+    contentType,
+    sortCreated
+  } = options;
+  const offset = (page - 1) * limit || 0;
+  findOptions = Object.assign(
+    {},
+    contentType != undefined ? { contentType } : null
+  );
+  return EmbedPost.find(
+    findOptions
+  ).sort(
+    {
+      created: sortCreated
+    }
+  ).skip(
+    offset || 0
+  ).limit(
+    limit
+  );
 }
 
 exports.getPostById = function(req, res) {
   EmbedPost.findById(req.params.post_id, function (err, post) {
     if (err) {
-      res.send(err);
+      res.status(404).send();
     } else {
-      res.json(post);
+      res.json({data: post});
     }
   });
 }
@@ -174,7 +253,7 @@ exports.updatePost = function(req, res) {
           });
           post.images.forEach(function(image, index) {
             if (!hashObject.hasOwnProperty(image)) {
-              fs.unlink('./static/images/posts/' + image, function(err) {
+              fs.unlink(path.resolve(__dirname, '../' + image), function(err) {
                 if (err) {
                   console.error(err);
                   //res.end(400);
@@ -210,7 +289,7 @@ exports.deletePost = function(req, res) {
           console.error(err);
           res.end(404);
         } else {
-          fs.remove('./client/static/images/posts/' + post.imagesId, function(err) {
+          fs.remove(path.resolve(__dirname, '../images/posts/' + post.imagesId), function(err) {
             if (err) {
               console.error(err);
             }
@@ -234,3 +313,7 @@ exports.deletePost = function(req, res) {
     }
   });
 }
+
+// const cleanEmptyObjectProperties = (obj) => {
+//   Object.keys(obj).forEach((key) => (obj[key] == null) && delete obj[key]);
+// }

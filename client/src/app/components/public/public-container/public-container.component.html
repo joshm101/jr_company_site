@@ -1,0 +1,19 @@
+<div class="public-container" style="height: 100%;">
+  <div class="nav-section">
+    <div class="nav-bar-wrap"
+         [class.fade-nav]="fadeNavBar"
+         [style.margin-top]="marginTopStyleString">
+      <app-nav-bar
+        [shouldCollapseLogo]="shouldCollapseNavLogo"
+        [linksOpacity]="navBarLinksOpacity"
+        [menuIsOpen]="_menuIsOpen"
+        (onNavBarMouseEnter)="navBarMouseEnter()"
+        (onNavBarMouseLeave)="navBarMouseLeave()"
+        (menuOpenStatusChange)="handleMenuOpenStatusChange($event)"
+      ></app-nav-bar>
+    </div>
+  </div>
+  <div style="height: 100%;">
+    <router-outlet></router-outlet>
+  </div>
+</div>

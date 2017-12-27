@@ -1,0 +1,29 @@
+<form autocomplete="off" class="auth-login-form"
+      [formGroup]="loginForm" (submit)="loginFormSubmit($event)">
+  <div>
+    <mat-form-field class="full-width auth-input-container">
+      <input matInput
+             required
+             formControlName="username"
+             type="text"
+             placeholder="Username">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="full-width auth-input-container">
+      <input matInput
+             required
+             formControlName="password"
+             type="password"
+             minlength="6"
+             placeholder="Password">
+    </mat-form-field>
+  </div>
+  <div class="text-xs-right">
+    <button type="submit"
+            mat-raised-button
+            [disabled]="loginForm.invalid"
+            color="primary">Sign in</button>
+  </div>
+
+</form>

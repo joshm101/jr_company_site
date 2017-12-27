@@ -1,0 +1,20 @@
+<div class="non-home-route-wrap">
+  <div class="container view-post" *ngIf="post">
+    <app-public-view-post-header 
+      [date]="post.created"
+      [title]="post.title"
+    ></app-public-view-post-header>
+    <div class="view-post-content-wrap">
+      <app-public-view-post-embed-content 
+        [embedContent]="embedContent"
+      ></app-public-view-post-embed-content>
+      <app-public-view-post-description 
+        [description]="post.description"
+      ></app-public-view-post-description>
+    </div>
+    <div class="view-post-content-wrap">
+      <app-public-view-post-images
+        [images]="post.images"
+      ></app-public-view-post-images>
+    </div>
+</div>

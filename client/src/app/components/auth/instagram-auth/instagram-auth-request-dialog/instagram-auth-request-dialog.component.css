@@ -1,0 +1,33 @@
+.loading-indicator {
+  margin: auto;
+}
+
+.section-wrap {
+  margin-bottom: 20px;
+}
+
+.status-text {
+  display: block;
+  text-align: center;
+}
+
+.request-result-indicator {
+  text-align: center;
+}
+
+.request-result-indicator .material-icons {
+  font-size: 50px;
+}
+
+.request-result-indicator .mat-icon {
+  height: 50px;
+  width: 50px;
+}
+
+.request-success {
+  color: #4CAF50;
+}
+
+.request-fail {
+  color: #F44336;  
+}

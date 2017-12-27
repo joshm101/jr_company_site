@@ -1,0 +1,19 @@
+<mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="0">
+  <mat-grid-tile *ngFor="let image of images">
+    <div 
+      class="feed-image-wrapper" 
+      [style.background-image]="imageBackgroundStyle(image)"
+      [class.show-ig-feed-image]="imageIsLoaded(image)"
+      [class.hide-ig-feed-image]="!imageIsLoaded(image)"
+      (click)="goToImageLink(image)"
+      *ngIf="shouldLoadImages"
+    >
+    </div>
+    <div class="loading-indicator-wrap" *ngIf="!imageIsLoaded(image)">
+      <mat-progress-spinner 
+        class="loading-indicator-image"
+        mode="indeterminate"
+      ></mat-progress-spinner>    
+    </div>  
+  </mat-grid-tile>
+</mat-grid-list>

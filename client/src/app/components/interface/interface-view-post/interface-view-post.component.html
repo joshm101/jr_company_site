@@ -1,0 +1,64 @@
+<div mat-dialog-title class="interface-view-post-title-wrap">
+  <h2 style="margin-bottom: 5px;">{{ post.title }}</h2>        
+</div>
+<div mat-dialog-content class="interface-view-post-content-wrap container-fluid">
+  <div class="row">
+    <div 
+      class="col-md-6 col-12 interface-view-post-content-section" 
+      *ngIf="post.description && post.description.length > 0"
+    >
+      <img 
+        class="interface-view-post-thumbnail-img"
+        *ngIf="thumbnailImage !== ''"
+        [src]="thumbnailImage"
+      >
+    </div>
+    <div 
+      class="interface-view-post-content-section col-md-6 col-12" 
+      *ngIf="post.description && post.description.length > 0"
+    >
+        {{ post.description }}
+    </div>          
+    <div 
+      class="col-12 col-md-6 offset-md-3 interface-view-post-content-section" 
+      *ngIf="!post.description || post.description.length === 0"
+      style="text-align: center;"
+    >
+      <img 
+        class="interface-view-post-thumbnail-img"
+        *ngIf="thumbnailImage !== ''"
+        [src]="thumbnailImage"
+      >
+    </div>
+  </div>
+  <div *ngIf="embedContentNotEmpty" class="interface-view-post-content-section interface-view-post-embed-content">
+    <app-public-view-post-embed-content [embedContent]="embedContent">
+    </app-public-view-post-embed-content>
+  </div>  
+  <div *ngIf="nonThumbnailImages" class="interface-view-post-content-section interface-view-post-images">
+    <div class="row">
+      <div 
+        class="col-md-6 col-lg-4 col-12" 
+        *ngFor="let image of nonThumbnailImages"
+      > 
+        <div class="row">
+          <div class="col-12">
+            <img [src]="image" class="interface-view-post-img">                    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="interface-view-post-dialog-actions-wrap">
+  <div class="text-right">
+    <button 
+      (click)="doneViewingPost($event)"
+      mat-button 
+      type="button"
+      mat-dialog-close
+    >
+      Done
+    </button>  
+  </div>    
+</div>

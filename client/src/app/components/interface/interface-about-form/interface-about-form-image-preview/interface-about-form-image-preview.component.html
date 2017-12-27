@@ -1,0 +1,17 @@
+<div class="row" id="about-form-img-preview-component-wrap" *ngIf="imgSrc">
+  <div class="row about-remove-img-button-wrap">
+    <button mat-button
+            mat-icon-button
+            type="button"
+            mat-tooltip="Remove image"
+            class="about-remove-img-button"
+            (click)="handleImageRemoval($event)">
+      <mat-icon>
+        close
+      </mat-icon>
+    </button>
+  </div>
+  <div class="about-form-img-wrap">
+    <img (error)="imageLoaded.emit(false)" (load)="imageLoaded.emit(true)" class="col-10 offset-1 about-preview-img" [src]="imgSrc">
+  </div>
+</div>

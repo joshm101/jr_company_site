@@ -1,0 +1,23 @@
+.about-wrap {
+  margin-top: 35px;
+}
+
+@media screen and (min-width: 641px) {
+  .about-wrap {
+    margin-top: 60px;
+  }
+}
+
+.links-component-wrap {
+  text-align: center;
+}
+
+.description-component-wrap { 
+  padding: 20px 0;
+}
+
+@media screen and (min-width: 1200px) {
+  .about-route-wrap.container {
+    width: 1024px;
+  }
+}

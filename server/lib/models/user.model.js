@@ -5,7 +5,10 @@ var UserSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  admin: { type: Boolean, default: false }
+  admin: { type: Boolean, default: false },
+  preferences: {
+    itemsPerPage: Number
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);

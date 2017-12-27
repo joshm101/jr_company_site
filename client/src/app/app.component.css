@@ -1,0 +1,15 @@
+@font-face {
+  font-family: headersFont;
+  src: url("/assets/fonts/Neou-Thin.ttf");
+}
+
+@font-face {
+  font-family: headersFontBold;
+  font-weight: normal;
+  src: url("/assets/fonts/Neou-Bold.ttf");
+}
+
+@font-face {
+  font-family: bodyFont;
+  src: url("/assets/fonts/CallingCode-Regular.ttf");
+}

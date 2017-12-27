@@ -1,0 +1,155 @@
+.posts-post-title {
+  font-size: 1.5rem;
+  color: white;
+  width: 100%;
+}
+
+.posts-post-text {
+  color: rgba(255, 255, 255, 0.60);
+}
+
+.posts-post-info {
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+.post-wrapper-div:before {
+  content: "";
+  padding-top: 140.16%;
+  display: block;
+}
+
+@media screen and (max-width: 1499px) {
+  .post-wrapper-div:before {
+    padding-top: 130%;    
+  }
+}
+
+@media screen and (max-width: 1125px) {
+  .post-wrapper-div:before {
+    padding-top: 140%;    
+  }
+}
+
+@media screen and (max-width: 875px) {
+  .post-wrapper-div:before {
+    padding-top: 145%;    
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .post-wrapper-div:before {
+    padding-top: 150%;    
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .post-wrapper-div:before {
+    padding-top: 140%;    
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .post-wrapper-div:before {
+    padding-top: 145%;    
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .post-wrapper-div:before {
+    padding-top: 160%;    
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .posts-post-title {
+    font-size: 1.3rem !important;
+  }
+}
+
+.post-wrapper-div {
+  display: inline-block;
+  width: 100%;
+  position: relative;  
+}
+
+.post-wrapper-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.posts-post-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.posts-post-img-wrapper-div:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.posts-post-img-wrapper-div {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}
+
+.posts-post-img-wrapper-div:hover {
+  cursor: pointer;
+}
+
+.posts-post-info:hover {
+  cursor: pointer;
+}
+
+.hidden-img {
+  opacity: 0;
+}
+
+.visible-img {
+  opacity: 1;
+  transition: opacity 125ms linear;
+}
+
+.hidden-loading-indicator {
+  opacity: 0;
+  transition: opacity 125ms ease-in;
+}
+
+.visible-loading-indicator {
+  opacity: 1;
+}
+.loading-indicator-post {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.posts-post-link {
+  text-decoration: none;
+  color: white;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.posts-post-title-link-wrap {
+  position: relative;
+  width: 90%;
+  margin: auto;
+  color: white;
+  padding-bottom: 5px;
+}

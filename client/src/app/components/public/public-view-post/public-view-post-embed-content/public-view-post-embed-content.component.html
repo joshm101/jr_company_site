@@ -1,0 +1,15 @@
+<div style="position: relative;">
+  <div *ngFor="let embedItem of embedContent">
+    <div 
+      [innerHtml]="embedItem"
+      class="embeddable-content-wrapper"
+    >
+    </div>
+    <div>
+      <mat-progress-bar 
+        class="loading-indicator loading-indicator-post" 
+        mode="indeterminate"
+      ></mat-progress-bar>  
+    </div> 
+  </div>
+</div>

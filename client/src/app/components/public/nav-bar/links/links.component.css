@@ -1,0 +1,15 @@
+.contact-info-links:hover {
+  background-color: #16161d !important;
+  transition: none !important;
+  cursor: default !important;
+}
+
+.contact-info-links {
+  padding: 10px 0;
+}
+
+@media screen and (min-width: 641px) {
+  .public-nav-bar-links span {
+    padding: 12px;
+  }
+}
