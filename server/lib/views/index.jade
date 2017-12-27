@@ -1,11 +1,13 @@
 doctype html
 head
-  script(async='', src='//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+  // Global site tag (gtag.js) - Google Analytics
+  script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-111655474-1')
   script.
-    (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-4281679756272139",
-    enable_page_level_ads: true
-    });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-111655474-1');
+
   meta(name="theme-color", content="#16161d")
 
   meta(charset='utf-8')
